@@ -7,10 +7,8 @@ const ExploreCollections = ({ itemFor, collectionItem }) => {
   return (
     <>
       {collectionItem.map((collectionItem) => (
-        <article>
-          <div
-            className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg"
-            key={collectionItem._id}>
+        <article key={collectionItem._id}>
+          <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
             <>
               <Link href={`/collection/${collectionItem.title}`}>
                 <a className="flex space-x-[0.625rem]">
