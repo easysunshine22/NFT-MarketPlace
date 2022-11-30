@@ -1,7 +1,6 @@
 import React from "react";
 import { ConnectWallet, useAddress, useSDK } from "@thirdweb-dev/react";
 import { ContractType } from "@thirdweb-dev/sdk";
-import styles from "../styles/Home.module.css";
 
 import { useRouter } from "next/router";
 
