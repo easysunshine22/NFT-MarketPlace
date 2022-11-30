@@ -1,0 +1,105 @@
+import { client } from '../../lib/client'
+
+
+const submitTweet = async (event: any) => {
+    event.preventDefault()
+
+    if (!tweetMessage) return
+    const tweetId = `${currentAccount}_${Date.now()}`
+
+    const tweetDoc = {
+      _type: 'tweets',
+      _id: tweetId,
+      tweet: tweetMessage,
+      timestamp: new Date(Date.now()).toISOString(),
+      author: {
+        _key: tweetId,
+        _ref: currentAccount,
+        _type: 'reference',
+      },
+    }
+
+    await client.createIfNotExists(tweetDoc)
+
+    await client
+      .patch(currentAccount)
+      .setIfMissing({ tweets: [] })
+      .insert('after', 'tweets[-1]', [
+        {
+          _key: tweetId,
+          _ref: tweetId,
+          _type: 'reference',
+        },
+      ])
+      .commit()
+
+    await fetchTweets()
+    setTweetMessage('')
+  }
+
+
+  const updateProfile = async (event: any) => {
+    event.preventDefault()
+  
+    const userDoc = {
+      _type: "users",
+      _id: address,
+      userName: "Unnamed",
+      walletAddress: address,
+    };
+    
+
+    await client.createIfNotExists(userDoc)
+
+    await client
+      .patch(address)
+      .set({userName: false}) // Shallow merge      
+      .commit()
+
+
+  }
+
+  useEffect(() => {
+    if (!address) return;
+    (async () => {
+      const userDoc = {
+        _type: "users",
+        _id: address,
+        userName: "Unnamed",
+        walletAddress: address,
+      };
+      const result = await client.createIfNotExists(userDoc);
+      welcomeUser(result.userName);
+    })();
+  }, [address]);
+  (() => console.log("user created"))();
+
+
+
+
+
+
+
+
+  <textarea
+  onChange={e => setTweetMessage(e.target.value)}
+  value={tweetMessage}
+  placeholder="What's happening?"
+  className={style.inputField}
+/>
+
+<button
+type='submit'
+onClick={event => submitTweet(event)}
+disabled={!tweetMessage}
+className={`${style.submitGeneral} ${
+  tweetMessage ? style.activeSubmit : style.inactiveSubmit
+}`}
+>
+Tweet
+</button>
+
+
+
+
+[{"bannerImageUrl":"https://cdn.sanity.io/images/0m772u15/production/ff1af96c19f3e49c896a4477304eb9f2c1454853-1280x1280.jpg","contractAddress":"0x102b4E828b253b4CC4d0c362d09F4b0e32680DdA","creator":null,"description":"Captain Yatch Club","featuredImageUrl":"https://cdn.sanity.io/images/0m772u15/production/6f24daba75d6e1cd66d5964db7de6fd600ce4f57-1280x853.jpg","floorPrice":0,"logoImageUrl":"https://cdn.sanity.io/images/0m772u15/production/2d3344ba198749b2d863b02585dd5a771d1f7071-1280x1280.jpg","title":"Captain Yatch Club","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0x1433cec5c6BED11e2498E16D8f9476Ab89028350","creator":null,"description":"Ayris Tes123t Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Tes123t Deployfff Collectionfssf","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0x2049e4B9AC8e807BFFBA1821e97B6bdb9dD644Ce","creator":null,"description":"Test","featuredImageUrl":null,"floorPrice":"0","logoImageUrl":null,"title":"Test","volumeTraded":"0"},{"bannerImageUrl":null,"contractAddress":"0x5A3C8805e0fE0666825af5bA510E568E496efC1b","creator":null,"description":"Ayris Tes123t Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":"https://cdn.sanity.io/images/0m772u15/production/ff1af96c19f3e49c896a4477304eb9f2c1454853-1280x1280.jpg","title":"Ayris Tes123t Deployfewfwfff Collectionfssf","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xBB1D15EF1e19dCAfBD7C85e2FC30deeAd5DA7241","creator":null,"description":"1903 Ayris Test Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"1903 Ayris Test Deploy Collection","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xBB33838a0923c0FD2DF007FF2279fF217d283035","creator":null,"description":"Ayris Tes123t Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Tes123t Deploy Collection","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xD51779BcE6b3d19F687Acd69F1E24A3C8DD741Ee","creator":null,"description":"Ayris Test Deploy Collection111","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Test Deploy Collection111","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xDa51dE0ef58593C681936E3206Fd3e860c365eAD","creator":null,"description":"Ayris Test Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Test Deploy Collection","volumeTraded":0},{"bannerImageUrl":"https://cdn.sanity.io/images/0m772u15/production/3d73aa7a0a0401bf562d1b13fe991b30cf7bfc31-1280x1280.jpg","contractAddress":"0xc02FAccedEDd9B6698040989Ca996E639574BEbb","creator":"0xAB3Cb8a4C3E679BA3F4a3f3C856AcBe3Bd3e4A8c","description":"Ayris Test Deploy Collectiondfsfhgdgdgh","featuredImageUrl":"https://cdn.sanity.io/images/0m772u15/production/3d73aa7a0a0401bf562d1b13fe991b30cf7bfc31-1280x1280.jpg","floorPrice":0,"logoImageUrl":"https://cdn.sanity.io/images/0m772u15/production/ff1af96c19f3e49c896a4477304eb9f2c1454853-1280x1280.jpg","title":"Ayris Test Deploy Collectiondfsfhgdgdgh","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xedA3B34eBc1164660C389c9ec140C87B43e9300c","creator":null,"description":"Ayris Tes123t Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":"https://cdn.sanity.io/images/0m772u15/production/6f24daba75d6e1cd66d5964db7de6fd600ce4f57-1280x853.jpg","title":"Ayris Tefsgsgsfgs","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0x2049e4B9AC8e807BFFBA1821e97B6bdb9dD644Ce","creator":null,"description":"Test","featuredImageUrl":null,"floorPrice":"0","logoImageUrl":null,"title":"Test","volumeTraded":"0"},{"bannerImageUrl":null,"contractAddress":"0xBB33838a0923c0FD2DF007FF2279fF217d283035","creator":null,"description":"Ayris Tes123t Deploy Collection","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Tes123t Deploy Collection","volumeTraded":0},{"bannerImageUrl":null,"contractAddress":"0xD51779BcE6b3d19F687Acd69F1E24A3C8DD741Ee","creator":null,"description":"Ayris Test Deploy Collection111","featuredImageUrl":null,"floorPrice":0,"logoImageUrl":null,"title":"Ayris Test Deploy Collection111","volumeTraded":0}] 🔥 collection
