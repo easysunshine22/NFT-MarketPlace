@@ -182,7 +182,7 @@ const ranksComp = ({ collectionItem }) => {
                 */}
               </div>
 
-              {collectionItem.map((collectionItem) => (
+              {collectionItem.slice(0, 7).map((collectionItem) => (
                 <Link
                   href={`/collection/${collectionItem.title}`}
                   key={collectionItem._id}>
