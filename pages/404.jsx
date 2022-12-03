@@ -6,7 +6,7 @@ import Meta from "../components/Meta";
 const Error_page = () => {
   return (
     <div>
-      <Meta title="404 || Ayris.Dev NFT Marketplace " />
+      <Meta title="404 || Artlux  NFT Marketplace " />
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- 404 --> */}
         <section className="dark:bg-jacarta-800 relative py-16 md:py-24">

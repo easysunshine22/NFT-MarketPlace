@@ -4,6 +4,7 @@ import Footer from "./footer";
 import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
+import Image from "next/image";
 // ThirdWeb
 // import { useWeb3 } from "@3rdweb/hooks";
 import {
@@ -11,6 +12,7 @@ import {
   useMetamask,
   useNetwork,
   useNetworkMismatch,
+  ConnectWallet,
 } from "@thirdweb-dev/react";
 
 // sanity
@@ -68,61 +70,34 @@ export default function Layout({ children }) {
           <Footer />
         </div>
       ) : (
-        <div>
-          {" "}
-          <div className="modal-dialog max-w-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="walletModalLabel">
-                  Connect your wallet
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => dispatch(walletModalhide())}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-jacarta-700 h-6 w-6 dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z" />
-                  </svg>
-                </button>
-              </div>
+        <section class="flex flex-col justify-center antialiased bg-jacarta-500 text-gray-600 min-h-screen p-4">
+          <div class="h-full">
+            <div class="max-w-[360px] mx-auto">
+              <div class="bg-white shadow-lg rounded-lg mt-9">
+                <header class="text-center px-5 pb-5">
+                  <img
+                    class="inline-flex  w-[144px] h-[144px] fill-current rounded-full box-content shadow mb-3"
+                    src="/artlux.png"
+                  />
 
-              {/* <!-- Body --> */}
-              <div className="modal-body p-6 text-center">
-                <svg className="icon icon-metamask mb-4 inline-block h-8 w-8">
-                  <use xlinkHref="/icons.svg#icon-metamask"></use>
-                </svg>
-                <p className="text-center dark:text-white">
-                  You {"don't"} have MetaMask in your browser, please download
-                  it from
-                  <a
-                    href="https://metamask.io/"
-                    className="text-accent"
-                    target="_blank"
-                    rel="noreferrer noopener">
-                    MetaMask
-                  </a>
-                </p>
-              </div>
-              {/* <!-- end body --> */}
+                  <h3 class="text-xl font-bold text-gray-900 mb-1">
+                    Please Connect Your Wallet
+                  </h3>
+                  <div class="text-sm font-medium text-gray-500"></div>
+                </header>
 
-              <div className="modal-footer">
-                <div className="flex items-center justify-center space-x-4">
-                  <button
-                    onClick={() => connectWithMetamask()}
-                    className="bg-accent shadow-accent-volume hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all">
-                    Connect
-                  </button>
+                <div class="bg-gray-100 text-center px-5 py-6">
+                  <div class="text-sm mb-6">
+                    <strong class="font-semibold"></strong>
+                  </div>
+                  <form class="space-y-3">
+                    <ConnectWallet />
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       )}
     </div>
   );

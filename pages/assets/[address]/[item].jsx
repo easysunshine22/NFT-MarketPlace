@@ -109,7 +109,7 @@ const Item = () => {
 
   return (
     <>
-      <Meta title={`${collection.title}  || Ayris.Dev NFT Marketplace `} />
+      <Meta title={`${collection.title}  || Artlux  NFT Marketplace `} />
       {/*  <!-- Item --> */}
 
       {isReadingNfts ? (

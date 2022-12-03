@@ -8,7 +8,7 @@ import { Partners } from "../../components/component";
 const Careers = () => {
   return (
     <div className="mt-[95px]">
-      <Meta title="Careers || Ayris.Dev NFT Marketplace " />
+      <Meta title="Careers || Artlux  NFT Marketplace " />
       <Careers_title />
       <Positions />
       <Parks />

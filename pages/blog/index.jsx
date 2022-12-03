@@ -14,7 +14,7 @@ const Blog = () => {
   };
   return (
     <>
-      <Meta title="Blog || Ayris.Dev NFT Marketplace " />
+      <Meta title="Blog || Artlux  NFT Marketplace " />
       {/* <!-- Blog --> */}
       <section className="relative py-16 md:py-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">

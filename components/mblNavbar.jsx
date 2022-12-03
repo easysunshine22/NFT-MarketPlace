@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import UserId from "./userId";
 import { Metamask_comp_text, Metamask_comp_icon } from "./metamask/Metamask";
-import { useAddress, useDisconnect } from "@thirdweb-dev/react";
+import { useAddress, useDisconnect, ConnectWallet } from "@thirdweb-dev/react";
 
 const MblNavbar = ({ theme }) => {
   const { mblMenu } = useSelector((state) => state.counter);
@@ -142,15 +142,6 @@ const MblNavbar = ({ theme }) => {
     }
   }, [dispatch, navItemValue, router]);
 
-  const homenavData = [
-    {
-      id: 1,
-      text: "home",
-      url: "/",
-      New: false,
-    },
-  ];
-
   const pageTextData = [
     {
       id: 15,
@@ -203,8 +194,8 @@ const MblNavbar = ({ theme }) => {
     <div
       className={
         mblMenu
-          ? "js-mobile-menu dark:bg-jacarta-800 invisible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 lg:visible lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent nav-menu--is-open"
-          : "js-mobile-menu dark:bg-jacarta-800 invisible fixed inset-0 z-10 ml-auto items-center bg-white opacity-0 lg:visible lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent"
+          ? "js-mobile-menu dark:bg-jacarta-800 invisible fixed inset-0 z-10 ml-auto items-center bg-white lg:visible lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent nav-menu--is-open"
+          : "js-mobile-menu dark:bg-jacarta-800 invisible fixed inset-0 z-10 ml-auto items-center bg-white  lg:visible lg:relative lg:inset-auto lg:flex lg:bg-transparent lg:opacity-100 dark:lg:bg-transparent"
       }>
       {/* <!-- Mobile Logo / Menu Close --> */}
       <div className="t-0 dark:bg-jacarta-800 fixed left-0 z-10 flex w-full items-center justify-between bg-white p-6 lg:hidden">
@@ -215,12 +206,12 @@ const MblNavbar = ({ theme }) => {
             <img
               src="/images/logo.png"
               className="max-h-7 dark:hidden"
-              alt="Xhibiter | NFT Marketplace"
+              alt="Ayris.Dev | NFT Marketplace"
             />
 
             <img
               src="/images/logo_white.png"
-              alt="Xhibiter | NFT Marketplace"
+              alt="Ayris.Dev | NFT Marketplace"
               className="max-h-7 dark:block hidden"
             />
           </a>
@@ -242,28 +233,8 @@ const MblNavbar = ({ theme }) => {
         </button>
       </div>
 
-      {/* <!-- Mobile Search --> */}
-      <form action="search" className="relative mt-24 mb-8 w-full lg:hidden">
-        <input
-          type="search"
-          className="text-jacarta-700 placeholder-jacarta-500 focus:ring-accent border-jacarta-100 w-full rounded-2xl border py-3 px-4 pl-10 dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
-          placeholder="Search"
-        />
-        <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            className="fill-jacarta-500 h-4 w-4 dark:fill-white">
-            <path fill="none" d="M0 0h24v24H0z"></path>
-            <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
-          </svg>
-        </span>
-      </form>
-
       {/* <!-- Primary Nav --> */}
-      <nav className="navbar w-full">
+      <nav className="navbar w-full mr-80 ">
         <ul className="flex flex-col lg:flex-row">
           {/* <!-- Explore --> */}
           <li className="js-nav-dropdown nav-item dropdown group relative">
@@ -654,29 +625,50 @@ const MblNavbar = ({ theme }) => {
               })}
             </ul>
           </li>
-          {/* <!-- Primary Nav --> 
-          <li className="group">
-            <Link href="/create">
-              <a
-                onClick={() => {
-                  dispatch(closeMblMenu());
-                  localStorage.setItem("navItemValue", 33);
-                }}>
-                <button
-                  className={
-                    router.asPath === "/home/home_3"
-                      ? "font-display hover:text-accent focus:text-accent flex items-center justify-between py-3.5 text-base lg:text-white text-jacarta-700 dark:text-white lg:px-5"
-                      : "text-jacarta-700 font-display hover:text-accent focus:text-accent dark:hover:text-accent dark:focus:text-accent flex items-center justify-between py-3.5 text-base dark:text-white lg:px-5"
-                  }>
-                  <span className={navText === "create" ? "text-accent" : ""}>
-                    Create
-                  </span>
-                </button>
-              </a>
-            </Link>
-          </li> */}
         </ul>
       </nav>
+      <nav className="navbar w-full mr-20">
+        <form
+          action="search"
+          className="relative bg-white/[.15]  hidden lg:block xl:ml-[8%]">
+          <input
+            type="search"
+            className=" focus:ring-accent border-jacarta-100 w-full rounded-xl border py-[0.6875rem] pr-64 pl-4 border-transparent font-bold bg-jacarta-100/20 text-black placeholder-black"
+            placeholder="Search"
+          />
+          <span className="absolute right-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              className=" h-4 w-4 fill-green">
+              <path fill="none" d="M0 0h24v24H0z" />
+              <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z" />
+            </svg>
+          </span>
+        </form>
+      </nav>
+
+      {/* <!-- Mobile Search --> */}
+      <form action="search" className="relative mt-24 mb-8 w-full lg:hidden">
+        <input
+          type="search"
+          className="text-jacarta-700 placeholder-jacarta-500 focus:ring-accent border-jacarta-100 w-full rounded-2xl border py-3 px-4 pl-10 dark:border-transparent dark:bg-white/[.15] dark:text-white dark:placeholder-white"
+          placeholder="Search"
+        />
+        <span className="absolute left-0 top-0 flex h-full w-12 items-center justify-center rounded-2xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            className="fill-jacarta-500 h-4 w-4 dark:fill-white">
+            <path fill="none" d="M0 0h24v24H0z"></path>
+            <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
+          </svg>
+        </span>
+      </form>
 
       {/* <!-- Mobile Connect Wallet / Socials --> */}
       <div className="mt-10 w-full lg:hidden">
@@ -762,37 +754,20 @@ const MblNavbar = ({ theme }) => {
 
         {/* <!-- Profile --> */}
         <div className="js-nav-dropdown group-dropdown relative">
-          {router.asPath === "/home/home_3" ? (
-            <button
-              className="dropdown-toggle border-jacarta-100 focus:bg-accent group hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent border-transparent bg-white/[.15]"
-              onMouseEnter={() => setProfileShow(true)}
-              onMouseLeave={() => setProfileShow(false)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className=" h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white fill-white">
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
-              </svg>
-            </button>
-          ) : (
-            <button
-              className="dropdown-toggle border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]"
-              onMouseEnter={() => setProfileShow(true)}
-              onMouseLeave={() => setProfileShow(false)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                className="fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white">
-                <path fill="none" d="M0 0h24v24H0z"></path>
-                <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
-              </svg>
-            </button>
-          )}
+          <button
+            className="dropdown-toggle border-jacarta-100 hover:bg-jacarta-200  focus:bg-jacarta-200  dark:hover:bg-jacarta-200  ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]"
+            onMouseEnter={() => setProfileShow(true)}
+            onMouseLeave={() => setProfileShow(false)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              className="fill-jacarta-700 h-4 w-4 transition-colors group-hover:fill-white group-focus:fill-white dark:fill-white">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path d="M11 14.062V20h2v-5.938c3.946.492 7 3.858 7 7.938H4a8.001 8.001 0 0 1 7-7.938zM12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6 6 2.685 6 6-2.685 6-6 6z"></path>
+            </svg>
+          </button>
 
           <div
             className={
@@ -802,23 +777,11 @@ const MblNavbar = ({ theme }) => {
             }
             onMouseEnter={() => setProfileShow(true)}
             onMouseLeave={() => setProfileShow(false)}>
-            <UserId
-              classes="js-copy-clipboard font-display text-jacarta-700 my-4 flex select-none items-center whitespace-nowrap px-5 leading-none dark:text-white"
-              userId={address}
-              shortId={true}
+            <ConnectWallet
+              accentColor="#C4C5CF"
+              colorMode="light"
+              className="bg-jacarta-200 shadow-jacarta-200 hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
             />
-
-            <div className="dark:border-jacarta-600 border-jacarta-100 mx-5 mb-6 rounded-lg border p-4">
-              <span className="dark:text-jacarta-200 text-sm font-medium tracking-tight">
-                Balance
-              </span>
-              <div className="flex items-center">
-                <svg className="icon icon-ETH -ml-1 mr-1 h-[1.125rem] w-[1.125rem]">
-                  <use xlinkHref="/icons.svg#icon-ETH"></use>
-                </svg>
-                <span className="text-green text-lg font-bold">10 ETH</span>
-              </div>
-            </div>
             <Link href={`/user/${address}`}>
               <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                 <svg
@@ -893,7 +856,7 @@ const MblNavbar = ({ theme }) => {
 
         {/* <!-- Dark Mode --> */}
         <button
-          className="border-jacarta-100 hover:bg-accent focus:bg-accent group dark:hover:bg-accent js-dark-mode-trigger ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]"
+          className="border-jacarta-100 hover:bg-jacarta-200  focus:bg-jacarta-200  group dark:hover:bg-jacarta-200  js-dark-mode-trigger ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]"
           onClick={() => {
             theme();
           }}>

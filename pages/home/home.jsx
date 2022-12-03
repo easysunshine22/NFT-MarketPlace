@@ -10,7 +10,7 @@ import Download from "../../components/blog/download";
 const Home = () => {
   return (
     <>
-      <Meta title="Home 5 || Ayris.Dev NFT Marketplace " />
+      <Meta title="Home 5 || Artlux  NFT Marketplace " />
       <Hero />
       <Process />
       <Feature_collections />

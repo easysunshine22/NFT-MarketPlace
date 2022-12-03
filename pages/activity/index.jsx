@@ -6,7 +6,7 @@ import Meta from "../../components/Meta";
 const index = () => {
   return (
     <>
-      <Meta title="Activity || Ayris.Dev NFT Marketplace " />
+      <Meta title="Activity || Artlux  NFT Marketplace " />
       <section className="relative mt-24 lg:pb-48 pb-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           <img

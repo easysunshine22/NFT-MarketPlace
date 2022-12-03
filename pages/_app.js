@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Meta title="Ayris.Dev NFT Marketplace " />
+      <Meta title="Artlux  NFT Marketplace " />
 
       <Provider store={store}>
         <ThemeProvider enableSystem={true} attribute="class">

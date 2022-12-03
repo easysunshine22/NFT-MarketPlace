@@ -9,7 +9,7 @@ const Wallet = () => {
   const bgImage = "/images/page-title/wallet_banner.jpg";
   return (
     <div>
-      <Meta title="Wallet || Ayris.Dev NFT Marketplace " />
+      <Meta title="Wallet || Artlux  NFT Marketplace " />
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Wallet --> */}
 

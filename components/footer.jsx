@@ -17,7 +17,7 @@ const footer = () => {
                   <img
                     src="/images/logo.png"
                     className="max-h-7 dark:hidden"
-                    alt="Xhibiter | NFT Marketplace"
+                    alt="Ayris.Dev | NFT Marketplace"
                   />
                 </a>
               </Link>
@@ -27,7 +27,7 @@ const footer = () => {
                   <img
                     src="/images/logo_white.png"
                     className="hidden max-h-7 dark:block mb-6"
-                    alt="Xhibiter | NFT Marketplace"
+                    alt="Ayris.Dev | NFT Marketplace"
                   />
                 </a>
               </Link>

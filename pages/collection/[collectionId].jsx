@@ -98,7 +98,7 @@ const Collection = () => {
 
   return (
     <div>
-      <Meta title={`${collection.name} || Ayris.Dev NFT Marketplace `} />
+      <Meta title={`${collection.name} || Artlux  NFT Marketplace `} />
 
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}

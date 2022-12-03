@@ -7,7 +7,7 @@ import Meta from "../../components/Meta";
 const Case_studies = () => {
   return (
     <div>
-      <Meta title="Case_studies || Ayris.Dev NFT Marketplace " />
+      <Meta title="Case_studies || Artlux  NFT Marketplace " />
       {/* <!-- Page Title --> */}
       <section className="relative py-32 mt-[95px]">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">

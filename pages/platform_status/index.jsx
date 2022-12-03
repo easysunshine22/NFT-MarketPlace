@@ -6,12 +6,12 @@ import Meta from "../../components/Meta";
 const Platform_status = () => {
   return (
     <div>
-      <Meta title="Platform Status || Ayris.Dev NFT Marketplace " />
+      <Meta title="Platform Status || Artlux  NFT Marketplace " />
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Page Title --> */}
 
         <ImageTitle
-          text="Xhibiter System Status"
+          text="Ayris.Dev System Status"
           image="/images/page-title/knowledge_base_banner.jpg"
         />
 
@@ -63,7 +63,7 @@ const Platform_status = () => {
                     </span>
                     <span
                       className="inline-block"
-                      data-tippy-content="Setting your asset as explicit and sensitive content, like pornography and other not safe for work (NSFW) content, will protect users with safe search while browsing Xhibiter.">
+                      data-tippy-content="Setting your asset as explicit and sensitive content, like pornography and other not safe for work (NSFW) content, will protect users with safe search while browsing Ayris.Dev.">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"

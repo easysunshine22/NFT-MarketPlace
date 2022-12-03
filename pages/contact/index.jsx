@@ -9,7 +9,7 @@ const Contact = () => {
 
   return (
     <div>
-      <Meta title="Contact || Ayris.Dev NFT Marketplace " />
+      <Meta title="Contact || Artlux  NFT Marketplace " />
       <div className="pt-[5.5rem] lg:pt-24">
         <ImageTitle text="Get in touch" image={bgImage} />
 

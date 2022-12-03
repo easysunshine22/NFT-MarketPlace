@@ -13,7 +13,7 @@ const SingleStudy = () => {
 
   return (
     <div className="mt-[95px]">
-      <Meta title="Single_study || Ayris.Dev NFT Marketplace " />
+      <Meta title="Single_study || Artlux  NFT Marketplace " />
       <Post url={pid} />
       <Approach />
       <Results />

@@ -15,7 +15,7 @@ const Single_post = () => {
 
   return (
     <div>
-      <Meta title={`${pid} || Ayris.Dev NFT Marketplace `} />
+      <Meta title={`${pid} || Artlux  NFT Marketplace `} />
 
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Post --> */}

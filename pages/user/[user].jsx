@@ -71,7 +71,7 @@ const User = () => {
 
   return (
     <>
-      <Meta title="User || Ayris.Dev NFT Marketplace " />
+      <Meta title="User || Artlux  NFT Marketplace " />
       {/* <!-- Profile --> */}
 
       <div className="pt-[5.5rem] lg:pt-24">

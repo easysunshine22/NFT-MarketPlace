@@ -6,7 +6,7 @@ import Meta from "../../components/Meta";
 const newsletter = () => {
   return (
     <div>
-      <Meta title="newseletter || Ayris.Dev NFT Marketplace " />
+      <Meta title="newseletter || Artlux  NFT Marketplace " />
       <div className="pt-[5.5rem] lg:pt-24">
         <Story compFor="news" />
       </div>
