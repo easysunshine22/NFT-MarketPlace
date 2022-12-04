@@ -98,7 +98,7 @@ const ranksComp = ({ collectionItem }) => {
   return (
     <>
       {/* <!-- Rankings --> */}
-      <section className="relative  lg:pb-24 pb-24">
+      <section className="relative  lg:pb-24 pb-24 ">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           <Image
             src="/images/gradient_light.jpg"
@@ -107,9 +107,9 @@ const ranksComp = ({ collectionItem }) => {
             className="h-full w-full"
           />
         </picture>
-        <div className="container">
+        <div className="container shadow-2xl shadow-jacarta-500/50 rounded-xl">
           {/* <!-- Filters --> */}
-          <div className="mb-8 flex flex-wrap items-center justify-between">
+          <div className="mb-8 flex flex-wrap items-center justify-between pt-8">
             <div className="flex flex-wrap items-center">
               {/* <!-- Categories --> */}
               <Recently_added_dropdown
@@ -135,7 +135,7 @@ const ranksComp = ({ collectionItem }) => {
           {/* <!-- end filters --> */}
 
           {/* <!-- Table --> */}
-          <div className="scrollbar-custom overflow-x-auto">
+          <div className="pb-12  ">
             <div
               role="table"
               className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 lg:rounded-2lg w-full min-w-[736px] border bg-white text-sm dark:text-white">
@@ -194,20 +194,17 @@ const ranksComp = ({ collectionItem }) => {
                       role="cell">
                       <span className="mr-2 lg:mr-4">{collectionItem._id}</span>
                       <figure className="relative mr-2 w-8 shrink-0 self-start lg:mr-5 lg:w-12">
-                        {/* <img src={image} alt={title} className="rounded-2lg" loading="lazy" /> */}
                         <img
                           src={collectionItem.logoImageUrl}
                           alt={collectionItem.title}
                           height={32}
                           width={32}
-                          layout="responsive"
-                          objectFit="contain"
                           className="rounded-2lg w-[32px] h-[32px]"
                         />
-
+                        {/* <img src={image} alt={title} className="rounded-2lg" loading="lazy" />
                         {collectionItem.logoImageUrl && (
                           <div
-                            className="dark:border-jacarta-600 bg-green absolute -right-2 -bottom-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
+                            className="dark:border-jacarta-600  absolute -right-2 -bottom-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
                             data-tippy-content="Verified Collection">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -219,7 +216,7 @@ const ranksComp = ({ collectionItem }) => {
                               <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
                             </svg>
                           </div>
-                        )}
+                        )}  */}
                       </figure>
                       <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
                         {collectionItem.title}

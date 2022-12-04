@@ -17,7 +17,7 @@ import {
 
 export default function tuikCarousel() {
   return (
-    <div className="w-full lg:py-40 md:py-6 py-0 bg-accent">
+    <div className="w-full lg:py-40 md:py-6 py-0 bg-sliderbg bg-cover">
       <div className="flex items-center justify-center w-full h-full ">
         {/* Carousel for desktop and large size devices */}
         <CarouselProvider

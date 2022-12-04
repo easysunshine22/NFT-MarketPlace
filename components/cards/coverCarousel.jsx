@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import { coverflow_data } from "../../data/coverflow_data";
 import Link from "next/link";
 import Image from "next/image";
+import NotableCard from "./notableCard";
 
 const coverCarousel = ({ collectionItem }) => {
   return (
@@ -51,6 +52,7 @@ const coverCarousel = ({ collectionItem }) => {
           className="swiper coverflow-slider !py-5">
           {collectionItem.map((collectionItem) => (
             <SwiperSlide key={collectionItem._id}>
+              {/* 
               <article>
                 <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
                   <figure className="relative">
@@ -94,7 +96,12 @@ const coverCarousel = ({ collectionItem }) => {
                     </div>
                   </div>
                 </div>
-              </article>
+              </article> */}
+              <NotableCard
+                title={collectionItem.title}
+                logo={collectionItem.logoImageUrl}
+                banner={collectionItem.featuredImageUrl}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

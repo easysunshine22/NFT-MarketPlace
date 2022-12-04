@@ -9,13 +9,15 @@ import FilterCategoryItem from "../components/categories/filterCategoryItem";
 import Download from "../components/blog/download";
 import RanksComp from "../components/cards/ranksComp";
 import CoverCarousel from "../components/cards/coverCarousel";
-
+import SpotlightCards from "../components/cards/spotlightCards";
+import ListCategories from "../components/cards/listCategories";
 // ThirdWeb
 import { useAddress } from "@thirdweb-dev/react";
 // sanity
 import sanityClient from "@sanity/client";
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
+import Cta from "../components/cta/cta";
 
 const Home = ({ animals }) => {
   const address = useAddress();
@@ -39,24 +41,15 @@ const Home = ({ animals }) => {
       <Toaster position="bottom-center" reverseOrder={false} />
       <Hero />
       {animals.length > 0 && <RanksComp collectionItem={animals} />}
+      <h2 class="items-center justify-center flex py-5 bg-white font-bold text-4xl">
+        {" "}
+        Notable Collections{" "}
+      </h2>
       {animals.length > 0 && <CoverCarousel collectionItem={animals} />}
 
-      <Collection_category bgWhite={true} />
-      <div>
-        {/* <!-- Trending Categories --> */}
-        <section className="py-24">
-          <div className="container">
-            <HeadLine
-              image="https://cdn.jsdelivr.net/npm/emoji-datasource-apple@7.0.2/img/apple/64/26a1.png"
-              text="Trending categories"
-              classes="mb-8 text-center font-display text-3xl text-jacarta-700 dark:text-white"
-            />
-            <FilterCategoryItem />
-          </div>
-        </section>
-        {/* <!-- end trending categories --> */}
-      </div>
-      <Download />
+      <SpotlightCards />
+      <ListCategories />
+      <Cta />
     </>
   );
 };
