@@ -30,7 +30,7 @@ const Cta = () => {
                 </h2>
                 <div className="flex ">
                   <input
-                    class=" text-lg mr-4 dark:text-jacarta-300 text-black rounded px-4 pr-40 py-4  bg-gray-900 "
+                    className=" text-lg mr-4 dark:text-jacarta-300 text-black rounded px-4 pr-40 py-4  bg-gray-900 "
                     placeholder="Enter your email"
                     type="text"
                   />

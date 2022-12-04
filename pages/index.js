@@ -41,7 +41,7 @@ const Home = ({ animals }) => {
       <Toaster position="bottom-center" reverseOrder={false} />
       <Hero />
       {animals.length > 0 && <RanksComp collectionItem={animals} />}
-      <h2 class="items-center justify-center flex py-5 bg-white font-bold text-4xl">
+      <h2 className="items-center justify-center flex py-5 bg-white font-bold text-4xl">
         {" "}
         Notable Collections{" "}
       </h2>
