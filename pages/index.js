@@ -39,7 +39,7 @@ const Home = ({ animals }) => {
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
-      <Hero />
+      {animals.length > 0 && <Hero collectionItem={animals} />}
       {animals.length > 0 && <RanksComp collectionItem={animals} />}
       <h2 className="items-center justify-center flex py-5 bg-white font-bold text-4xl">
         {" "}
