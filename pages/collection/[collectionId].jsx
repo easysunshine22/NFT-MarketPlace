@@ -110,8 +110,6 @@ const Collection = () => {
                 : "https://via.placeholder.com/200"
             }
             alt="banner"
-            layout="fill"
-            objectFit="cover"
           />
         </div>
         {/* <!-- end banner --> */}
@@ -129,8 +127,6 @@ const Collection = () => {
                     : "https://via.placeholder.com/200"
                 }
                 alt={collection.title}
-                layout="fill"
-                objectFit="contain"
                 className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
               />
             </figure>

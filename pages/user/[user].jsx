@@ -77,12 +77,7 @@ const User = () => {
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}
         <div className="relative h-[18.75rem]">
-          <img
-            src={collection.bannerImageUrl}
-            alt="banner"
-            layout="fill"
-            objectFit="cover"
-          />
+          <img src={collection.bannerImageUrl} alt="banner" />
         </div>
         {/* <!-- end banner --> */}
         <section className="dark:bg-jacarta-800 bg-light-base relative pb-12 pt-28">
@@ -92,8 +87,6 @@ const User = () => {
               <img
                 src={collection.profileImageUrl}
                 alt={collection.userName}
-                layout="fill"
-                objectFit="contain"
                 className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
               />
               <div
