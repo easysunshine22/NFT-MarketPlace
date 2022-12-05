@@ -8,10 +8,15 @@ module.exports = {
   theme: {
     screens: {
       s: "250px",
+      sx: "350px",
+      sl: "400px",
       sm: "575px",
-      md: "768px",
+      md: "769px",
       lg: "1025px",
       xl: "1202px",
+      xxl: "1302px",
+      "2xl": "1404px",
+      "3xl": "1604px",
     },
     fontFamily: {
       display: ['"CalSans-SemiBold"', "sans-serif"],

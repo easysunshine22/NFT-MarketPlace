@@ -23,13 +23,21 @@ const coverCarousel = ({ collectionItem }) => {
             },
             575: {
               // width: 640,
+              slidesPerView: 2,
+            },
+            800: {
+              // width: 640,
               slidesPerView: 3,
             },
-            // when window width is >= 768px
-            992: {
-              // width: 768,
+            1100: {
+              // width: 640,
+              slidesPerView: 4,
+            },
+            1360: {
+              // width: 640,
               slidesPerView: 5,
             },
+            // when window width is >= 768px
           }}
           effect={"coverflow"}
           grabCursor={true}
@@ -52,51 +60,6 @@ const coverCarousel = ({ collectionItem }) => {
           className="swiper coverflow-slider !py-5">
           {collectionItem.map((collectionItem) => (
             <SwiperSlide key={collectionItem._id}>
-              {/* 
-              <article>
-                <div className="block overflow-hidden rounded-2.5xl bg-white shadow-md transition-shadow hover:shadow-lg dark:bg-jacarta-700">
-                  <figure className="relative">
-                    <Link href={`/collection/${collectionItem.title}`}>
-                      <a>
-                        <img
-                          src={collectionItem.logoImageUrl}
-                          alt={collectionItem.title}
-                          className="swiper-lazy h-[430px] w-full object-cover"
-                          height="430"
-                          width="379"
-                        />
-                      </a>
-                    </Link>
-                  </figure>
-                  <div className="p-6">
-                    <div className="flex">
-                      <Link href="/user/avatar_6">
-                        <a className="shrink-0">
-                          <img
-                            src={collectionItem.featuredImageUrl}
-                            alt="avatar"
-                            className="mr-4 h-10 w-10 rounded-full"
-                          />
-                        </a>
-                      </Link>
-                      <div>
-                        <Link href={`/collection/${collectionItem.title}`}>
-                          <a className="block">
-                            <span className="font-display text-lg leading-none text-jacarta-700 hover:text-accent dark:text-white">
-                              {collectionItem.title}
-                            </span>
-                          </a>
-                        </Link>
-                        <Link href="/user/avatar_6">
-                          <a className="text-2xs text-accent">
-                            {collectionItem.createdBy}
-                          </a>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article> */}
               <NotableCard
                 title={collectionItem.title}
                 logo={collectionItem.logoImageUrl}

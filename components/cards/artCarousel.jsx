@@ -20,20 +20,13 @@ const ArtsCarousel = ({ collectionItem }) => {
         breakpoints={{
           300: {
             slidesPerView: 1,
-            spaceBetween: 20,
+            spaceBetween: 10,
           },
-          400: {
+          500: {
             slidesPerView: 2,
             spaceBetween: 20,
           },
-          640: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-          },
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-          },
+
           900: {
             slidesPerView: 3,
             spaceBetween: 20,
@@ -53,17 +46,17 @@ const ArtsCarousel = ({ collectionItem }) => {
         }}
         className=" flex items-center  ">
         {collectionItem.slice(0, 10).map((collectionItem, index) => (
-          <SwiperSlide key={collectionItem._id} className="w-full h-full px-2 ">
-            <article className="w-full h-full  rounded-md">
-              <div className="flex flex-shrink-0  sm:w-auto  ">
+          <SwiperSlide key={collectionItem._id} className="w-full h-full ">
+            <article className="w-full h-full  rounded-md sm:w-auto ">
+              <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
                 <img
                   src="/nft/nft1.png"
                   alt="black chair and white table"
-                  className="object-cover  h-96 w-full rounded-[20px] "
+                  className="object-fill object-center h-[500px] w-full rounded-[20px] "
                 />
-                <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
-                  <div className="flex h-full  items-end pb-2 text-center mx-auto">
-                    <div class="py-4 mx-auto min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 backdrop-filter backdrop-blur-lg ">
+                <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-2 ">
+                  <div className="flex h-full  items-end pb-2 text-center ">
+                    <div class="min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 py-2 backdrop-filter backdrop-blur-lg ">
                       <h1 class="text-base  text-white">
                         {collectionItem.title.slice(0, 15)}
                       </h1>

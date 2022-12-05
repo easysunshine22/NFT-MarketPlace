@@ -8,18 +8,18 @@ const NotableCard = ({ title, logo, banner }) => {
           <img
             src={banner ? banner : "/images/collections/collection_1_1.jpg"}
             alt=" random imgee"
-            class="lg:h-[500px] w-full object-fill rounded-lg shadow-md"
+            class="sm:h-[500px] s:h-[250px] w-full object-fill rounded-lg"
           />
           <div>
-            <div class="relative px-12 -mt-20  ">
-              <div class="flex mx-auto items-center justify-center -mb-[32px]  drop-shadow-2xl">
+            <div class="relative px-6 -mt-20  ">
+              <div class="flex mx-auto items-center justify-center -mb-[32px] ">
                 <img
                   src={logo ? logo : "/images/collections/collection_1_1.jpg"}
                   class="rounded-full border-white border-[4px] shadow-lg shadow-jacarta-500/50 w-[64px]  h-[64px]"
                 />
               </div>
-              <div class="bg-white  p-6 rounded-lg shadow-lg">
-                <h4 class=" text-lg font-bold uppercase leading-tight text-center mt-5 truncate">
+              <div class="bg-white  p-6 rounded-lg shadow-lg shadow-jacarta-500/50">
+                <h4 class=" font-bold s:text-[14px]  uppercase leading-tight text-center mt-5">
                   {title}
                 </h4>
               </div>

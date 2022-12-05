@@ -98,7 +98,7 @@ const ranksComp = ({ collectionItem }) => {
   return (
     <>
       {/* <!-- Rankings --> */}
-      <section className="relative  lg:pb-24 pb-24 ">
+      <section className="relative s:px-2  lg:pb-24 pb-24 pt-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           <Image
             src="/images/gradient_light.jpg"
@@ -107,10 +107,10 @@ const ranksComp = ({ collectionItem }) => {
             className="h-full w-full"
           />
         </picture>
-        <div className="container shadow-2xl shadow-jacarta-500/50 rounded-xl">
+        <div className="sm:container s:px-4 shadow-2xl shadow-jacarta-500/50 rounded-xl">
           {/* <!-- Filters --> */}
-          <div className="mb-8 flex flex-wrap items-center justify-between pt-8">
-            <div className="flex flex-wrap items-center">
+          <div className="mb-8 flex flex-wrap items-center s:justify-center sm:justify-between pt-8">
+            <div className="flex flex-wrap items-center s:justify-center sm:justify-between">
               {/* <!-- Categories --> */}
               <Recently_added_dropdown
                 data={categoryText}
@@ -138,7 +138,7 @@ const ranksComp = ({ collectionItem }) => {
           <div className="pb-12  ">
             <div
               role="table"
-              className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 lg:rounded-2lg w-full min-w-[736px] border bg-white text-sm dark:text-white">
+              className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 lg:rounded-2lg w-full md:min-w-[736px]  border bg-white text-sm dark:text-white">
               <div
                 className="bg-[#045CF7] rounded-t-2lg flex text-white"
                 role="row">
@@ -147,39 +147,21 @@ const ranksComp = ({ collectionItem }) => {
                     Collection
                   </span>
                 </div>
-                <div className="w-[20%] py-3 px-4" role="columnheader">
-                  <span className="text-white dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
+                <div
+                  className="sm:w-[20%]  py-3 sm:px-0 s:px-4 s:ml-6 sm:ml-0 "
+                  role="columnheader">
+                  <span className="text-white  dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
                     Volume
                   </span>
                 </div>
-                {/* 
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="text-jacarta-700 dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
-                    24h %
-                  </span>
-                </div>
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="text-jacarta-700 dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
-                    7d %
-                  </span>
-                </div>  */}
-                <div className="w-[10%] py-3 px-4" role="columnheader">
+
+                <div
+                  className="sm:w-[10%]  hidden sm:inline py-3 sm:px-4"
+                  role="columnheader">
                   <span className="text-white dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
                     Floor Price
                   </span>
                 </div>
-                {/* 
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="text-jacarta-700 dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
-                    Owners
-                  </span>
-                </div>
-                <div className="w-[12%] py-3 px-4" role="columnheader">
-                  <span className="text-jacarta-700 dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
-                    Items
-                  </span>
-                </div>
-                */}
               </div>
 
               {collectionItem.slice(0, 7).map((collectionItem) => (
@@ -223,7 +205,7 @@ const ranksComp = ({ collectionItem }) => {
                       </span>
                     </div>
                     <div
-                      className="dark:border-jacarta-600 border-jacarta-100 flex w-[20%] items-center whitespace-nowrap border-t py-4 px-4"
+                      className="dark:border-jacarta-600 border-jacarta-100 flex w-[20%]  items-center whitespace-nowrap border-t py-4 px-4 sm:ml-0 s:ml-6"
                       role="cell">
                       <span className="-ml-1" data-tippy-content="ETH">
                         <svg className="icon mr-1 h-4 w-4">
@@ -236,7 +218,7 @@ const ranksComp = ({ collectionItem }) => {
                     </div>
 
                     <div
-                      className="dark:border-jacarta-600 border-jacarta-100 flex w-[10%] items-center border-t py-4 px-4"
+                      className="dark:border-jacarta-600 hidden sm:flex border-jacarta-100 flex sm:w-[10%]  items-center border-t py-4 px-4"
                       role="cell">
                       <span className="-ml-1" data-tippy-content="ETH">
                         <svg className="icon mr-1 h-4 w-4">
