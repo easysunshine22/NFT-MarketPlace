@@ -10,7 +10,7 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 const Hero = ({ collectionItem }) => {
   return (
     <div class=" flex flex-col pt-16   lg:flex-row lg:items-center">
-      <div class="flex flex-col items-center min-h-screen  justify-center w-full lg:flex-row lg:w-[45%] bg-hero bg-cover bg-center   ">
+      <div class="flex flex-col items-center min-h-screen  justify-center w-full lg:flex-row lg:w-[44%] bg-hero bg-cover bg-center   ">
         <div class="max-w-lg lg:mx-12 lg:order-2 s:mx-6">
           <h1 class="text-3xl font-bold  text-white dark:text-white lg:text-7xl">
             A NFTs Marketplace
@@ -29,7 +29,7 @@ const Hero = ({ collectionItem }) => {
         </div>
       </div>
 
-      <div class="flex items-center justify-center w-full min-h-screen  bg-sliderbg bg-cover lg:w-[55%]">
+      <div class="flex items-center justify-center w-full min-h-screen  bg-sliderbg bg-cover lg:w-[56%]">
         <ArtCarousel collectionItem={collectionItem} />
       </div>
     </div>

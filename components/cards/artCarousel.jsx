@@ -1,83 +1,78 @@
-import React from "react";
+import Image from "next/image";
+import "tippy.js/dist/tippy.css";
+import { bidsData } from "../../data/bids_data";
+import Link from "next/link";
+import Tippy from "@tippyjs/react";
+import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
+import { bidsModalShow } from "../../redux/counterSlice";
+import { useDispatch } from "react-redux";
+import Likes from "../likes";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
-import Image from "next/image";
-import "tippy.js/dist/tippy.css";
-import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
-import ArtData from "../../data/art_data";
-import Link from "next/link";
 import "swiper/css/autoplay";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 const ArtsCarousel = ({ collectionItem }) => {
+  const dispatch = useDispatch();
+  const handleclick = () => {
+    console.log("clicked on ");
+  };
   return (
     <>
       <Swiper
-        modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+        modules={[Navigation, Pagination, Scrollbar]}
+        spaceBetween={30}
         slidesPerView="auto"
-        autoplay={{ delay: 2500 }}
+        loop={true}
         breakpoints={{
-          300: {
+          240: {
             slidesPerView: 1,
-            spaceBetween: 10,
           },
-          500: {
+          565: {
             slidesPerView: 2,
-            spaceBetween: 20,
           },
-
-          900: {
+          1000: {
             slidesPerView: 3,
-            spaceBetween: 20,
           },
-          1025: {
-            slidesPerView: 2,
-            spaceBetween: 10,
-          },
-          1200: {
+          1100: {
             slidesPerView: 3,
-            spaceBetween: 10,
           },
         }}
         navigation={{
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
+          nextEl: ".bids-swiper-button-next",
+          prevEl: ".bids-swiper-button-prev",
         }}
-        className=" flex items-center  ">
-        {collectionItem.slice(0, 10).map((collectionItem, index) => (
-          <SwiperSlide key={collectionItem._id} className="w-full h-full ">
-            <article className="w-full h-full  rounded-md sm:w-auto ">
-              <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
-                <img
-                  src="/nft/nft1.png"
-                  alt="black chair and white table"
-                  className="object-fill object-center h-[500px] w-full rounded-[20px] "
-                />
-                <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-2 ">
-                  <div className="flex h-full  items-end pb-2 text-center ">
-                    <div class="min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 py-2 backdrop-filter backdrop-blur-lg ">
-                      <h1 class="text-base  text-white">
-                        {collectionItem.title.slice(0, 15)}
-                      </h1>
-                      <p class="text-base text-white ">
-                        {collectionItem.floorPrice} BNB
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </SwiperSlide>
-        ))}
-        {/* <!-- Slider Navigation --> 
-        <div className="group swiper-button-prev shadow-white-volume absolute !top-1/2 !-left-4 z-20 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-left-6 after:hidden">
-          <MdKeyboardArrowLeft />
-        </div>
-        <div className="group swiper-button-next shadow-white-volume absolute !top-1/2 !-right-4 z-10 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-right-6 after:hidden">
-          <MdKeyboardArrowRight />
-        </div> */}
+        className="card-slider-4-columns  !py-5">
+        {bidsData.map((item) => {
+          const { id, image, title, bid_number, eth_number, react_number } =
+            item;
+          const itemLink = image
+            .split("/")
+            .slice(-1)
+            .toString()
+            .replace(".jpg", "");
+          return (
+            <SwiperSlide className="text-white" key={id}>
+              <img
+                src={image}
+                alt={title}
+                className="rounded-[0.625rem] w-[400px] h-[515px] "
+              />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
+      {/* <!-- Slider Navigation --> */}
+      <div className="group bids-swiper-button-prev swiper-button-prev shadow-white-volume absolute !top-1/2 !-left-4 z-10 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-left-6 after:hidden">
+        <MdKeyboardArrowLeft />
+      </div>
+      <div className="group bids-swiper-button-next swiper-button-next shadow-white-volume absolute !top-1/2 !-right-4 z-10 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-right-6 after:hidden">
+        <MdKeyboardArrowRight />
+      </div>
     </>
   );
 };
