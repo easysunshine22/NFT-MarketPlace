@@ -17,6 +17,8 @@ module.exports = {
       xxl: "1302px",
       "2xl": "1404px",
       "3xl": "1604px",
+      "4xl": "1780px",
+      "5xl": "1919px",
     },
     fontFamily: {
       display: ['"CalSans-SemiBold"', "sans-serif"],

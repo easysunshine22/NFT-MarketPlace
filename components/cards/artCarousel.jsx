@@ -7,7 +7,13 @@ import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 import { bidsModalShow } from "../../redux/counterSlice";
 import { useDispatch } from "react-redux";
 import Likes from "../likes";
-
+import {
+  BsFillArrowLeftCircleFill,
+  BsArrowRight,
+  BsArrowRightCircle,
+  BsArrowLeft,
+} from "react-icons/bs";
+import { BiLeftArrowCircle } from "react-icons/bi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper";
 import "swiper/css";
@@ -18,6 +24,8 @@ import "swiper/css/scrollbar";
 
 const ArtsCarousel = ({ collectionItem }) => {
   const dispatch = useDispatch();
+  const circleClasses = "inline-block p-7 rounded-full w-20 mx-auto";
+  const iconStyles = { color: "white", fontSize: "1.5em" };
   const handleclick = () => {
     console.log("clicked on ");
   };
@@ -25,54 +33,97 @@ const ArtsCarousel = ({ collectionItem }) => {
     <>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar]}
-        spaceBetween={30}
+        spaceBetween={40}
+        slidesOffsetBefore={350}
         slidesPerView="auto"
         loop={true}
         breakpoints={{
-          240: {
-            slidesPerView: 1,
+          300: {
+            slidesPerView: 1.3,
+            spaceBetween: 20,
           },
-          565: {
+
+          400: {
+            slidesPerView: 2.6,
+            spaceBetween: 10,
+          },
+          640: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+          900: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+          },
+
+          1025: {
             slidesPerView: 2,
+            spaceBetween: 10,
           },
-          1000: {
-            slidesPerView: 3,
-          },
-          1100: {
-            slidesPerView: 3,
+          1200: {
+            slidesPerView: 2.5,
+            spaceBetween: 10,
           },
         }}
         navigation={{
-          nextEl: ".bids-swiper-button-next",
-          prevEl: ".bids-swiper-button-prev",
+          nextEl: ".swiper-button-next-4",
+          prevEl: ".swiper-button-prev-4",
         }}
-        className="card-slider-4-columns  !py-5">
-        {bidsData.map((item) => {
-          const { id, image, title, bid_number, eth_number, react_number } =
-            item;
-          const itemLink = image
-            .split("/")
-            .slice(-1)
-            .toString()
-            .replace(".jpg", "");
-          return (
-            <SwiperSlide className="text-white" key={id}>
-              <img
-                src={image}
-                alt={title}
-                className="rounded-[0.625rem] w-[400px] h-[515px] "
-              />
-            </SwiperSlide>
-          );
-        })}
+        className=" -ml-3 relative z-51 ">
+        {collectionItem.slice(0, 10).map((collectionItem, index) => (
+          <SwiperSlide className="w-full h-full ">
+            <article className="w-full h-full  rounded-md sm:w-auto ">
+              <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
+                <img
+                  src="/nft/nft1.png"
+                  className="object-fill object-center rounded-[20px] "
+                />
+
+                <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-4 ">
+                  <div className="flex h-full  items-end justify-center pb-2 text-center ">
+                    <div class="min-w-[80%] max-h-20  bg-white rounded-xl bg-opacity-10 py-2 backdrop-filter backdrop-blur-lg ">
+                      <h1 class="text-base  text-white">
+                        {collectionItem.title.slice(0, 15)}
+                      </h1>
+                      <p class="text-base text-white ">
+                        {" "}
+                        {collectionItem.floorPrice} BNB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </SwiperSlide>
+        ))}
+        <div className="swiper-button-prev-4 group absolute top-1/2 4xl:left-[810px] s:left-4 lg:hidden  z-50  flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
+          <BsArrowLeft
+            className="icon absolute z-150 "
+            size="30px"
+            color="black"
+          />
+        </div>
+        <div className="swiper-button-next-4 group absolute top-1/2 right-4 z-10  flex lg:hidden h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume ">
+          <BsArrowRight className="icon" size="50px" color="black" />
+        </div>
       </Swiper>
+      <div className="lg:flex   s:hidden">
+        <div className="swiper-button-prev-4 group absolute  s:left-4 z-50 lg:ml-[40%] 2xl:ml-[41%] flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
+          <BsArrowLeft
+            className="icon absolute z-150 "
+            size="30px"
+            color="black"
+          />
+        </div>
+        <div className="swiper-button-next-4 group absolute right-4 z-10   flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume ">
+          <BsArrowRight className="icon" size="50px" color="black" />
+        </div>
+      </div>
       {/* <!-- Slider Navigation --> */}
-      <div className="group bids-swiper-button-prev swiper-button-prev shadow-white-volume absolute !top-1/2 !-left-4 z-10 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-left-6 after:hidden">
-        <MdKeyboardArrowLeft />
-      </div>
-      <div className="group bids-swiper-button-next swiper-button-next shadow-white-volume absolute !top-1/2 !-right-4 z-10 -mt-6 flex !h-12 !w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl sm:!-right-6 after:hidden">
-        <MdKeyboardArrowRight />
-      </div>
     </>
   );
 };
