@@ -110,38 +110,42 @@ const ranksComp = ({ collectionItem }) => {
         <div className="sm:container s:px-4 shadow-2xl shadow-jacarta-500/50 rounded-xl">
           {/* <!-- Filters --> */}
           <div className="mb-8 flex flex-wrap items-center s:justify-center sm:justify-between pt-8">
-            <div className="flex flex-wrap items-center s:justify-center sm:justify-between">
+            <div className="flex flex-wrap items-center  s:justify-center sm:justify-between">
               {/* <!-- Categories --> */}
-              <Recently_added_dropdown
-                data={categoryText}
-                dropdownFor="rankingCategories"
-              />
 
-              {/* <!-- Chains --> */}
-              <Recently_added_dropdown
-                data={blockchainText}
-                dropdownFor="blockchain"
-              />
+              <a
+                href="#_"
+                class="inline-flex items-center mr-2 justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#FBB70A] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                Trending
+              </a>
+              <a
+                href="#_"
+                class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#F7D6F0] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                Top
+              </a>
             </div>
-
-            {/* last 7 days */}
-            <Recently_added_dropdown
-              data={last7DaysRanks}
-              dropdownFor="last7Days-ranks"
-            />
-
+            <div className="flex flex-wrap items-center">
+              {/* last 7 days */}
+              <Recently_added_dropdown
+                data={last7DaysRanks}
+                dropdownFor="last7Days-ranks"
+              />
+              <a
+                href="#_"
+                class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                View All
+              </a>
+            </div>
             {/* <!--  --> */}
           </div>
           {/* <!-- end filters --> */}
 
           {/* <!-- Table --> */}
-          <div className="pb-12  ">
+          <div className="pb-12  -mx-4 relative">
             <div
               role="table"
-              className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 lg:rounded-2lg w-full md:min-w-[736px]  border bg-white text-sm dark:text-white">
-              <div
-                className="bg-[#045CF7] rounded-t-2lg flex text-white"
-                role="row">
+              className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100  w-full md:min-w-[736px]  border bg-white text-sm dark:text-white">
+              <div className="bg-[#045CF7]  flex text-white" role="row">
                 <div className="w-[70%] py-3 px-4" role="columnheader">
                   <span className="text-white dark:text-jacarta-100 w-full overflow-hidden text-ellipsis">
                     Collection
