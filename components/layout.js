@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Navbar from "./navbar";
+import Header from "./header/Header";
 import Footer from "./footer";
 import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
@@ -62,7 +62,7 @@ export default function Layout({ children }) {
     <div>
       {address ? (
         <div>
-          <Navbar />
+          <Header />
           <Wallet_modal />
           <BidsModal />
           <BuyModal />

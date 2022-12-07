@@ -73,7 +73,7 @@ const ArtsCarousel = ({ collectionItem }) => {
           nextEl: ".swiper-button-next-4",
           prevEl: ".swiper-button-prev-4",
         }}
-        className=" -ml-3 relative z-51 ">
+        className=" -ml-3 relative z-10 ">
         {collectionItem.slice(0, 10).map((collectionItem, index) => (
           <SwiperSlide className="w-full h-full ">
             <article className="w-full h-full  rounded-md sm:w-auto ">
@@ -112,7 +112,7 @@ const ArtsCarousel = ({ collectionItem }) => {
         </div>
       </Swiper>
       <div className="lg:flex   s:hidden">
-        <div className="swiper-button-prev-4 group absolute  s:left-4 z-50 lg:ml-[40%] 2xl:ml-[41%] flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
+        <div className="swiper-button-prev-4 group absolute  s:left-4 z-10 lg:ml-[40%] 2xl:ml-[41%] flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
           <BsArrowLeft
             className="icon absolute z-150 "
             size="30px"
