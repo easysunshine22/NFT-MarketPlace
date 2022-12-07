@@ -65,6 +65,55 @@ export default createSchema({
         ],
       },
       {
+        name: "category",
+        title: "Category",
+        type: "document",
+        fields: [
+          {
+            name: "category",
+            title: "Category",
+            type: "string",
+          },
+          {
+            name: "url",
+            title: "Url",
+            type: "string",
+          },
+          {
+            name: "icon",
+            title: "icon",
+            type: "image",
+          },
+        ],
+      },
+      {
+        name: "blockchain",
+        title: "Blockchain",
+        type: "document",
+        fields: [
+          {
+            name: "userName",
+            title: "User Name",
+            type: "string",
+          },
+          {
+            name: "chainID",
+            title: "chainID",
+            type: "string",
+          },
+          {
+            name: "rpcUrl",
+            title: "rpcUrl",
+            type: "string",
+          },
+          {
+            name: "icon",
+            title: "icon",
+            type: "image",
+          },
+        ],
+      },
+      {
         name: "marketItems",
         title: "Market Items",
         type: "document",
@@ -159,9 +208,10 @@ export default createSchema({
             type: "string",
           },
           {
-            name: "creator",
-            title: "Creator",
-            type: "string",
+            name: "createdBy",
+            title: "Created By",
+            type: "reference",
+            to: [{ type: "users" }],
           },
           {
             name: "volumeTraded",
@@ -176,7 +226,8 @@ export default createSchema({
           {
             name: "owners",
             title: "Owners",
-            type: "string",
+            type: "array",
+            of: [{ type: "reference", to: [{ type: "users" }] }],
           },
           {
             name: "logoImage",

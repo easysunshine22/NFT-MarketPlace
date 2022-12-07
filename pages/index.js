@@ -19,11 +19,11 @@ import sanityClient from "@sanity/client";
 import toast, { Toaster } from "react-hot-toast";
 import Cta from "../components/cta/cta";
 
-const Home = ({ animals }) => {
+const Home = ({ animals, categoryList }) => {
   const address = useAddress();
 
   const { scrollRef } = useContext(UserContext);
-  console.log(animals);
+
   useEffect(() => {
     window.scrollTo(0, scrollRef.current.scrollPos);
     const handleScrollPos = () => {
@@ -78,10 +78,16 @@ export async function getStaticProps() {
     
      description
 }`);
+  const categoryList = await client.fetch(`*[_type == "category"] {
+    category,
+  icon,
+  url,
+}`);
 
   return {
     props: {
       animals,
+      categoryList,
     },
   };
 }

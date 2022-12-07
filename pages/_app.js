@@ -16,6 +16,8 @@ import {
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
 
+import sanityClient from "@sanity/client";
+
 //const supportedChainIds = [97];
 //const connectors = {
 //  injected: {},

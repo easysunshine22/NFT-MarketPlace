@@ -7,60 +7,40 @@ const ExploreCollections = ({ itemFor, collectionItem }) => {
   return (
     <>
       {collectionItem.map((collectionItem) => (
-        <article key={collectionItem._id}>
-          <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2xl border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
-            <>
-              <Link href={`/collection/${collectionItem.title}`}>
-                <a className="flex space-x-[0.625rem]">
-                  <span className="w-full">
-                    <img
-                      src={
-                        collectionItem?.featuredImageUrl
-                          ? collectionItem.featuredImageUrl
-                          : "/images/collections/collection_1_1.jpg"
-                      }
-                      alt="item 1"
-                      className="object-cover h-48 w-96"
-                      loading="lazy"
-                    />
-                  </span>
-                </a>
-              </Link>
-
-              <Link href={`/collection/${collectionItem.title}`}>
-                <a className="font-display hover:text-accent dark:hover:text-accent text-jacarta-700 mt-4 block text-base dark:text-white">
-                  {(collectionItem?.title).slice(0, 20)}......
-                </a>
-              </Link>
-
-              <div className="mt-2 flex items-center justify-between text-sm font-medium tracking-tight">
-                <div className="flex flex-wrap items-center">
-                  <a className="mr-2 shrink-0">
-                    <img
-                      src="/images/avatars/owner_5.png"
-                      alt="owner"
-                      className="h-5 w-5 rounded-full"
-                    />
-                  </a>
-
-                  <span className="dark:text-jacarta-400 mr-1">by</span>
-
-                  <a className="text-accent">
-                    {collectionItem?.creator ? (
-                      <span>{(collectionItem?.creator).slice(0, 10)}</span>
-                    ) : (
-                      <span>Unnamed</span>
-                    )}
-                  </a>
-                </div>
-                {/* 
-                <span className="dark:text-jacarta-300 text-sm">
-                  {itemsCount} Items
-                </span> */}
+        <Link
+          href={`/collection/${collectionItem.title}`}
+          key={collectionItem._id}>
+          <article class="mx-auto pb-5 max-w-sm transform duration-500 hover:-translate-y-1 border border-orange-50 shadow-2xl cursor-pointer group  bg-black/5">
+            <div class="max-h-125 overflow-hidden">
+              <img
+                class="transform duration-300 group-hover:scale-110 object-fill w-[2400px] h-[360px]"
+                src={collectionItem.featuredImageUrl}
+                alt=""
+              />
+            </div>
+            <div class="flex justify-between my-5 mx-2 ">
+              <div class="text-orange-500 text-base font-semibold">
+                {collectionItem.createdBy}
               </div>
-            </>
-          </div>
-        </article>
+              <div class="text-base text-right">
+                <span class="font-bold"></span>
+              </div>
+            </div>
+            <h2 class="font-bold text-[16px] mx-2">
+              <a target="_blank" href="https://unsplash.com/photos/xYdxw6C3tSA">
+                {collectionItem.title.slice(0, 20)}...
+              </a>
+            </h2>
+            <div class="flex justify-between items-center mt-3 mx-2 ">
+              <div class="text-orange-500  text-[12px] font-semibold">
+                Floor Price
+              </div>
+              <div class=" text-[12px] text-right">
+                <div class="flex ">{collectionItem.floorPrice} BNB</div>
+              </div>
+            </div>
+          </article>
+        </Link>
       ))}
       ;
     </>
