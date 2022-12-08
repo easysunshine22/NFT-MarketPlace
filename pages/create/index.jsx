@@ -12,7 +12,12 @@ import { useDispatch } from "react-redux";
 import { showPropatiesModal } from "../../redux/counterSlice";
 import Meta from "../../components/Meta";
 
-const Create = () => {
+// sanity
+import sanityClient from "@sanity/client";
+import { client } from "../../lib/sanityClient";
+import ChainDropdown from "../../components/cards/chainDropdown";
+
+const Create = ({ blockchainList }) => {
   const fileTypes = [
     "JPG",
     "PNG",
@@ -27,7 +32,7 @@ const Create = () => {
     "GLTF",
   ];
   const [file, setFile] = useState("");
-
+  console.log(blockchainList + "blocklist");
   const dispatch = useDispatch();
 
   const handleChange = (file) => {
@@ -396,7 +401,9 @@ const Create = () => {
 
               {/* dropdown */}
               <div className="dropdown relative mb-4 cursor-pointer ">
-                <Collection_dropdown2 data={EthereumDropdown2_data} />
+                {blockchainList.length > 0 && (
+                  <ChainDropdown blockchainList={blockchainList} />
+                )}
               </div>
             </div>
 
@@ -462,3 +469,19 @@ const Create = () => {
 };
 
 export default Create;
+
+export async function getStaticProps() {
+  const blockchainList = await client.fetch(`*[_type == "blockchain"] {
+    chainName,
+    
+      
+        "icon": icon.asset->url,
+  "id": _id,
+  }`);
+
+  return {
+    props: {
+      blockchainList,
+    },
+  };
+}

@@ -464,7 +464,7 @@ const Header = ({ categoryList }) => {
                     </li>
                     {explore?.pages?.map((page) => (
                       <li key={page.id}>
-                        <Link href={`/categories/${page.path}`}>
+                        <Link href={`categories${page.path}`}>
                           <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors">
                             <span className="bg-light-base mr-3 rounded-xl p-[0.375rem]">
                               {page?.icon}

@@ -92,8 +92,8 @@ export default createSchema({
         type: "document",
         fields: [
           {
-            name: "userName",
-            title: "User Name",
+            name: "chainName",
+            title: "Chain Name",
             type: "string",
           },
           {

@@ -58,7 +58,7 @@ const coverCarousel = ({ collectionItem }) => {
             prevEl: ".swiper-button-prev-4",
           }}
           className="swiper coverflow-slider !py-5">
-          {collectionItem.map((collectionItem) => (
+          {collectionItem.map((collectionItem, index) => (
             <SwiperSlide key={collectionItem._id}>
               <NotableCard
                 title={collectionItem.title}

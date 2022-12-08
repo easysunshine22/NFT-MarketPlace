@@ -10,10 +10,11 @@ const SpotlightCards = () => {
             {" "}
             BNB Chain NFT Spotlight{" "}
           </h2>
-          <button className="sm:ml-0 sl:ml-8 px-8 py-4 bg-accent rounded-full flex text-center items-center">
-            {" "}
+          <a
+            href="#_"
+            class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
             View All
-          </button>{" "}
+          </a>
         </div>
       </div>
       <div className="">
