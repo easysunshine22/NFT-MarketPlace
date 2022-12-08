@@ -15,7 +15,7 @@ import ListCategories from "../components/cards/listCategories";
 import { useAddress } from "@thirdweb-dev/react";
 // sanity
 import sanityClient from "@sanity/client";
-import { client } from "../lib/sanityClient";
+
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
 import Cta from "../components/cta/cta";
@@ -58,7 +58,16 @@ const Home = ({ animals, categoryList, blockchainList }) => {
 };
 export default Home;
 
-export async function getServerSideProps() {
+const client = sanityClient({
+  projectId: "0m772u15",
+  dataset: "production",
+  apiVersion: "2022-11-28",
+  useCdn: false,
+  token:
+    "skH5Wp9gafav4DEcSiU1mPIcSWCVN6mLW5KNDw068q233Fz454z4rcctAwLgolQcIlJH5Znwwm3hsscGwBfnIM5f4fOy8240941CK80ro6MpbrDakDhLlp6kTha1EC00yu4KYQxLRpyKGlyZUOFEHgbHZxnGhqJvTyv9VRHlocnb2nBhhGQ2",
+});
+
+export async function getStaticProps() {
   const animals = await client.fetch(`*[_type == "collections"] {
     "logoImageUrl": logoImage.asset->url,
      "bannerImageUrl": bannerImage.asset->url,
