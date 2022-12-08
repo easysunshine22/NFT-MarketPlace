@@ -58,7 +58,7 @@ const Home = ({ animals, categoryList, blockchainList }) => {
 };
 export default Home;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const animals = await client.fetch(`*[_type == "collections"] {
     "logoImageUrl": logoImage.asset->url,
      "bannerImageUrl": bannerImage.asset->url,
