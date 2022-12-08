@@ -67,7 +67,7 @@ const client = sanityClient({
     "skH5Wp9gafav4DEcSiU1mPIcSWCVN6mLW5KNDw068q233Fz454z4rcctAwLgolQcIlJH5Znwwm3hsscGwBfnIM5f4fOy8240941CK80ro6MpbrDakDhLlp6kTha1EC00yu4KYQxLRpyKGlyZUOFEHgbHZxnGhqJvTyv9VRHlocnb2nBhhGQ2",
 });
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const animals = await client.fetch(`*[_type == "collections"] {
     "logoImageUrl": logoImage.asset->url,
      "bannerImageUrl": bannerImage.asset->url,
