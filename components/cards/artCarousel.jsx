@@ -70,12 +70,12 @@ const ArtsCarousel = ({ collectionItem }) => {
         }}
         className=" -ml-3 relative z-10 ">
         {collectionItem.map((collectionItem) => (
-          <SwiperSlide className="w-full h-full ">
+          <SwiperSlide className="w-full h-full " key={collectionItem._id}>
             <article className="w-full h-full  rounded-md sm:w-auto ">
               <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
                 <img
-                  src="/nft/nft1.png"
-                  className="object-fill object-center rounded-[20px] "
+                  src={collectionItem.featuredImageUrl}
+                  className="object-fill object-center rounded-[20px] w-full h-[515px]"
                 />
 
                 <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-4 ">

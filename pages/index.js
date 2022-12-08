@@ -95,6 +95,12 @@ export async function getServerSideProps() {
 "id": _id,
 }`);
 
+  if (!animals) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       animals,
