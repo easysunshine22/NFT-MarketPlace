@@ -177,7 +177,7 @@ const ranksComp = ({ collectionItem, blockchainList }) => {
                 </div>
               </div>
 
-              {collectionItem.slice(0, 7).map((collectionItem) => (
+              {collectionItem.map((collectionItem) => (
                 <Link
                   href={`/collection/${collectionItem.title}`}
                   key={collectionItem._id}>

@@ -74,7 +74,7 @@ const ArtsCarousel = ({ collectionItem }) => {
           prevEl: ".swiper-button-prev-4",
         }}
         className=" -ml-3 relative z-10 ">
-        {collectionItem.slice(0, 10).map((collectionItem, index) => (
+        {collectionItem.map((collectionItem, index) => (
           <SwiperSlide className="w-full h-full ">
             <article className="w-full h-full  rounded-md sm:w-auto ">
               <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
