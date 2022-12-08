@@ -23,12 +23,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const ArtsCarousel = ({ collectionItem }) => {
-  const dispatch = useDispatch();
-  const circleClasses = "inline-block p-7 rounded-full w-20 mx-auto";
-  const iconStyles = { color: "white", fontSize: "1.5em" };
-  const handleclick = () => {
-    console.log("clicked on ");
-  };
+  console.log(collectionItem + "item");
   return (
     <>
       <Swiper
@@ -74,7 +69,7 @@ const ArtsCarousel = ({ collectionItem }) => {
           prevEl: ".swiper-button-prev-4",
         }}
         className=" -ml-3 relative z-10 ">
-        {collectionItem.map((collectionItem, index) => (
+        {collectionItem.map((collectionItem) => (
           <SwiperSlide className="w-full h-full ">
             <article className="w-full h-full  rounded-md sm:w-auto ">
               <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
