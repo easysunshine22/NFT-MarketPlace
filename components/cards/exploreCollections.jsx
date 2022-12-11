@@ -7,9 +7,7 @@ const ExploreCollections = ({ itemFor, collectionItem }) => {
   return (
     <>
       {collectionItem.map((collectionItem) => (
-        <Link
-          href={`/collection/${collectionItem.title}`}
-          key={collectionItem._id}>
+        <Link href={`/collection/${collectionItem.title}`}>
           <article className="mx-auto pb-5 max-w-sm transform duration-500 hover:-translate-y-1 border border-orange-50 shadow-2xl cursor-pointer group  bg-black/5">
             <div className="max-h-125 overflow-hidden">
               <img
