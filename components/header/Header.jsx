@@ -44,7 +44,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Photography",
-        path: "/photography",
+        path: "category/photography",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Art",
-        path: "/art",
+        path: "category/art",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Sports",
-        path: "/sports",
+        path: "category/sports",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Collectibles",
-        path: "/collectibles",
+        path: "category/collectibles",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Trading Cards",
-        path: "/tranding-cards",
+        path: "category/tranding-cards",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Domain Names",
-        path: "/domain-names",
+        path: "category/domain-names",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Virtual Worlds",
-        path: "/virtual-worlds",
+        path: "category/virtual-worlds",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -486,7 +486,7 @@ const Header = ({ categoryList }) => {
                     </span>
                   </a>
                 </Link>
-                <Link href="/user/avatar_6">
+                <Link href="/collection">
                   <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                     <AiOutlineTable />
                     <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">

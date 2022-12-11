@@ -40,23 +40,15 @@ const Home = ({ animals, categoryList, blockchainList }) => {
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
-      {animals.length > 0 && (
-        <Hero collectionItem={animals} key={animals._id} />
-      )}
+      {animals.length > 0 && <Hero collectionItem={animals} />}
       {animals.length && blockchainList.length > 0 && (
-        <RanksComp
-          collectionItem={animals}
-          blockchainList={blockchainList}
-          key={blockchainList._id}
-        />
+        <RanksComp collectionItem={animals} blockchainList={blockchainList} />
       )}
       <h2 className="items-center justify-center flex py-5 bg-white font-bold text-4xl">
         {" "}
         Notable Collections{" "}
       </h2>
-      {animals.length > 0 && (
-        <CoverCarousel collectionItem={animals} key={animals._id} />
-      )}
+      {animals.length > 0 && <CoverCarousel collectionItem={animals} />}
 
       <SpotlightCards />
       <ListCategories />
