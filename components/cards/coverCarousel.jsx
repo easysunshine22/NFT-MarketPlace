@@ -59,7 +59,7 @@ const coverCarousel = ({ collectionItem }) => {
           }}
           className="swiper coverflow-slider !py-5">
           {collectionItem.map((collectionItem, index) => (
-            <SwiperSlide key={collectionItem._id}>
+            <SwiperSlide>
               <NotableCard
                 title={collectionItem.title}
                 logo={collectionItem.logoImageUrl}

@@ -30,7 +30,7 @@ const Hero = ({ collectionItem }) => {
       </div>
 
       <div className="flex items-center justify-center w-full min-h-[800px]   bg-sliderbg bg-cover lg:w-[56%] ">
-        <ArtCarousel collectionItem={collectionItem} key={collectionItem._id} />
+        <ArtCarousel collectionItem={collectionItem} />
       </div>
     </div>
   );

@@ -178,9 +178,7 @@ const ranksComp = ({ collectionItem, blockchainList }) => {
               </div>
 
               {collectionItem.map((collectionItem) => (
-                <Link
-                  href={`/collection/${collectionItem.title}`}
-                  key={collectionItem._id}>
+                <Link href={`/collection/${collectionItem.title}`}>
                   <a
                     className="flex transition-shadow hover:shadow-lg"
                     role="row">
