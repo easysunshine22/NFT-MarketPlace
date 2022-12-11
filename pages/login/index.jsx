@@ -1,29 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Meta from "../../components/Meta";
 import { Metamask_comp_login } from "../../components/metamask/Metamask";
+import { useRouter } from "next/router";
+// thirdweb
+import {
+  useAddress,
+  useMetamask,
+  useWalletConnect,
+  useCoinbaseWallet,
+} from "@thirdweb-dev/react";
 
 const Login = () => {
-  const [itemActive, setItemActive] = useState(1);
-  const tabItem = [
-    {
-      id: 1,
-      text: "Ethereum",
-      icon: "ETH",
-    },
-    {
-      id: 2,
-      text: "Torus",
-      icon: "torus",
-    },
-    {
-      id: 4,
-      text: "Mobile Wallet",
-      icon: "mbl-wallet",
-    },
-  ];
+  const address = useAddress();
+  const router = useRouter();
+  const connectWithCoinbaseWallet = useCoinbaseWallet();
+  const connectWithWalletConnect = useWalletConnect();
+  const connectWithMetamask = useMetamask();
+
+  useEffect(() => {
+    if (address) {
+      router.push("/");
+    }
+  }, [address]);
 
   return (
     <div>
@@ -73,47 +74,34 @@ const Login = () => {
 
               {/* <!-- Tabs Nav --> */}
               <Tabs className="tabs ">
-                <TabList className="no-scrollbar nav nav-tabs scrollbar-custom dark:border-jacarta-600 border-jacarta-100 mb-12 flex items-center justify-start overflow-x-auto overflow-y-hidden border-b pb-px md:justify-center">
-                  {tabItem.map(({ id, text, icon }) => {
-                    return (
-                      <Tab
-                        className="nav-item"
-                        key={id}
-                        onClick={() => setItemActive(id)}>
-                        <button
-                          className={
-                            itemActive === id
-                              ? "nav-link active hover:text-jacarta-700 text-jacarta-400 relative flex items-center whitespace-nowrap py-3 px-6 dark:hover:text-white"
-                              : "nav-link hover:text-jacarta-700 text-jacarta-400 relative flex items-center whitespace-nowrap py-3 px-6 dark:hover:text-white"
-                          }>
-                          <svg className="icon icon-ETH mr-1 mb-[2px] h-4 w-4 fill-current">
-                            <use xlinkHref={`/icons.svg#icon-${icon}`}></use>
-                          </svg>
-
-                          <span className="font-display text-base font-medium">
-                            {text}
-                          </span>
-                        </button>
-                      </Tab>
-                    );
-                  })}
-                </TabList>
-
                 {/* <!-- Ethereum --> */}
                 <TabPanel>
                   <div className="tab-pane fade show active">
-                    <Metamask_comp_login />
+                    <button
+                      onClick={connectWithMetamask}
+                      className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
+                      <img
+                        src="/images/wallets/metamask_24.svg"
+                        className="mr-2.5 inline-block h-6 w-6"
+                        alt=""
+                      />
+                      <span>Metamask</span>
+                    </button>
 
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
+                    <button
+                      onClick={connectWithCoinbaseWallet}
+                      className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
                       <img
                         src="/images/wallets/torus_24.svg"
                         className="mr-2.5 inline-block h-6 w-6"
                         alt=""
                       />
-                      <span>Torus</span>
+                      <span>Coinbase Wallet</span>
                     </button>
 
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
+                    <button
+                      onClick={connectWithWalletConnect}
+                      className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
                       <img
                         src="/images/wallets/wallet_connect_24.svg"
                         className="mr-2.5 inline-block h-6 w-6"
@@ -121,74 +109,14 @@ const Login = () => {
                       />
                       <span>Mobile Wallet</span>
                     </button>
-
+                    {/* 
                     <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
                       <span>Show more options</span>
-                    </button>
+                    </button> <!-- Ethereum end --> */}
                   </div>
                 </TabPanel>
-                {/* <!-- Ethereum end --> */}
+
                 {/* <!-- Torus --> */}
-                <TabPanel>
-                  <div
-                    className="tab-pane fade"
-                    id="torus"
-                    aria-labelledby="torus-tab">
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <img
-                        src="/images/wallets/torus_24.svg"
-                        className="mr-2.5 inline-block h-6 w-6"
-                        alt=""
-                      />
-                      <span>Torus</span>
-                    </button>
-
-                    <Metamask_comp_login />
-
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <img
-                        src="/images/wallets/wallet_connect_24.svg"
-                        className="mr-2.5 inline-block h-6 w-6"
-                        alt=""
-                      />
-                      <span>Mobile Wallet</span>
-                    </button>
-
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <span>Show more options</span>
-                    </button>
-                  </div>
-                </TabPanel>
-                {/* <!-- Torus end --> */}
-                {/* <!-- Wallet Connect --> */}
-                <TabPanel>
-                  <div className="tab-pane fade">
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <img
-                        src="/images/wallets/wallet_connect_24.svg"
-                        className="mr-2.5 inline-block h-6 w-6"
-                        alt=""
-                      />
-                      <span>Mobile Wallet</span>
-                    </button>
-
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <img
-                        src="/images/wallets/torus_24.svg"
-                        className="mr-2.5 inline-block h-6 w-6"
-                        alt=""
-                      />
-                      <span>Torus</span>
-                    </button>
-
-                    <Metamask_comp_login />
-
-                    <button className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 dark:hover:bg-accent hover:bg-accent text-jacarta-700 mb-4 flex w-full items-center justify-center rounded-full border-2 bg-white py-4 px-8 text-center font-semibold transition-all hover:border-transparent hover:text-white dark:text-white dark:hover:border-transparent">
-                      <span>Show more options</span>
-                    </button>
-                  </div>
-                </TabPanel>
-                {/* <!-- Wallet Connect --> */}
               </Tabs>
             </div>
           </div>

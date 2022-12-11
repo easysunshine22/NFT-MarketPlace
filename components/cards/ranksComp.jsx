@@ -115,23 +115,23 @@ const ranksComp = ({ collectionItem, blockchainList }) => {
 
               <a
                 href="#_"
-                class="inline-flex items-center mr-2 justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#FBB70A] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                className="inline-flex items-center mr-2 justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#FBB70A] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                 Trending
               </a>
               <a
                 href="#_"
-                class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#F7D6F0] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                className="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#F7D6F0] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                 Top
               </a>
             </div>
             <div className="flex flex-wrap items-center">
               {/* last 7 days */}
-              <div class="flex items-center justify-center mr-4 pr-4 border border-grey shadow-lg rounded-full">
+              <div className="flex items-center justify-center mr-4 pr-4 border border-grey shadow-lg rounded-full">
                 <h2 className="pl-6 px-4 py-2.5 font-bold">All Chains :</h2>
                 {blockchainList.map((blockchainList, index) => (
                   <a
                     href="#_"
-                    class="items-center flex rounded-full inline-block pr-2">
+                    className="items-center flex rounded-full inline-block pr-2">
                     <img
                       src={blockchainList.icon}
                       className="w-[26px] hover:bg-orange active:bg-blue-800 transition duration-150 ease-in-out rounded-full "
@@ -141,7 +141,7 @@ const ranksComp = ({ collectionItem, blockchainList }) => {
               </div>
               <a
                 href="#_"
-                class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+                className="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
                 View All
               </a>
             </div>

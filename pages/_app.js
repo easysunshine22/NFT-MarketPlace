@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+
 import { ThemeProvider } from "next-themes";
 import Layout from "../components/layout";
 import { Provider } from "react-redux";
@@ -15,16 +16,6 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
-
-import sanityClient from "@sanity/client";
-
-//const supportedChainIds = [97];
-//const connectors = {
-//  injected: {},
-//  <ThirdwebWeb3Provider
-//      supportedChainIds={supportedChainIds}
-//    connectors={connectors}>
-//};
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

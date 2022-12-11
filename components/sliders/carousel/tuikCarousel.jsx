@@ -53,11 +53,11 @@ const TuikCarousel = ({ collectionItem }) => {
                         />
                         <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
                           <div className="flex h-full  items-end pb-2 text-center mx-auto">
-                            <div class="py-4 mx-auto min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 backdrop-filter backdrop-blur-lg ">
-                              <h1 class="text-base  text-white">
+                            <div className="py-4 mx-auto min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 backdrop-filter backdrop-blur-lg ">
+                              <h1 className="text-base  text-white">
                                 {collectionItem.title.slice(0, 15)}
                               </h1>
-                              <p class="text-base text-white ">
+                              <p className="text-base text-white ">
                                 {collectionItem.floorPrice} BNB
                               </p>
                             </div>
@@ -306,11 +306,11 @@ const TuikCarousel = ({ collectionItem }) => {
                         />
                         <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
                           <div className="flex h-full  items-end pb-2 text-center mx-auto">
-                            <div class="py-4 mx-auto min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 backdrop-filter backdrop-blur-lg ">
-                              <h1 class="text-base  text-white">
+                            <div className="py-4 mx-auto min-w-full max-h-20  bg-white rounded-xl bg-opacity-10 backdrop-filter backdrop-blur-lg ">
+                              <h1 className="text-base  text-white">
                                 {collectionItem.title.slice(0, 15)}
                               </h1>
-                              <p class="text-base text-white ">
+                              <p className="text-base text-white ">
                                 {collectionItem.floorPrice} BNB
                               </p>
                             </div>

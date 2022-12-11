@@ -44,13 +44,13 @@ const categoryCarousel = () => {
           return (
             <SwiperSlide key={id}>
               <article className=" flex ">
-                <div class="relative w-[250px] h-[400px]  rounded-2xl  overflow-hidden">
+                <div className="relative w-[250px] h-[400px]  rounded-2xl  overflow-hidden">
                   <img
                     src="nft/2331.png"
                     alt="Avatar"
-                    class="object-fill w-full h-full"
+                    className="object-fill w-full h-full"
                   />
-                  <div class="absolute w-full py-6 bottom-0 uppercase inset-x-0 bg-blue-400 bg-opacity-25  backdrop-blur-lg text-white  text-center leading-4">
+                  <div className="absolute w-full py-6 bottom-0 uppercase inset-x-0 bg-blue-400 bg-opacity-25  backdrop-blur-lg text-white  text-center leading-4">
                     this is a text
                   </div>
                 </div>

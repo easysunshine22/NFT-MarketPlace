@@ -18,6 +18,8 @@
     "@sanity/client": "^3.4.1",
     "@sanity/code-input": "^3.0.1",
     "@sanity/image-url": "^1.0.1",
+    "@sanity/vision": "^3.0.6",
+    "@thirdweb-dev/auth": "^2.0.37",
     "@thirdweb-dev/react": "^3.6.2",
     "@thirdweb-dev/sdk": "^3.6.2",
     "@tippyjs/react": "^4.2.6",
@@ -45,6 +47,7 @@
     "react-modal-video": "^1.2.10",
     "react-redux": "^8.0.2",
     "react-tabs": "^5.1.0",
+    "sanity": "^3.0.6",
     "sharp": "^0.30.7",
     "swiper": "^8.2.4"
   },

@@ -12,7 +12,7 @@ const SpotlightCards = () => {
           </h2>
           <a
             href="#_"
-            class="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
+            className="inline-flex items-center justify-center w-full px-4 py-2 text-base leading-6 text-white bg-[#D831B3] border border-transparent rounded-full md:w-auto hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600">
             View All
           </a>
         </div>
@@ -20,20 +20,20 @@ const SpotlightCards = () => {
       <div className="">
         <div className="flex flex-wrap items-center justify-center ">
           <Link href="#">
-            <div class="flex mt-2 ">
-              <div class="mx-2 rounded-3xl">
+            <div className="flex mt-2 ">
+              <div className="mx-2 rounded-3xl">
                 <img
                   src="nft/rectangle.png"
-                  class=" rounded-lg shadow-md object-fill h-full w-full"
+                  className=" rounded-lg shadow-md object-fill h-full w-full"
                 />
                 <div>
-                  <div class="flex pr-16 justify-center pl-8 md:-mt-20  -mt-16">
-                    <div class="flex mx-auto pr-12 text-center items-center lg:-mb-[32px]  lg:shadow-2xl shadow-md bg-opacity-25 backdrop-filter backdrop-blur-lg rounded-l-full rounded-r-[4000px] border-[2px] shadow-blue-400">
+                  <div className="flex pr-16 justify-center pl-8 md:-mt-20  -mt-16">
+                    <div className="flex mx-auto pr-12 text-center items-center lg:-mb-[32px]  lg:shadow-2xl shadow-md bg-opacity-25 backdrop-filter backdrop-blur-lg rounded-l-full rounded-r-[4000px] border-[2px] shadow-blue-400">
                       <img
                         src="https://source.unsplash.com/random/350x350"
-                        class=" md:w-[64px] w-[48px] rounded-full border-[2px]"
+                        className=" md:w-[64px] w-[48px] rounded-full border-[2px]"
                       />
-                      <h4 class="  lg:text-lg text-[10px] text-white font-semibold uppercase text-center items-center ml-3">
+                      <h4 className="  lg:text-lg text-[10px] text-white font-semibold uppercase text-center items-center ml-3">
                         The Sandbox California
                       </h4>
                     </div>
@@ -43,20 +43,20 @@ const SpotlightCards = () => {
             </div>
           </Link>
           <Link href="#">
-            <div class="flex mt-2 ">
-              <div class="mx-2 rounded-3xl">
+            <div className="flex mt-2 ">
+              <div className="mx-2 rounded-3xl">
                 <img
                   src="nft/rectangle.png"
-                  class=" rounded-lg shadow-md object-fill h-full w-full"
+                  className=" rounded-lg shadow-md object-fill h-full w-full"
                 />
                 <div>
-                  <div class="flex pr-16 justify-center pl-8 md:-mt-20  -mt-16">
-                    <div class="flex mx-auto pr-12 text-center items-center lg:-mb-[32px]  lg:shadow-2xl shadow-md bg-opacity-25 backdrop-filter backdrop-blur-lg rounded-l-full rounded-r-[4000px] border-[2px] shadow-blue-400">
+                  <div className="flex pr-16 justify-center pl-8 md:-mt-20  -mt-16">
+                    <div className="flex mx-auto pr-12 text-center items-center lg:-mb-[32px]  lg:shadow-2xl shadow-md bg-opacity-25 backdrop-filter backdrop-blur-lg rounded-l-full rounded-r-[4000px] border-[2px] shadow-blue-400">
                       <img
                         src="https://source.unsplash.com/random/350x350"
-                        class=" md:w-[64px] w-[48px] rounded-full border-[2px]"
+                        className=" md:w-[64px] w-[48px] rounded-full border-[2px]"
                       />
-                      <h4 class="  lg:text-lg text-[10px] text-white font-semibold uppercase text-center items-center ml-3">
+                      <h4 className="  lg:text-lg text-[10px] text-white font-semibold uppercase text-center items-center ml-3">
                         The Sandbox California
                       </h4>
                     </div>

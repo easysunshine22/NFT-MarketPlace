@@ -45,7 +45,7 @@ const Wallet_modal = () => {
             {/* <!-- Body --> */}
             <div className="modal-body p-6 text-center">
               <img
-                class="inline-flex  w-[144px] h-[144px] fill-current rounded-full box-content shadow mb-3"
+                className="inline-flex  w-[144px] h-[144px] fill-current rounded-full box-content shadow mb-3"
                 src="/artlux.png"
               />
               <p className="text-center dark:text-white">

@@ -10,33 +10,33 @@ const ExploreCollections = ({ itemFor, collectionItem }) => {
         <Link
           href={`/collection/${collectionItem.title}`}
           key={collectionItem._id}>
-          <article class="mx-auto pb-5 max-w-sm transform duration-500 hover:-translate-y-1 border border-orange-50 shadow-2xl cursor-pointer group  bg-black/5">
-            <div class="max-h-125 overflow-hidden">
+          <article className="mx-auto pb-5 max-w-sm transform duration-500 hover:-translate-y-1 border border-orange-50 shadow-2xl cursor-pointer group  bg-black/5">
+            <div className="max-h-125 overflow-hidden">
               <img
-                class="transform duration-300 group-hover:scale-110 object-fill w-[2400px] h-[360px]"
+                className="transform duration-300 group-hover:scale-110 object-fill w-[2400px] h-[360px]"
                 src={collectionItem.featuredImageUrl}
                 alt=""
               />
             </div>
-            <div class="flex justify-between my-5 mx-2 ">
-              <div class="text-orange-500 text-base font-semibold">
+            <div className="flex justify-between my-5 mx-2 ">
+              <div className="text-orange-500 text-base font-semibold">
                 {collectionItem.createdBy}
               </div>
-              <div class="text-base text-right">
-                <span class="font-bold"></span>
+              <div className="text-base text-right">
+                <span className="font-bold"></span>
               </div>
             </div>
-            <h2 class="font-bold text-[16px] mx-2">
+            <h2 className="font-bold text-[16px] mx-2">
               <a target="_blank" href="https://unsplash.com/photos/xYdxw6C3tSA">
                 {collectionItem.title.slice(0, 20)}...
               </a>
             </h2>
-            <div class="flex justify-between items-center mt-3 mx-2 ">
-              <div class="text-orange-500  text-[12px] font-semibold">
+            <div className="flex justify-between items-center mt-3 mx-2 ">
+              <div className="text-orange-500  text-[12px] font-semibold">
                 Floor Price
               </div>
-              <div class=" text-[12px] text-right">
-                <div class="flex ">{collectionItem.floorPrice} BNB</div>
+              <div className=" text-[12px] text-right">
+                <div className="flex ">{collectionItem.floorPrice} BNB</div>
               </div>
             </div>
           </article>

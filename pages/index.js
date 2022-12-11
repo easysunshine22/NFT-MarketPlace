@@ -14,7 +14,7 @@ import ListCategories from "../components/cards/listCategories";
 // ThirdWeb
 import { useAddress } from "@thirdweb-dev/react";
 // sanity
-import sanityClient from "@sanity/client";
+import { client } from "../lib/sanityClient";
 
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
@@ -40,15 +40,23 @@ const Home = ({ animals, categoryList, blockchainList }) => {
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
-      {animals.length > 0 && <Hero collectionItem={animals} />}
+      {animals.length > 0 && (
+        <Hero collectionItem={animals} key={animals._id} />
+      )}
       {animals.length && blockchainList.length > 0 && (
-        <RanksComp collectionItem={animals} blockchainList={blockchainList} />
+        <RanksComp
+          collectionItem={animals}
+          blockchainList={blockchainList}
+          key={blockchainList._id}
+        />
       )}
       <h2 className="items-center justify-center flex py-5 bg-white font-bold text-4xl">
         {" "}
         Notable Collections{" "}
       </h2>
-      {animals.length > 0 && <CoverCarousel collectionItem={animals} />}
+      {animals.length > 0 && (
+        <CoverCarousel collectionItem={animals} key={animals._id} />
+      )}
 
       <SpotlightCards />
       <ListCategories />
@@ -58,54 +66,54 @@ const Home = ({ animals, categoryList, blockchainList }) => {
 };
 export default Home;
 
-const client = sanityClient({
-  projectId: "0m772u15",
-  dataset: "production",
-  apiVersion: "2022-11-28",
-  useCdn: false,
-  token:
-    "skH5Wp9gafav4DEcSiU1mPIcSWCVN6mLW5KNDw068q233Fz454z4rcctAwLgolQcIlJH5Znwwm3hsscGwBfnIM5f4fOy8240941CK80ro6MpbrDakDhLlp6kTha1EC00yu4KYQxLRpyKGlyZUOFEHgbHZxnGhqJvTyv9VRHlocnb2nBhhGQ2",
-});
-
 export async function getServerSideProps() {
-  const animals = await client.fetch(`*[_type == "collections"] {
+  const animalsQuery = `*[_type == "collections"] {
     "logoImageUrl": logoImage.asset->url,
      "bannerImageUrl": bannerImage.asset->url,
- "featuredImageUrl": featuredImage.asset->url,
+    "featuredImageUrl": featuredImage.asset->url,
      volumeTraded,
      createdBy,
      contractAddress,
- creator,
+     creator,
      "createdBy": createdBy->userName,
      title, floorPrice,
     
      description
-}`);
-  const categoryList = await client.fetch(`*[_type == "category"] {
-    category,
+}`;
+  const categoryListQuery = `*[_type == "category"] {
+  category,
   icon,
   url,
-}`);
+}`;
 
-  const blockchainList = await client.fetch(`*[_type == "blockchain"] {
-  chainName,
-  
-    
-      "icon": icon.asset->url,
-"id": _id,
-}`);
+  const blockchainListQuery = `*[_type == "blockchain"] {
+  chainName, 
+  "icon": icon.asset->url,
+  "id": _id,
+}`;
 
-  if (!animals) {
+  const animals = await client.fetch(animalsQuery);
+  const categoryList = await client.fetch(categoryListQuery);
+  const blockchainList = await client.fetch(blockchainListQuery);
+
+  if (!animals.length && !categoryList.length && !blockchainList.length) {
     return {
-      notFound: true,
+      props: {
+        animals: [],
+        categoryList: [],
+        blockchainList: [],
+      },
+    };
+  } else {
+    console.log(animals + "collections");
+    console.log(categoryList + "category");
+    console.log(blockchainList + "blockchain");
+    return {
+      props: {
+        animals,
+        categoryList,
+        blockchainList,
+      },
     };
   }
-
-  return {
-    props: {
-      animals,
-      categoryList,
-      blockchainList,
-    },
-  };
 }

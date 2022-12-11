@@ -5,7 +5,12 @@ import { useDispatch } from "react-redux";
 import Meta from "../../components/Meta";
 import { buyModalShow } from "../../redux/counterSlice";
 // ThirdWeb
-import { useAddress, useSDK } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useContract,
+  getContract,
+  useSDK,
+} from "@thirdweb-dev/react";
 // sanity
 import { client } from "../../lib/sanityClient";
 import { user } from "../../lib/user";
@@ -47,7 +52,10 @@ const Create = () => {
   const [featuredImage, setFeaturedImage] = useState();
 
   const [caAddress, setCaAddress] = useState();
-
+  const { contract } = useContract(
+    caAddress, // Your marketplace contract address here
+    "nft-collection"
+  );
   // thirdweb
   const router = useRouter();
   const address = useAddress();
@@ -119,23 +127,20 @@ const Create = () => {
       {
         name: collectionName,
         primary_sale_recipient: address,
-        voting_token_address: address,
-        description: description,
-        // Recipients are required when trying to deploy a split contract
-        recipients: [
-          {
-            address,
-            sharesBps: 100 * 100,
-          },
-        ],
       }
     );
 
     // This is the contract address of the contract you just deployed
     console.log(`Succesfully deployed at ${contractAddress}`);
     setCaAddress(contractAddress);
-
     alert(`Succesfully deployed at ${contractAddress}`);
+
+    await contract.royalties.setDefaultRoyaltyInfo({
+      seller_fee_basis_points: fee * 100, // 1% royalty fee
+      fee_recipient: feeAddress, // the fee recipient
+    });
+
+    console.log(`Succesfully deployed at setDefaultRoyaltyInfo`);
   }
 
   const deployedContract = (contractAddress, toastHandler = toast) => {
@@ -284,13 +289,13 @@ const Create = () => {
                   </p>
                 </div>
                 <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
-                  <FileUploader
+                  <input
+                    accept="image/*"
+                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                    type="file"
+                    name="bgfile"
+                    id="bgfile"
                     onChange={handleLogoImage}
-                    name="file"
-                    types={fileTypes}
-                    classes="file-drag"
-                    maxSize={100}
-                    minSize={0}
                   />
                 </div>
               </div>
@@ -300,57 +305,94 @@ const Create = () => {
 
             <div className="mb-6">
               <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Banner Image
+                Image, Video, Audio, or 3D Model
                 <span className="text-red">*</span>
               </label>
 
-              {bannerImage ? (
+              {file ? (
                 <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  successfully uploaded : {bannerImage}
+                  successfully uploaded : {file}
                 </p>
               ) : (
                 <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  This image will appear at the top of your collection page.
-                  Avoid including too much text in this banner image, as the
-                  dimensions change on different devices. 1400 x 350
-                  recommended.
+                  Drag or choose your file to upload
                 </p>
               )}
 
-              <input
-                onChange={handleBannerImage}
-                type="file"
-                id="avatar"
-                name="avatar"
-                accept="image/png, image/jpeg"></input>
+              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
+                <div className="relative z-10 cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                  </svg>
+                  <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
+                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
+                    size: 100 MB
+                  </p>
+                </div>
+                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
+                  <input
+                    accept="image/*"
+                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                    type="file"
+                    name="bgfile"
+                    id="bgfile"
+                    onChange={handleBannerImage}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* <!-- Collection Featured Image Upload --> */}
 
             <div className="mb-6">
               <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Featured Image
+                Image, Video, Audio, or 3D Model
                 <span className="text-red">*</span>
               </label>
 
-              {featuredImage ? (
+              {file ? (
                 <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  successfully uploaded : {featuredImage}
+                  successfully uploaded : {file}
                 </p>
               ) : (
                 <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  This image will be used for featuring your collection on the
-                  homepage, category pages, or other promotional areas of
-                  OpenSea. 600 x 400 recommended.
+                  Drag or choose your file to upload
                 </p>
               )}
 
-              <input
-                onChange={handleFeaturedImage}
-                type="file"
-                id="avatar"
-                name="avatar"
-                accept="image/png, image/jpeg"></input>
+              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
+                <div className="relative z-10 cursor-pointer">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    width="24"
+                    height="24"
+                    className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                  </svg>
+                  <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
+                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
+                    size: 100 MB
+                  </p>
+                </div>
+                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
+                  <input
+                    accept="image/*"
+                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                    type="file"
+                    name="bgfile"
+                    id="bgfile"
+                    onChange={handleFeaturedImage}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* <!-- Name --> */}
