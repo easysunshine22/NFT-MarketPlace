@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css"; // optional
 import Collection_dropdown2 from "../../components/dropdown/collection_dropdown2";
@@ -16,8 +16,11 @@ import Meta from "../../components/Meta";
 import sanityClient from "@sanity/client";
 import { client } from "../../lib/sanityClient";
 import ChainDropdown from "../../components/cards/chainDropdown";
+import CollectionDropdown from "../../components/cards/collectionDropdown";
 
-const Create = ({ blockchainList }) => {
+import { useAddress } from "@thirdweb-dev/react";
+
+const Create = ({ blockchainList, categoryList }) => {
   const fileTypes = [
     "JPG",
     "PNG",
@@ -32,12 +35,33 @@ const Create = ({ blockchainList }) => {
     "GLTF",
   ];
   const [file, setFile] = useState("");
-  console.log(blockchainList + "blocklist");
+
   const dispatch = useDispatch();
 
   const handleChange = (file) => {
     setFile(file.name);
   };
+  const address = useAddress();
+  const [collection, setCollection] = useState({});
+  console.log(address + "" + "test");
+  // Sanity
+  const fetchCollectionData = async (sanityClient = client) => {
+    const query = `*[_type == "collections" && createdBy._ref == "${address}"] {
+      "logoImageUrl": logoImage.asset->url,
+     title
+
+  }`;
+
+    const collectionList = await sanityClient.fetch(query);
+
+    console.log(collectionList, "🔥");
+    await setCollection(collectionList);
+    // the query returns 1 object inside of an array
+  };
+
+  useEffect(() => {
+    fetchCollectionData();
+  }, [address]);
 
   const popupItemData = [
     {
@@ -59,6 +83,7 @@ const Create = ({ blockchainList }) => {
       icon: "stats-icon",
     },
   ];
+
   return (
     <div>
       <Meta title="Create || Artlux  NFT Marketplace " />
@@ -407,6 +432,22 @@ const Create = ({ blockchainList }) => {
               </div>
             </div>
 
+            {/* <!-- Collection --> */}
+            <div className="mb-6">
+              <label
+                htmlFor="item-supply"
+                className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                Collection
+              </label>
+
+              {/* dropdown  */}
+              <div className="dropdown relative mb-4 cursor-pointer ">
+                {collection.length > 0 && (
+                  <CollectionDropdown collectionList={collection} />
+                )}
+              </div>
+            </div>
+
             {/* <!-- Freeze metadata --> */}
             <div className="mb-6">
               <div className="mb-2 flex items-center space-x-2">
@@ -470,18 +511,35 @@ const Create = ({ blockchainList }) => {
 
 export default Create;
 
-export async function getStaticProps() {
-  const blockchainList = await client.fetch(`*[_type == "blockchain"] {
-    chainName,
-    
-      
-        "icon": icon.asset->url,
-  "id": _id,
-  }`);
+export async function getServerSideProps() {
+  const categoryListQuery = `*[_type == "category"] {
+  category,
+  icon,
+  url,
+}`;
 
-  return {
-    props: {
-      blockchainList,
-    },
-  };
+  const blockchainListQuery = `*[_type == "blockchain"] {
+  chainName, 
+  "icon": icon.asset->url,
+  "id": _id,
+}`;
+
+  const categoryList = await client.fetch(categoryListQuery);
+  const blockchainList = await client.fetch(blockchainListQuery);
+
+  if (!categoryList.length && !blockchainList.length) {
+    return {
+      props: {
+        categoryList: [],
+        blockchainList: [],
+      },
+    };
+  } else {
+    return {
+      props: {
+        categoryList,
+        blockchainList,
+      },
+    };
+  }
 }

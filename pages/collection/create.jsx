@@ -119,76 +119,33 @@ const CreateColl = ({ blockchainList, categoryList }) => {
       });
   };
 
-  // Function to deploy the proxy contract
-  async function deployContract() {
-    if (!address || !sdk) {
-      return;
-    }
-
-    const contractAddress = await sdk.deployer.deployNFTCollection(
-      // @ts-ignore - we're excluding custom contracts from the demo
-
-      {
-        name: collectionName,
-        primary_sale_recipient: address,
-      }
-    );
-
-    // This is the contract address of the contract you just deployed
-    console.log(`Succesfully deployed at ${contractAddress}`);
-    setCaAddress(contractAddress);
-    alert(`Succesfully deployed at ${contractAddress}`);
-
-    await contract.royalties.setDefaultRoyaltyInfo({
-      seller_fee_basis_points: fee * 100, // 1% royalty fee
-      fee_recipient: feeAddress, // the fee recipient
-    });
-
-    console.log(`Succesfully deployed at setDefaultRoyaltyInfo`);
-  }
-
-  const deployedContract = (contractAddress, toastHandler = toast) => {
-    toastHandler.success(`Contract Deployed To ${contractAddress}!`, {
-      icon: "👏",
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
+  async function createCollection() {
+    const userDoc = {
+      _type: "collections",
+      _id: collectionName,
+      title: collectionName,
+      description: description,
+      webAddress: website,
+      twitterAddress: twitter,
+      telegramAddress: telegram,
+      createdBy: {
+        _type: "reference",
+        _ref: address,
       },
-    });
-  };
+      volumeTraded: 0,
+      floorPrice: 0,
+    };
+    await client.createIfNotExists(userDoc);
 
-  useEffect(() => {
-    if (!caAddress) return;
-    (async () => {
-      const userDoc = {
-        _type: "collections",
-        _id: caAddress,
-        title: collectionName,
-        contractAddress: caAddress,
-        description: description,
-        webAddress: website,
-        twitterAddress: twitter,
-        telegramAddress: telegram,
-        fee: fee,
-        creator: address,
-        volumeTraded: 0,
-        floorPrice: 0,
-        owners: address,
-      };
-      const result = await client.createIfNotExists(userDoc);
-      deployedContract(result.contractAddress);
-      updateLogoImage();
-      updateBannerImage();
-      updateFeaturedImage();
-      dispatch(buyModalShow());
-    })();
-  }, [caAddress]);
-  (() => console.log("collection created"))();
+    updateLogoImage();
+    updateBannerImage();
+    updateFeaturedImage();
+    dispatch(buyModalShow());
+  }
 
   const updateLogoImage = async (sanityClient = client) => {
     client
-      .patch(caAddress)
+      .patch(collectionName)
       .set({
         logoImage: {
           _type: "image",
@@ -206,7 +163,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
 
   const updateBannerImage = async (sanityClient = client) => {
     client
-      .patch(caAddress)
+      .patch(collectionName)
       .set({
         bannerImage: {
           _type: "image",
@@ -224,7 +181,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
 
   const updateFeaturedImage = async (sanityClient = client) => {
     client
-      .patch(caAddress)
+      .patch(collectionName)
       .set({
         featuredImage: {
           _type: "image",
@@ -331,7 +288,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
                     type="file"
                     name="bgfile"
                     id="bgfile"
-                    onChange={handleBannerImage}
+                    onChange={handleFeaturedImage}
                   />
                 </div>
               </div>
@@ -490,7 +447,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
             {/* <!-- Submit --> */}
             <button
               className="bg-accent-lighter hover:bg-jacarta-300 cursor-default rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-              onClick={() => deployContract()}>
+              onClick={() => createCollection()}>
               Create Collection
             </button>
           </div>

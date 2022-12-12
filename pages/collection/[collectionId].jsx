@@ -37,7 +37,6 @@ const Collection = () => {
 
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
-  const pid = router.query.collection;
 
   //ThirdWeb
   // Connect to our Collection contract via the useContract hook
@@ -98,7 +97,7 @@ const Collection = () => {
 
   return (
     <div>
-      <Meta title={`${collection.name} || Artlux  NFT Marketplace `} />
+      <Meta title={`${collection.title} || Artlux  NFT Marketplace `} />
 
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}

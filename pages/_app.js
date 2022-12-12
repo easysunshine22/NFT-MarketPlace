@@ -41,6 +41,12 @@ function MyApp({ Component, pageProps }) {
           <MetaMaskProvider>
             <ThirdwebProvider
               desiredChainId={ChainId.BinanceSmartChainTestnet}
+              authConfig={{
+                domain: "example.org",
+                authUrl: "/api/auth",
+                loginRedirect: "/",
+              }}
+              autoConnect="true"
               chainRPC={{
                 [ChainId.BinanceSmartChainTestnet]:
                   "https://data-seed-prebsc-1-s3.binance.org:8545	",

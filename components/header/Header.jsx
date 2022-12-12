@@ -10,10 +10,9 @@ import {
   isParentPageActive,
 } from "../../utils/daynamicNavigation";
 import { useEffect, useState } from "react";
-import WalletButton from "../wallet-btn/WalletButton";
 
 import { CiWallet, CiLogout } from "react-icons/ci";
-import { ConnectWallet } from "@thirdweb-dev/react";
+import { ConnectWallet, useSDK, useAddress } from "@thirdweb-dev/react";
 import { BsCart2 } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
 import { AiOutlineTable, AiOutlineSetting } from "react-icons/ai";
@@ -232,6 +231,21 @@ const Header = ({ categoryList }) => {
     }
     setCollapse(id);
   };
+
+  const sdk = useSDK();
+  const message = "please sign me";
+  const [signature, setSignature] = useState();
+  const address = useAddress();
+  useEffect(() => {
+    if (!address) return;
+    (async () => {
+      const sig = await sdk?.wallet.sign(message);
+      if (!sig) {
+        throw new error("test");
+      }
+      setSignature(sig);
+    })();
+  }, []);
 
   return (
     <>
@@ -528,7 +542,17 @@ const Header = ({ categoryList }) => {
               </button>
               <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
                 <div className="border-jacarta-100">
-                  <ConnectWallet accentColor="#d1d5db" colorMode="light" />
+                  <ConnectWallet
+                    accentColor="#d1d5db"
+                    colorMode="light"
+                    auth={{
+                      // If you want users to sign in after connecting their wallet
+                      loginOptional: true,
+                      loginOptions: {
+                        chainId: 97,
+                      },
+                    }}
+                  />
                 </div>
               </div>
             </div>
