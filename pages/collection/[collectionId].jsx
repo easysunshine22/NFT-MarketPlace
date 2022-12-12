@@ -34,7 +34,8 @@ const Collection = () => {
   const router = useRouter();
   const { collectionId } = router.query;
   const [collection, setCollection] = useState({});
-
+  const [nftsData, setNftsData] = useState({});
+  const [collId, setCollId] = useState({});
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
 
@@ -59,7 +60,8 @@ const Collection = () => {
       "creator": createdBy->userName,
       title, floorPrice,
       "allOwners": owners[]->,
-      description
+      description,
+      _id
     }`;
 
     const collectionData = await sanityClient.fetch(query);
@@ -68,6 +70,16 @@ const Collection = () => {
 
     // the query returns 1 object inside of an array
     await setCollection(collectionData[0]);
+    await setCollId(collectionData[0]._id);
+    console.log(collId, "collId");
+    const nftQuery = `*[_type == "nft" && collections._ref=="${collId}"] {
+      title,
+        logoImage,
+        collections,
+      }`;
+    const nftsDataa = await sanityClient.fetch(nftQuery);
+    console.log(nftsDataa, "nftsDataa🔥");
+    await setNftsData(nftsDataa);
   };
 
   useEffect(() => {
@@ -233,35 +245,27 @@ const Collection = () => {
             layout="fill"
           />
         </picture>
-        {/* <!-- end profile --> 
+        {/* <!-- end profile -->   */}
         <div className="container">
           {!isLoadingListing ? (
             <div className="">
-              {isReadingNfts ? (
-                <div className="items-center justify-center text-black flex bg-white p-[1.1875rem]">
-                  This Collection Hasnt NFTs
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                    {nfts.map((nftItem) => (
-                      <CollectionCards
-                        key={nftItem.metadata.id}
-                        nftItem={nftItem}
-                        title={collection?.title}
-                        listings={listings}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
+              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
+                {nftsData.map((nftItem) => (
+                  <CollectionCards
+                    key={nftItem.metadata.id}
+                    nftItem={nftItem}
+                    title={collection?.title}
+                    listings={listings}
+                  />
+                ))}
+              </div>
             </div>
           ) : (
             <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
               Loading
             </div>
           )}
-        </div> */}
+        </div>
       </section>
     </div>
   );

@@ -13,7 +13,6 @@ export default {
       title: "Description",
       type: "string",
     },
-
     {
       name: "createdBy",
       title: "Created By",
@@ -21,10 +20,10 @@ export default {
       to: [{ type: "users" }],
     },
     {
-      name: "categories",
-      title: "Category",
+      name: "collections",
+      title: "Collections",
       type: "reference",
-      to: [{ type: "category" }],
+      to: [{ type: "collections" }],
     },
     {
       name: "blockchain",
@@ -32,7 +31,6 @@ export default {
       type: "reference",
       to: [{ type: "blockchain" }],
     },
-
     {
       name: "logoImage",
       title: "Logo Image",
