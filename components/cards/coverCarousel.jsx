@@ -10,14 +10,14 @@ import NotableCard from "./notableCard";
 
 const coverCarousel = ({ collectionItem }) => {
   return (
-    <section class="notable-collection-section">
+    <section className="notable-collection-section">
       {/* <!-- Coverflow Slider --> */}
-      <img class="shape2" src="/images/shape-left.png" alt="" />
+      <img className="shape2" src="/images/shape-left.png" alt="" />
       <div className="notable-collections">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="section-title text-center">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="section-title text-center">
                 <h2>Notable collections</h2>
               </div>
             </div>

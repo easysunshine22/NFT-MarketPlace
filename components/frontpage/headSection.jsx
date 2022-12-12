@@ -1,89 +1,89 @@
 const HeadSection = () => {
   return (
     <>
-      <header class="header-area" id="header_area">
-        <nav class="navbar navbar-expand-xl">
-          <div class="container-fluid custom-container">
-            <a class="navbar-brand" href="index.html" id="logo">
+      <header className="header-area" id="header_area">
+        <nav className="navbar navbar-expand-xl">
+          <div className="container-fluid custom-container">
+            <a className="navbar-brand" href="index.html" id="logo">
               <img src="images/logo.png" alt="" />
             </a>
-            <ul class="header-meta ms-auto mobile-meta">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+            <ul className="header-meta ms-auto mobile-meta">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   <img src="/images/user.png" alt="" />
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   <img src="/images/wallet.png" alt="" />
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
                   <img src="/images/cart.png" alt="" />
                 </a>
               </li>
             </ul>
             <button
-              class="navbar-toggler"
+              className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#main_nav"
               aria-expanded="false"
               aria-label="Toggle navigation">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
             </button>
-            <div class="collapse navbar-collapse" id="main_nav">
-              <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+            <div className="collapse navbar-collapse" id="main_nav">
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     Explore
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     Drops
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     Stats
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     Resources
                   </a>
                 </li>
               </ul>
-              <ul class="search-meta ms-auto">
+              <ul className="search-meta ms-auto">
                 <li>
-                  <div class="form-group">
+                  <div className="form-group">
                     <input
                       type="search"
                       name="search"
                       id="search"
                       placeholder="Search"
                     />
-                    <i class="fas fa-search"></i>
+                    <i className="fas fa-search"></i>
                   </div>
                 </li>
               </ul>
-              <ul class="header-meta">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+              <ul className="header-meta">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     <img src="/images/user.png" alt="" />
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     <img src="/images/wallet.png" alt="" />
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
                     <img src="/images/cart.png" alt="" />
                   </a>
                 </li>
@@ -92,7 +92,7 @@ const HeadSection = () => {
           </div>
         </nav>
       </header>
-      <div class="header-gap"></div>
+      <div className="header-gap"></div>
     </>
   );
 };

@@ -224,14 +224,14 @@ const Create = ({ blockchainList, categoryList }) => {
               </p>
 
               {preview ? (
-                <div class="mb-4">
+                <div className="mb-4">
                   <img
                     src={preview}
                     onClick={() => {
                       setPreview(undefined);
                       setLogoImagesAssets(undefined);
                     }}
-                    class="max-w-full h-auto rounded-lg"
+                    className="max-w-full h-auto rounded-lg"
                     alt=""
                   />
                 </div>
