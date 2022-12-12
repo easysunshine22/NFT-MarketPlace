@@ -40,6 +40,15 @@ const Create = ({ blockchainList, categoryList }) => {
     "GLB",
     "GLTF",
   ];
+  const address = useAddress();
+  const { mutateAsync: upload } = useStorageUpload();
+
+  // Fetch the NFT collection from thirdweb via it's contract address.
+  const { contract: nftCollection } = useContract(
+    // Replace this with your NFT Collection contract address
+    "0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A",
+    "nft-collection"
+  );
 
   const [collectionList, setCollectionList] = useState({});
   const [logoImagesAssets, setLogoImagesAssets] = useState(null);
@@ -191,7 +200,53 @@ const Create = ({ blockchainList, categoryList }) => {
     },
   ];
 
-  const address = useAddress();
+  // This function calls a Next JS API route that mints an NFT with signature-based minting.
+  // We send in the address of the current user, and the text they entered as part of the request.
+  const mintWithSignature = async () => {
+    try {
+      if (!image || !nftName) {
+        alert("Please enter a name and upload a file.");
+        return;
+      }
+
+      // Upload image to IPFS using Storage
+      const uris = await upload({
+        data: [image],
+      });
+
+      // Make a request to /api/server
+      const signedPayloadReq = await fetch(`/api/server`, {
+        method: "POST",
+        body: JSON.stringify({
+          authorAddress: address, // Address of the current user
+          nftName: nftName,
+          imagePath: uris[0],
+        }),
+      });
+
+      // Grab the JSON from the response
+      const json = await signedPayloadReq.json();
+
+      if (!signedPayloadReq.ok) {
+        alert(json.error);
+      }
+
+      // If the request succeeded, we'll get the signed payload from the response.
+      // The API should come back with a JSON object containing a field called signedPayload.
+      // This line of code will parse the response and store it in a variable called signedPayload.
+      const signedPayload = json.signedPayload;
+
+      // Now we can call signature.mint and pass in the signed payload that we received from the server.
+      // This means we provided a signature for the user to mint an NFT with.
+      const nft = await nftCollection?.signature.mint(signedPayload);
+
+      alert("Minted succesfully!");
+
+      return nft;
+    } catch (e) {
+      console.error("An error occurred trying to mint the NFT:", e);
+    }
+  };
 
   return (
     <div>
@@ -714,14 +769,7 @@ const Create = ({ blockchainList, categoryList }) => {
               // The contract address
               contractAddress="0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A"
               // Access the contract itself, perform any action you want on it:
-              action={async (contract) =>
-                contract.erc721.mint({
-                  name: nftName,
-                  // Image can be a File, or any url that points to a file.
-                  image: image,
-                  description: description,
-                })
-              }
+              action={() => mintWithSignature()}
               // Or just call the function name and parameters directly:
               // functionName="mintTo"
               // // The mintTo Function on this contract accepts two parameters, we can pass them in an array here.
