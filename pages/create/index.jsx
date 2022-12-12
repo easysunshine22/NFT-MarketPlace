@@ -46,7 +46,8 @@ const Create = ({ blockchainList, categoryList }) => {
   const [image, setImage] = useState(null);
   const [collectionName, setCollectionName] = useState();
   const [description, setDescription] = useState();
-  console.log(address + "" + "test");
+  const [preview, setPreview] = useState();
+
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "collections" && createdBy._ref == "${address}"] {
@@ -66,10 +67,10 @@ const Create = ({ blockchainList, categoryList }) => {
     fetchCollectionData();
   }, [address]);
 
-  async function mintNFT() {
+  async function mintUploadNFT() {
     const userDoc = {
-      _type: "collections",
-      _id: collectionName,
+      _type: "nft",
+
       title: collectionName,
       description: description,
 
@@ -78,7 +79,7 @@ const Create = ({ blockchainList, categoryList }) => {
         _ref: address,
       },
     };
-    await client.createIfNotExists(userDoc);
+    await client.create(userDoc);
 
     updateLogoImage();
   }
@@ -86,6 +87,7 @@ const Create = ({ blockchainList, categoryList }) => {
   const handleLogoImage = (e) => {
     const selectedLogoImage = e.target.files[0];
     setImage(e.target.files[0]);
+    setPreview(URL.createObjectURL(e.target.files[0]));
     user.assets
       .upload("image", selectedLogoImage, {
         contentType: selectedLogoImage.type,
@@ -140,64 +142,29 @@ const Create = ({ blockchainList, categoryList }) => {
   ];
 
   const address = useAddress();
-  const { mutateAsync: upload } = useStorageUpload();
 
-  // Fetch the NFT collection from thirdweb via it's contract address.
-  const { contract: nftCollection } = useContract(
-    // Replace this with your NFT Collection contract address
+  const { contract, isLoading, error } = useContract(
     "0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A",
     "nft-collection"
   );
 
-  const { data: nfts, isLoading: loadingNfts } = useNFTs(nftCollection);
+  // Address of the wallet you want to mint the NFT to
+  const walletAddress = address;
 
-  // This function calls a Next JS API route that mints an NFT with signature-based minting.
-  // We send in the address of the current user, and the text they entered as part of the request.
-  const mintWithSignature = async () => {
-    try {
-      if (!logoImagesAssets || !collectionName) {
-        alert("Please enter a name and upload a file.");
-        return;
-      }
+  async function mintNFT() {
+    // Custom metadata of the NFT, note that you can fully customize this metadata with other properties.
+    const metadata = {
+      name: collectionName,
+      description: description,
+      image: logoImagesAssets, // This can be an image url or file
+    };
 
-      // Upload image to IPFS using Storage
-      const uris = await upload({
-        data: [logoImagesAssets],
-      });
-
-      // Make a request to /api/server
-      const signedPayloadReq = await fetch(`/api/server`, {
-        method: "POST",
-        body: JSON.stringify({
-          authorAddress: address, // Address of the current user
-          nftName: collectionName,
-          imagePath: uris[0],
-        }),
-      });
-
-      // Grab the JSON from the response
-      const json = await signedPayloadReq.json();
-
-      if (!signedPayloadReq.ok) {
-        alert(json.error);
-      }
-
-      // If the request succeeded, we'll get the signed payload from the response.
-      // The API should come back with a JSON object containing a field called signedPayload.
-      // This line of code will parse the response and store it in a variable called signedPayload.
-      const signedPayload = json.signedPayload;
-
-      // Now we can call signature.mint and pass in the signed payload that we received from the server.
-      // This means we provided a signature for the user to mint an NFT with.
-      const nft = await nftCollection?.signature.mint(signedPayload);
-
-      alert("Minted succesfully!");
-
-      return nft;
-    } catch (e) {
-      console.error("An error occurred trying to mint the NFT:", e);
-    }
-  };
+    const tx = await contract.mintTo(walletAddress, metadata);
+    const receipt = tx.receipt; // the transaction receipt
+    const tokenId = tx.id; // the id of the NFT minted
+    const nft = await tx.data(); // (optional) fetch details of minted NFT
+    mintUploadNFT();
+  }
 
   return (
     <div>
@@ -229,33 +196,47 @@ const Create = ({ blockchainList, categoryList }) => {
                 600 x 400 recommended.
               </p>
 
-              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
-                <div className="relative z-10 cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                  </svg>
-                  <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
-                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
-                    size: 100 MB
-                  </p>
-                </div>
-                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
-                  <input
-                    accept="image/*"
-                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                    type="file"
-                    name="bgfile"
-                    id="bgfile"
-                    onChange={handleLogoImage}
+              {preview ? (
+                <div class="mb-4">
+                  <img
+                    src={preview}
+                    onClick={() => {
+                      setPreview(undefined);
+                      setLogoImagesAssets(undefined);
+                    }}
+                    class="max-w-full h-auto rounded-lg"
+                    alt=""
                   />
                 </div>
-              </div>
+              ) : (
+                <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
+                  <div className="relative z-10 cursor-pointer">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
+                      <path fill="none" d="M0 0h24v24H0z" />
+                      <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
+                    </svg>
+                    <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
+                      JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF.
+                      Max size: 100 MB
+                    </p>
+                  </div>
+                  <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
+                    <input
+                      accept="image/png, image/gif, image/jpeg"
+                      className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                      type="file"
+                      name="bgfile"
+                      id="bgfile"
+                      onChange={handleLogoImage}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* <!-- Name --> */}
@@ -612,13 +593,35 @@ const Create = ({ blockchainList, categoryList }) => {
             <Web3Button
               // The contract address
               contractAddress="0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A"
-              action={() => {
-                mintWithSignature();
-                mintNFT();
-              }}
-
               // Access the contract itself, perform any action you want on it:
-            >
+              action={async (contract) =>
+                contract.erc721.mint({
+                  name: collectionName,
+                  // Image can be a File, or any url that points to a file.
+                  image: image,
+                  description: description,
+                })
+              }
+              // Or just call the function name and parameters directly:
+              // functionName="mintTo"
+              // // The mintTo Function on this contract accepts two parameters, we can pass them in an array here.
+              // params={[
+              //   // First parameter is the address to mint to
+              //   address,
+              //   // Second parameter is the metadata URI
+              //   "ipfs://Qmf9csTfndWRgH2z35WUBm9jTuQKfSv1dJC9YKW6iTZkDP/0",
+              // ]}
+
+              // Some customization of colors and styling
+              colorMode="light"
+              accentColor="#F213A4"
+              // If the function is successful, we can do something here.
+              onSuccess={(result) => {
+                mintUploadNFT();
+                console.log(result);
+              }}
+              // If the function fails, we can do something here.
+              onError={(error) => console.error(error)}>
               Mint NFT
             </Web3Button>
           </div>
