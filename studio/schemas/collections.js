@@ -9,11 +9,6 @@ export default {
       type: "string",
     },
     {
-      name: "contractAddress",
-      title: "Contract Address",
-      type: "string",
-    },
-    {
       name: "description",
       title: "Description",
       type: "string",
@@ -34,15 +29,22 @@ export default {
       type: "string",
     },
     {
-      name: "fee",
-      title: "Creator Fee",
-      type: "string",
-    },
-    {
       name: "createdBy",
       title: "Created By",
       type: "reference",
       to: [{ type: "users" }],
+    },
+    {
+      name: "categories",
+      title: "Category",
+      type: "reference",
+      to: [{ type: "category" }],
+    },
+    {
+      name: "blockchain",
+      title: "Blockchain",
+      type: "reference",
+      to: [{ type: "blockchain" }],
     },
     {
       name: "volumeTraded",

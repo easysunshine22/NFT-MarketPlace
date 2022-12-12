@@ -7,7 +7,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import users from "./users";
 import category from "./category";
 import blockchain from "./blockchain";
-import marketItems from "./marketItems";
+import nft from "./nft";
 import collections from "./collections";
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -16,7 +16,7 @@ export default createSchema({
   // Then proceed to concatenate our document type
   // to the ones provided by any plugins that are installed
   types: schemaTypes.concat(
-    [users, category, blockchain, marketItems, collections]
+    [users, category, blockchain, collections, nft]
     /* Your types here! */
   ),
 });

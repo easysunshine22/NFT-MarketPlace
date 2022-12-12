@@ -42,6 +42,42 @@ const CreateColl = ({ blockchainList, categoryList }) => {
 
   const dispatch = useDispatch();
 
+  const [dropdown, setDropdown] = useState(false);
+  const [bdropdown, setBdropdown] = useState(false);
+  const [activeItem, setActiveItem] = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeBlockItem, setActiveBlockItem] = useState(null);
+  const [activeChain, setActiveChain] = useState(null);
+  const [selectedChain, setSelectedChain] = useState(null);
+  const [selectedCat, setSelectedCat] = useState(null);
+
+  const handleBlockDropdown = () => {
+    window.addEventListener("click", (w) => {
+      if (w.target.closest(".dropdown-toggle")) {
+        if (bdropdown) {
+          setBdropdown(false);
+        } else {
+          setBdropdown(true);
+        }
+      } else {
+        setBdropdown(false);
+      }
+    });
+  };
+  const handleDropdown = () => {
+    window.addEventListener("click", (w) => {
+      if (w.target.closest(".dropdown-toggle")) {
+        if (dropdown) {
+          setDropdown(false);
+        } else {
+          setDropdown(true);
+        }
+      } else {
+        setDropdown(false);
+      }
+    });
+  };
+
   //sanity
 
   const [collectionName, setCollectionName] = useState();
@@ -56,17 +92,13 @@ const CreateColl = ({ blockchainList, categoryList }) => {
   const [featuredImage, setFeaturedImage] = useState();
 
   const [caAddress, setCaAddress] = useState();
-  const { contract } = useContract(
-    caAddress, // Your marketplace contract address here
-    "nft-collection"
-  );
   // thirdweb
   const router = useRouter();
   const address = useAddress();
   const sdk = useSDK();
 
   // photo upload
-
+  console.log(selectedChain + "selected");
   const [logoImagesAssets, setLogoImagesAssets] = useState(null);
   const [bannerImagesAssets, setBannerImagesAssets] = useState(null);
   const [featuredImagesAssets, setFeaturedImagesAssets] = useState(null);
@@ -131,6 +163,14 @@ const CreateColl = ({ blockchainList, categoryList }) => {
       createdBy: {
         _type: "reference",
         _ref: address,
+      },
+      categories: {
+        _type: "reference",
+        _ref: selectedCat,
+      },
+      blockchain: {
+        _type: "reference",
+        _ref: selectedChain,
       },
       volumeTraded: 0,
       floorPrice: 0,
@@ -423,7 +463,87 @@ const CreateColl = ({ blockchainList, categoryList }) => {
               {/* dropdown */}
               <div className="dropdown relative mb-4 cursor-pointer ">
                 {blockchainList.length > 0 && (
-                  <ChainDropdown blockchainList={blockchainList} />
+                  <div>
+                    <div
+                      className={
+                        bdropdown
+                          ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
+                          : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
+                      }
+                      onClick={() => handleBlockDropdown()}></div>
+
+                    <div
+                      className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
+                      onClick={() => handleBlockDropdown()}>
+                      <span className="flex items-center">
+                        <img
+                          src={
+                            activeBlockItem
+                              ? activeBlockItem
+                              : "/images/chains/ETH.png"
+                          }
+                          alt="eth"
+                          className="mr-2 h-5 w-5 rounded-full"
+                        />
+                        {activeChain ? activeChain : "Ethereum Mainnet"}
+                      </span>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="fill-jacarta-500 h-4 w-4 dark:fill-white">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
+                      </svg>
+                    </div>
+
+                    <div
+                      className={
+                        bdropdown
+                          ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
+                          : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
+                      }>
+                      <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
+                        {blockchainList.map((blockchainList, index) => (
+                          <li key={blockchainList.id}>
+                            <button
+                              href="#"
+                              className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white"
+                              onClick={() => {
+                                setActiveBlockItem(blockchainList.icon);
+                                setActiveChain(blockchainList.chainName);
+                                setSelectedChain(blockchainList.id);
+                              }}>
+                              <span className="flex items-center space-x-3">
+                                <img
+                                  src={blockchainList.icon}
+                                  className="h-8 w-8 rounded-full"
+                                  loading="lazy"
+                                  alt="avatar"
+                                />
+                                <span className="text-jacarta-700 dark:text-white">
+                                  {blockchainList.chainName}
+                                </span>
+                              </span>
+                              {activeBlockItem === blockchainList.icon && (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="fill-accent mb-[3px] h-4 w-4">
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                </svg>
+                              )}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
@@ -432,13 +552,89 @@ const CreateColl = ({ blockchainList, categoryList }) => {
               <label
                 htmlFor="item-supply"
                 className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Blockchain
+                Categories
               </label>
 
               {/* dropdown */}
               <div className="dropdown relative mb-4 cursor-pointer ">
                 {categoryList.length > 0 && (
-                  <CategoryDropdown categoryList={categoryList} />
+                  <div>
+                    <div
+                      className={
+                        dropdown
+                          ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
+                          : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
+                      }
+                      onClick={() => handleDropdown()}></div>
+
+                    <div
+                      className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
+                      onClick={() => handleDropdown()}>
+                      <span className="flex items-center">
+                        <img
+                          src={activeItem ? activeItem : "/images/art.webp"}
+                          alt="eth"
+                          className="mr-2 h-5 w-5 rounded-full"
+                        />
+                        {activeCategory ? activeCategory : "Art"}
+                      </span>
+
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="24"
+                        height="24"
+                        className="fill-jacarta-500 h-4 w-4 dark:fill-white">
+                        <path fill="none" d="M0 0h24v24H0z"></path>
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
+                      </svg>
+                    </div>
+
+                    <div
+                      className={
+                        dropdown
+                          ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
+                          : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
+                      }>
+                      <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
+                        {categoryList.map((categoryList, index) => (
+                          <li key={categoryList.id}>
+                            <button
+                              href="#"
+                              className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white"
+                              onClick={() => {
+                                setActiveItem(categoryList.icon);
+                                setActiveCategory(categoryList.category);
+                                setSelectedCat(categoryList.id);
+                              }}>
+                              <span className="flex items-center space-x-3">
+                                <img
+                                  src={categoryList.icon}
+                                  className="h-8 w-8 rounded-full"
+                                  loading="lazy"
+                                  alt="avatar"
+                                />
+                                <span className="text-jacarta-700 dark:text-white">
+                                  {categoryList.category}
+                                </span>
+                              </span>
+                              {activeItem === categoryList.icon && (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  height="24"
+                                  className="fill-accent mb-[3px] h-4 w-4">
+                                  <path fill="none" d="M0 0h24v24H0z"></path>
+                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
+                                </svg>
+                              )}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

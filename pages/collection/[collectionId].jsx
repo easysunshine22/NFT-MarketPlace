@@ -38,14 +38,6 @@ const Collection = () => {
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
 
-  //ThirdWeb
-  // Connect to our Collection contract via the useContract hook
-  const { contract: nftCollection } = useContract(
-    collectionId, // Your marketplace contract address here
-    "nft-collection"
-  );
-  const { data: nfts, isLoading: isReadingNfts } = useNFTs(nftCollection);
-
   // Connect your marketplace smart contract here (replace this address)
   const { contract: marketplace } = useContract(
     "0xa744878C6e516317c2F74807d013c53a51200bCb", // Your marketplace contract address here
@@ -84,8 +76,6 @@ const Collection = () => {
 
   console.log(router.query);
   console.log(router.query.collectionId);
-  console.log("nftler🔥" + nfts);
-  console.log("listings" + listings);
 
   const handleLikes = () => {
     if (!likesImage) {
@@ -156,7 +146,7 @@ const Collection = () => {
 
                 <a className="dark:border-jacarta-600 border-jacarta-100 w-1/2 rounded-l-xl border-r py-4 hover:shadow-md sm:w-32">
                   <div className="text-jacarta-700 mb-1 text-base font-bold dark:text-white">
-                    {isReadingNfts ? <p>0</p> : <div>{nfts.length}</div>}
+                    <p>0</p>
                   </div>
                   <div className="text-2xs dark:text-jacarta-400 font-medium tracking-tight">
                     Items
@@ -243,7 +233,7 @@ const Collection = () => {
             layout="fill"
           />
         </picture>
-        {/* <!-- end profile --> */}
+        {/* <!-- end profile --> 
         <div className="container">
           {!isLoadingListing ? (
             <div className="">
@@ -271,7 +261,7 @@ const Collection = () => {
               Loading
             </div>
           )}
-        </div>
+        </div> */}
       </section>
     </div>
   );

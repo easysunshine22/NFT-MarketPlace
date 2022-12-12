@@ -17,7 +17,8 @@ import { BsCart2 } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
 import { AiOutlineTable, AiOutlineSetting } from "react-icons/ai";
 import { VscAccount } from "react-icons/vsc";
-
+//sanity
+import { client } from "../../lib/sanityClient";
 const Header = ({ categoryList }) => {
   const [toggle, setToggle] = useState(false);
   const [isCollapse, setCollapse] = useState(null);
@@ -139,7 +140,7 @@ const Header = ({ categoryList }) => {
       {
         id: uuidv4(),
         name: "Utility",
-        path: "/utility",
+        path: "category/utility",
         icon: (
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -247,6 +248,30 @@ const Header = ({ categoryList }) => {
     })();
   }, []);
 
+  const [collection, setCollection] = useState({});
+  // Sanity
+  const fetchCollectionData = async (sanityClient = client) => {
+    const query = `*[_type == "users" && walletAddress=="${address}"] {
+        userName,
+        walletAddress
+      }`;
+
+    const collectionData = await sanityClient.fetch(query);
+
+    console.log(collectionData, "🔥");
+
+    // the query returns 1 object inside of an array
+    await setCollection(collectionData[0]);
+  };
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    } else {
+      fetchCollectionData();
+    }
+  }, [address]);
+
   return (
     <>
       {/* main desktop menu sart*/}
@@ -266,8 +291,8 @@ const Header = ({ categoryList }) => {
               <div className="hidden dark:block">
                 <Image
                   src={WhiteLogo}
-                  height={28}
-                  width={130}
+                  height={64}
+                  width={64}
                   alt="Xhibiter | NFT Marketplace"
                 />
               </div>
@@ -354,7 +379,7 @@ const Header = ({ categoryList }) => {
                               ? "text-accent dark:text-accent"
                               : ""
                           }>
-                          Create
+                          Drops
                         </span>
                       </button>
                     </a>
@@ -492,7 +517,7 @@ const Header = ({ categoryList }) => {
                 </svg>
               </button>
               <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
-                <Link href="/user/avatar_6">
+                <Link href={`/user/${collection.userName}`}>
                   <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                     <VscAccount />
                     <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
@@ -508,7 +533,7 @@ const Header = ({ categoryList }) => {
                     </span>
                   </a>
                 </Link>
-                <Link href="/user/avatar_6">
+                <Link href="/create">
                   <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                     <IoCreateOutline />
                     <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
@@ -517,7 +542,7 @@ const Header = ({ categoryList }) => {
                   </a>
                 </Link>
 
-                <Link href="/profile/user_avatar">
+                <Link href={`/profile/${collection.userName}`}>
                   <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                     <AiOutlineSetting />
                     <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">

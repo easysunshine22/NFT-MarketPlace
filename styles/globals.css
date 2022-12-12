@@ -6005,3 +6005,16 @@ body {
   height: 500px;
   object-fit: cover;
 }
+
+.notable-collection-section {
+  background-image: url(/images/notable-collection-bg.png);
+  background-position: center;
+  background-size: cover;
+  padding: 120px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.section-title {
+  margin-bottom: 50px;
+}

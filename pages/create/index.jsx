@@ -11,14 +11,20 @@ import Proparties_modal from "../../components/modal/proparties_modal";
 import { useDispatch } from "react-redux";
 import { showPropatiesModal } from "../../redux/counterSlice";
 import Meta from "../../components/Meta";
-
+import {
+  ThirdwebNftMedia,
+  useAddress,
+  useContract,
+  useNFTs,
+  useStorageUpload,
+  Web3Button,
+} from "@thirdweb-dev/react";
 // sanity
 import sanityClient from "@sanity/client";
+import { user } from "../../lib/user";
 import { client } from "../../lib/sanityClient";
 import ChainDropdown from "../../components/cards/chainDropdown";
 import CollectionDropdown from "../../components/cards/collectionDropdown";
-
-import { useAddress } from "@thirdweb-dev/react";
 
 const Create = ({ blockchainList, categoryList }) => {
   const fileTypes = [
@@ -34,15 +40,12 @@ const Create = ({ blockchainList, categoryList }) => {
     "GLB",
     "GLTF",
   ];
-  const [file, setFile] = useState("");
 
-  const dispatch = useDispatch();
-
-  const handleChange = (file) => {
-    setFile(file.name);
-  };
-  const address = useAddress();
   const [collection, setCollection] = useState({});
+  const [logoImagesAssets, setLogoImagesAssets] = useState(null);
+  const [image, setImage] = useState(null);
+  const [collectionName, setCollectionName] = useState();
+  const [description, setDescription] = useState();
   console.log(address + "" + "test");
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
@@ -62,6 +65,58 @@ const Create = ({ blockchainList, categoryList }) => {
   useEffect(() => {
     fetchCollectionData();
   }, [address]);
+
+  async function mintNFT() {
+    const userDoc = {
+      _type: "collections",
+      _id: collectionName,
+      title: collectionName,
+      description: description,
+
+      createdBy: {
+        _type: "reference",
+        _ref: address,
+      },
+    };
+    await client.createIfNotExists(userDoc);
+
+    updateLogoImage();
+  }
+
+  const handleLogoImage = (e) => {
+    const selectedLogoImage = e.target.files[0];
+    setImage(e.target.files[0]);
+    user.assets
+      .upload("image", selectedLogoImage, {
+        contentType: selectedLogoImage.type,
+        filename: selectedLogoImage.name,
+      })
+      .then((document) => {
+        setLogoImagesAssets(document);
+        console.log("LogoImage Upload success:");
+      })
+      .catch((error) => {
+        console.log("Upload failed:", error.message);
+      });
+  };
+
+  const updateLogoImage = async (sanityClient = client) => {
+    client
+      .patch(collectionName)
+      .set({
+        logoImage: {
+          _type: "image",
+          asset: {
+            _type: "reference",
+            _ref: logoImagesAssets?._id,
+          },
+        },
+      })
+      .commit()
+      .then(() => {
+        console.log("Banner Image Done!");
+      });
+  };
 
   const popupItemData = [
     {
@@ -84,6 +139,66 @@ const Create = ({ blockchainList, categoryList }) => {
     },
   ];
 
+  const address = useAddress();
+  const { mutateAsync: upload } = useStorageUpload();
+
+  // Fetch the NFT collection from thirdweb via it's contract address.
+  const { contract: nftCollection } = useContract(
+    // Replace this with your NFT Collection contract address
+    "0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A",
+    "nft-collection"
+  );
+
+  const { data: nfts, isLoading: loadingNfts } = useNFTs(nftCollection);
+
+  // This function calls a Next JS API route that mints an NFT with signature-based minting.
+  // We send in the address of the current user, and the text they entered as part of the request.
+  const mintWithSignature = async () => {
+    try {
+      if (!logoImagesAssets || !collectionName) {
+        alert("Please enter a name and upload a file.");
+        return;
+      }
+
+      // Upload image to IPFS using Storage
+      const uris = await upload({
+        data: [logoImagesAssets],
+      });
+
+      // Make a request to /api/server
+      const signedPayloadReq = await fetch(`/api/server`, {
+        method: "POST",
+        body: JSON.stringify({
+          authorAddress: address, // Address of the current user
+          nftName: collectionName,
+          imagePath: uris[0],
+        }),
+      });
+
+      // Grab the JSON from the response
+      const json = await signedPayloadReq.json();
+
+      if (!signedPayloadReq.ok) {
+        alert(json.error);
+      }
+
+      // If the request succeeded, we'll get the signed payload from the response.
+      // The API should come back with a JSON object containing a field called signedPayload.
+      // This line of code will parse the response and store it in a variable called signedPayload.
+      const signedPayload = json.signedPayload;
+
+      // Now we can call signature.mint and pass in the signed payload that we received from the server.
+      // This means we provided a signature for the user to mint an NFT with.
+      const nft = await nftCollection?.signature.mint(signedPayload);
+
+      alert("Minted succesfully!");
+
+      return nft;
+    } catch (e) {
+      console.error("An error occurred trying to mint the NFT:", e);
+    }
+  };
+
   return (
     <div>
       <Meta title="Create || Artlux  NFT Marketplace " />
@@ -105,19 +220,14 @@ const Create = ({ blockchainList, categoryList }) => {
             {/* <!-- File Upload --> */}
             <div className="mb-6">
               <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Image, Video, Audio, or 3D Model
+                Featured image
                 <span className="text-red">*</span>
               </label>
-
-              {file ? (
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  successfully uploaded : {file}
-                </p>
-              ) : (
-                <p className="dark:text-jacarta-300 text-2xs mb-3">
-                  Drag or choose your file to upload
-                </p>
-              )}
+              <p className="dark:text-jacarta-300 text-2xs mb-3">
+                This image will be used for featuring your collection on the
+                homepage, category pages, or other promotional areas of OpenSea.
+                600 x 400 recommended.
+              </p>
 
               <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
                 <div className="relative z-10 cursor-pointer">
@@ -136,13 +246,13 @@ const Create = ({ blockchainList, categoryList }) => {
                   </p>
                 </div>
                 <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
-                  <FileUploader
-                    handleChange={handleChange}
-                    name="file"
-                    types={fileTypes}
-                    classes="file-drag"
-                    maxSize={100}
-                    minSize={0}
+                  <input
+                    accept="image/*"
+                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                    type="file"
+                    name="bgfile"
+                    id="bgfile"
+                    onChange={handleLogoImage}
                   />
                 </div>
               </div>
@@ -161,6 +271,7 @@ const Create = ({ blockchainList, categoryList }) => {
                 className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
                 placeholder="Item name"
                 required
+                onChange={(e) => setCollectionName(e.target.value)}
               />
             </div>
 
@@ -200,10 +311,11 @@ const Create = ({ blockchainList, categoryList }) => {
                 className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
                 rows="4"
                 required
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Provide a detailed description of your item."></textarea>
             </div>
 
-            {/* <!-- Collection --> */}
+            {/* <!-- Collection --> 
             <div className="relative">
               <div>
                 <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
@@ -236,16 +348,16 @@ const Create = ({ blockchainList, categoryList }) => {
                 </div>
               </div>
 
-              {/* dropdown */}
+            
               <div className="dropdown my-1 cursor-pointer">
                 <Collection_dropdown2
                   data={collectionDropdown2_data}
                   collection={true}
                 />
               </div>
-            </div>
+            </div> */}
 
-            {/* <!-- Properties --> */}
+            {/* <!-- Properties --> 
             {popupItemData.map(({ id, name, text, icon }) => {
               return (
                 <div
@@ -280,13 +392,13 @@ const Create = ({ blockchainList, categoryList }) => {
                   </div>
                 </div>
               );
-            })}
+            })} 
 
-            <Proparties_modal />
+            <Proparties_modal /> */}
 
             {/* <!-- Properties --> */}
 
-            {/* <!-- Unlockable Content --> */}
+            {/* <!-- Unlockable Content --> 
             <div className="dark:border-jacarta-600 border-jacarta-100 relative border-b py-6">
               <div className="flex items-center justify-between">
                 <div className="flex">
@@ -317,9 +429,9 @@ const Create = ({ blockchainList, categoryList }) => {
                   className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
                 />
               </div>
-            </div>
+            </div> */}
 
-            {/* <!-- Explicit & Sensitive Content --> */}
+            {/* <!-- Explicit & Sensitive Content --> 
             <div className="dark:border-jacarta-600 border-jacarta-100 relative mb-6 border-b py-6">
               <div className="flex items-center justify-between">
                 <div className="flex">
@@ -371,7 +483,7 @@ const Create = ({ blockchainList, categoryList }) => {
                   className="checked:bg-accent checked:focus:bg-accent checked:hover:bg-accent after:bg-jacarta-400 bg-jacarta-100 relative h-6 w-[2.625rem] cursor-pointer appearance-none rounded-full border-none after:absolute after:top-[0.1875rem] after:left-[0.1875rem] after:h-[1.125rem] after:w-[1.125rem] after:rounded-full after:transition-all checked:bg-none checked:after:left-[1.3125rem] checked:after:bg-white focus:ring-transparent focus:ring-offset-0"
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* <!-- Supply --> */}
             <div className="mb-6">
@@ -496,11 +608,19 @@ const Create = ({ blockchainList, categoryList }) => {
             </div>
 
             {/* <!-- Submit --> */}
-            <button
-              disabled
-              className="bg-accent-lighter cursor-default rounded-full py-3 px-8 text-center font-semibold text-white transition-all">
-              Create
-            </button>
+
+            <Web3Button
+              // The contract address
+              contractAddress="0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A"
+              action={() => {
+                mintWithSignature();
+                mintNFT();
+              }}
+
+              // Access the contract itself, perform any action you want on it:
+            >
+              Mint NFT
+            </Web3Button>
           </div>
         </div>
       </section>

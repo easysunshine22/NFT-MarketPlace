@@ -5,6 +5,7 @@ import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
 import Image from "next/image";
+
 // ThirdWeb
 // import { useWeb3 } from "@3rdweb/hooks";
 import {

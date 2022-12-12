@@ -10,9 +10,19 @@ import NotableCard from "./notableCard";
 
 const coverCarousel = ({ collectionItem }) => {
   return (
-    <>
+    <section class="notable-collection-section">
       {/* <!-- Coverflow Slider --> */}
-      <div className="relative px-6 pb-16 sm:px-0">
+      <img class="shape2" src="/images/shape-left.png" alt="" />
+      <div className="notable-collections">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="section-title text-center">
+                <h2>Notable collections</h2>
+              </div>
+            </div>
+          </div>
+        </div>
         {/* <!-- Slider --> */}
         <Swiper
           breakpoints={{
@@ -57,7 +67,7 @@ const coverCarousel = ({ collectionItem }) => {
             nextEl: ".swiper-button-next-4",
             prevEl: ".swiper-button-prev-4",
           }}
-          className="swiper coverflow-slider !py-5">
+          className="swiper coverflow-slider !py-5 collection-slider-area">
           {collectionItem.map((collectionItem, index) => (
             <SwiperSlide>
               <NotableCard
@@ -69,32 +79,9 @@ const coverCarousel = ({ collectionItem }) => {
           ))}
         </Swiper>
 
-        <div className="swiper-button-prev-4 group absolute top-1/2 left-4 z-10 -mt-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            className="fill-jacarta-700 group-hover:fill-accent">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M10.828 12l4.95 4.95-1.414 1.414L8 12l6.364-6.364 1.414 1.414z" />
-          </svg>
-        </div>
-        <div className="swiper-button-next-4 group absolute top-1/2 right-4 z-10 -mt-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            className="fill-jacarta-700 group-hover:fill-accent">
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
-          </svg>
-        </div>
-
         {/* <!-- end coverflow slider --> */}
       </div>
-    </>
+    </section>
   );
 };
 

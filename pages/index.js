@@ -11,6 +11,7 @@ import RanksComp from "../components/cards/ranksComp";
 import CoverCarousel from "../components/cards/coverCarousel";
 import SpotlightCards from "../components/cards/spotlightCards";
 import ListCategories from "../components/cards/listCategories";
+import NoteSection from "../components/frontpage/noteSection";
 // ThirdWeb
 import { useAddress } from "@thirdweb-dev/react";
 // sanity
@@ -40,6 +41,7 @@ const Home = ({ animals, categoryList, blockchainList }) => {
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
+
       {animals.length > 0 && <Hero collectionItem={animals} />}
       {animals.length && blockchainList.length > 0 && (
         <RanksComp collectionItem={animals} blockchainList={blockchainList} />
