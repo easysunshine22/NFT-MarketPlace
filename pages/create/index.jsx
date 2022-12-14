@@ -18,6 +18,7 @@ import {
   useNFTs,
   useStorageUpload,
   Web3Button,
+  useSDK,
 } from "@thirdweb-dev/react";
 // sanity
 import sanityClient from "@sanity/client";
@@ -43,12 +44,7 @@ const Create = ({ blockchainList, categoryList }) => {
   const address = useAddress();
   const { mutateAsync: upload } = useStorageUpload();
 
-  // Fetch the NFT collection from thirdweb via it's contract address.
-  const { contract: nftCollection } = useContract(
-    // Replace this with your NFT Collection contract address
-    "0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A",
-    "nft-collection"
-  );
+  const sdk = useSDK();
 
   const [collectionList, setCollectionList] = useState({});
   const [logoImagesAssets, setLogoImagesAssets] = useState(null);
@@ -67,6 +63,8 @@ const Create = ({ blockchainList, categoryList }) => {
   const [activeItem, setActiveItem] = useState(null);
   const [dropdown, setDropdown] = useState(false);
   const [selectedCat, setSelectedCat] = useState(null);
+
+  const [editionAddress, setEditionAddress] = useState(null);
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "collections" && createdBy._ref == "${address}"] {
@@ -141,6 +139,38 @@ const Create = ({ blockchainList, categoryList }) => {
       },
     };
     await client.create(userDoc);
+  }
+
+  async function deployContract() {
+    const contractAddress = await sdk.deployer.deployEdition({
+      name: nftName,
+      primary_sale_recipient: address,
+    });
+
+    console.log(contractAddress);
+    setEditionAddress(contractAddress);
+    mintEditionNFT();
+  }
+
+  const editionDropAddress = editionAddress;
+  const { contract: editionDrop } = useContract(editionDropAddress, "edition");
+  async function mintEditionNFT() {
+    // Custom metadata of the NFT, note that you can fully customize this metadata with other properties.
+    const metadata = {
+      name: nftName,
+      description: description,
+      image: image, // This can be an image url or file
+    };
+
+    const metadataWithSupply = {
+      metadata,
+      supply: 1000, // The number of this NFT you want to mint
+    };
+
+    const tx = await editionDrop.mintTo(address, metadataWithSupply);
+    const receipt = tx.receipt; // the transaction receipt
+    const tokenId = tx.id; // the id of the NFT minted
+    const mintedNft = await tx.data(); // (optional) fetch details of minted NFT
   }
 
   const handleLogoImage = (e) => {
@@ -765,33 +795,13 @@ const Create = ({ blockchainList, categoryList }) => {
 
             {/* <!-- Submit --> */}
 
-            <Web3Button
+            <button
               // The contract address
-              contractAddress="0x03f1612a4343BFdFe3608b6C750e5A58CbadFD3A"
-              // Access the contract itself, perform any action you want on it:
-              action={() => mintWithSignature()}
-              // Or just call the function name and parameters directly:
-              // functionName="mintTo"
-              // // The mintTo Function on this contract accepts two parameters, we can pass them in an array here.
-              // params={[
-              //   // First parameter is the address to mint to
-              //   address,
-              //   // Second parameter is the metadata URI
-              //   "ipfs://Qmf9csTfndWRgH2z35WUBm9jTuQKfSv1dJC9YKW6iTZkDP/0",
-              // ]}
 
-              // Some customization of colors and styling
-              colorMode="dark"
-              // If the function is successful, we can do something here.
-              onSuccess={(result) => {
-                mintUploadNFT();
-                console.log(result);
-              }}
-              onSubmit={() => console.log("Submitting")}
-              // If the function fails, we can do something here.
-              onError={(error) => console.error(error)}>
+              // Access the contract itself, perform any action you want on it:
+              onClick={() => deployContract()}>
               Mint NFT
-            </Web3Button>
+            </button>
           </div>
         </div>
       </section>
