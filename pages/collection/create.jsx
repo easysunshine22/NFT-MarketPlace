@@ -18,7 +18,10 @@ import { user } from "../../lib/user";
 import sanityClient from "@sanity/client";
 import ChainDropdown from "../../components/cards/chainDropdown";
 import CategoryDropdown from "../../components/cards/categoryDropdown";
-
+//Components
+import BannerUploader from "../../components/ayrisdev/bannerUploader";
+import ImageUploader from "../../components/ayrisdev/imageUploader";
+import FeaturedUploader from "../../components/ayrisdev/featuredUploader";
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
 
@@ -96,15 +99,20 @@ const CreateColl = ({ blockchainList, categoryList }) => {
   const router = useRouter();
   const address = useAddress();
   const sdk = useSDK();
+  const [collectionAddress, setCollectionAddress] = useState();
 
   // photo upload
   console.log(selectedChain + "selected");
+  const [preview, setPreview] = useState();
+  const [bannerPreview, setBannerPreview] = useState();
+  const [featuredPreview, setFeaturedPreview] = useState();
   const [logoImagesAssets, setLogoImagesAssets] = useState(null);
   const [bannerImagesAssets, setBannerImagesAssets] = useState(null);
   const [featuredImagesAssets, setFeaturedImagesAssets] = useState(null);
 
   const handleLogoImage = (e) => {
     const selectedLogoImage = e.target.files[0];
+    setPreview(URL.createObjectURL(e.target.files[0]));
     user.assets
       .upload("image", selectedLogoImage, {
         contentType: selectedLogoImage.type,
@@ -121,6 +129,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
 
   const handleBannerImage = (e) => {
     const selectedBannerImage = e.target.files[0];
+    setBannerPreview(URL.createObjectURL(e.target.files[0]));
     user.assets
       .upload("image", selectedBannerImage, {
         contentType: selectedBannerImage.type,
@@ -137,6 +146,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
 
   const handleFeaturedImage = (e) => {
     const selectedFeaturedImage = e.target.files[0];
+    setFeaturedPreview(URL.createObjectURL(e.target.files[0]));
     user.assets
       .upload("image", selectedFeaturedImage, {
         contentType: selectedFeaturedImage.type,
@@ -160,6 +170,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
       webAddress: website,
       twitterAddress: twitter,
       telegramAddress: telegram,
+      collectionAddress: collectionAddress,
       createdBy: {
         _type: "reference",
         _ref: address,
@@ -175,7 +186,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
       volumeTraded: 0,
       floorPrice: 0,
     };
-    await client.createIfNotExists(userDoc);
+    await client.create(userDoc);
 
     updateLogoImage();
     updateBannerImage();
@@ -237,6 +248,15 @@ const CreateColl = ({ blockchainList, categoryList }) => {
       });
   };
 
+  async function deployCollection() {
+    const contractAddress = await sdk.deployer.deployNFTCollection({
+      name: collectionName,
+      primary_sale_recipient: address,
+    });
+    await setCollectionAddress(contractAddress);
+    createCollection();
+  }
+
   return (
     <div>
       <Meta title="Create Collection || Ayris.Dev NFT Marketplace" />
@@ -267,114 +287,82 @@ const CreateColl = ({ blockchainList, categoryList }) => {
                 recommended.
               </p>
 
-              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col  w-32 h-32 items-center justify-center rounded-full border-2 border-dashed bg-white px-5 text-center">
-                <div className="relative z-10 cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-jacarta-500 mb-4 inline-block rounded-full dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                  </svg>
-                </div>
-                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded-full w-24 h-24 flex items-center justify-end opacity-0 group-hover:opacity-100 ">
-                  <input
-                    accept="image/*"
-                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                    type="file"
-                    name="bgfile"
-                    id="bgfile"
-                    onChange={handleLogoImage}
+              {preview ? (
+                <div className="mb-4">
+                  <img
+                    src={preview}
+                    onClick={() => {
+                      setPreview(undefined);
+                      setLogoImagesAssets(undefined);
+                    }}
+                    className="max-w-full h-auto rounded-lg"
+                    alt=""
                   />
                 </div>
-              </div>
+              ) : (
+                <ImageUploader handleLogoImage={handleLogoImage} />
+              )}
             </div>
 
             {/* <!-- Collection Banner Image Upload --> */}
 
             <div className="mb-6">
               <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Featured image
-                <span className="text-red">*</span>
-              </label>
-              <p className="dark:text-jacarta-300 text-2xs mb-3">
-                This image will be used for featuring your collection on the
-                homepage, category pages, or other promotional areas of OpenSea.
-                600 x 400 recommended.
-              </p>
-
-              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
-                <div className="relative z-10 cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                  </svg>
-                  <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
-                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
-                    size: 100 MB
-                  </p>
-                </div>
-                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
-                  <input
-                    accept="image/*"
-                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                    type="file"
-                    name="bgfile"
-                    id="bgfile"
-                    onChange={handleFeaturedImage}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* <!-- Collection Featured Image Upload --> */}
-
-            <div className="mb-6">
-              <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
                 Banner image
                 <span className="text-red">*</span>
               </label>
-
               <p className="dark:text-jacarta-300 text-2xs mb-3">
                 This image will appear at the top of your collection page. Avoid
                 including too much text in this banner image, as the dimensions
                 change on different devices. 1400 x 350 recommended.
               </p>
 
-              <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex max-w-md flex-col items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
-                <div className="relative z-10 cursor-pointer">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    className="fill-jacarta-500 mb-4 inline-block dark:fill-white">
-                    <path fill="none" d="M0 0h24v24H0z" />
-                    <path d="M16 13l6.964 4.062-2.973.85 2.125 3.681-1.732 1-2.125-3.68-2.223 2.15L16 13zm-2-7h2v2h5a1 1 0 0 1 1 1v4h-2v-3H10v10h4v2H9a1 1 0 0 1-1-1v-5H6v-2h2V9a1 1 0 0 1 1-1h5V6zM4 14v2H2v-2h2zm0-4v2H2v-2h2zm0-4v2H2V6h2zm0-4v2H2V2h2zm4 0v2H6V2h2zm4 0v2h-2V2h2zm4 0v2h-2V2h2z" />
-                  </svg>
-                  <p className="dark:text-jacarta-300 mx-auto max-w-xs text-xs">
-                    JPG, PNG, GIF, SVG, MP4, WEBM, MP3, WAV, OGG, GLB, GLTF. Max
-                    size: 100 MB
-                  </p>
-                </div>
-                <div className="dark:bg-jacarta-600 bg-jacarta-50 absolute inset-4 cursor-pointer rounded opacity-0 group-hover:opacity-100 ">
-                  <input
-                    accept="image/*"
-                    className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                    type="file"
-                    name="bgfile"
-                    id="bgfile"
-                    onChange={handleBannerImage}
+              {bannerPreview ? (
+                <div className="mb-4">
+                  <img
+                    src={bannerPreview}
+                    onClick={() => {
+                      setBannerPreview(undefined);
+                      setBannerImagesAssets(undefined);
+                    }}
+                    className="max-w-full h-auto rounded-lg"
+                    alt=""
                   />
                 </div>
-              </div>
+              ) : (
+                <BannerUploader handleBannerImage={handleBannerImage} />
+              )}
+            </div>
+
+            {/* <!-- Collection Featured Image Upload --> */}
+
+            <div className="mb-6">
+              <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                Featured image
+                <span className="text-red">*</span>
+              </label>
+
+              <p className="dark:text-jacarta-300 text-2xs mb-3">
+                This image will be used for featuring your collection on the
+                homepage, category pages, or other promotional areas of OpenSea.
+                600 x 400 recommended.
+              </p>
+
+              {featuredPreview ? (
+                <div className="mb-4">
+                  <img
+                    src={featuredPreview}
+                    onClick={() => {
+                      setFeaturedPreview(undefined);
+                      setFeaturedImagesAssets(undefined);
+                    }}
+                    className="max-w-full h-auto rounded-lg"
+                    alt=""
+                  />
+                </div>
+              ) : (
+                <FeaturedUploader handleFeaturedImage={handleFeaturedImage} />
+              )}
             </div>
 
             {/* <!-- Name --> */}
@@ -643,7 +631,7 @@ const CreateColl = ({ blockchainList, categoryList }) => {
             {/* <!-- Submit --> */}
             <button
               className="bg-accent-lighter hover:bg-jacarta-300 cursor-default rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-              onClick={() => createCollection()}>
+              onClick={() => deployCollection()}>
               Create Collection
             </button>
           </div>

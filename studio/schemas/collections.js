@@ -9,6 +9,11 @@ export default {
       type: "string",
     },
     {
+      name: "contractAddress",
+      title: "ContractAddress",
+      type: "string",
+    },
+    {
       name: "description",
       title: "Description",
       type: "string",

@@ -24,14 +24,6 @@ function MyApp({ Component, pageProps }) {
     scrollPos: 0,
   });
 
-  useEffect(() => {
-    // if (pid === '/home/home_8') {
-    // 	const html = document.querySelector('html');
-    // 	html.classList.remove('light');
-    // 	html.classList.add('dark');
-    // }
-  }, []);
-
   return (
     <>
       <Meta title="Artlux  NFT Marketplace " />
@@ -44,12 +36,11 @@ function MyApp({ Component, pageProps }) {
               authConfig={{
                 domain: "example.org",
                 authUrl: "/api/auth",
-                loginRedirect: "/",
               }}
               autoConnect="true"
               chainRPC={{
                 [ChainId.BinanceSmartChainTestnet]:
-                  "https://data-seed-prebsc-1-s3.binance.org:8545	",
+                  "https://data-seed-prebsc-1-s3.binance.org:8545",
               }}>
               <UserContext.Provider value={{ scrollRef: scrollRef }}>
                 {pid === "/login" ? (
