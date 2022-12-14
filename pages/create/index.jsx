@@ -68,23 +68,23 @@ const Create = () => {
 
                 <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex  s:flex-col sx:flex-row items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
                   <Link href="/create/erc-721" className="cursor-pointer">
-                    <div class="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl mx-16">
+                    <div className="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl mx-16">
                       <img
                         src="/images/266f63b07dfa0c7a232b.png"
-                        class="h-32"
+                        className="h-32"
                       />
-                      <span class="mt-6 text-sm ?leading-5 font-semibold text-center">
+                      <span className="mt-6 text-sm ?leading-5 font-semibold text-center">
                         Singe Items
                       </span>
                     </div>
                   </Link>
                   <Link href="#">
-                    <div class="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl  mx-16">
+                    <div className="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl  mx-16">
                       <img
                         src="/images/715e004b0e940213d5a0.png"
-                        class="h-32"
+                        className="h-32"
                       />
-                      <span class="mt-6 text-sm ?leading-5 font-semibold text-center">
+                      <span className="mt-6 text-sm ?leading-5 font-semibold text-center">
                         Multiple Items
                       </span>
                     </div>
