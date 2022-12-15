@@ -77,7 +77,11 @@ const User = () => {
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}
         <div className="relative h-[18.75rem]">
-          <img src={collection.bannerImageUrl} alt="banner" />
+          <img
+            src={collection.bannerImageUrl}
+            alt="banner"
+            className="object-cover"
+          />
         </div>
         {/* <!-- end banner --> */}
         <section className="dark:bg-jacarta-800 bg-light-base relative pb-12 pt-28">

@@ -1,52 +1,27 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import { collection_item_data } from "../../data/collection_data";
 import Auctions_dropdown from "../../components/dropdown/Auctions_dropdown";
 import Social_dropdown from "../../components/dropdown/Social_dropdown";
-import CollectionCards from "../../components/cards/collectionCards";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
 import Meta from "../../components/Meta";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import MyNFTContainer from "../../components/ayrisdev/myNFTContainer";
 
 //sanity
 import { client } from "../../lib/sanityClient";
 // thirdweb
-import {
-  MediaRenderer,
-  useNetwork,
-  useNetworkMismatch,
-  useListing,
-  useContract,
-  useNFTs,
-  useActiveListings,
-  ThirdwebNftMedia,
-} from "@thirdweb-dev/react";
-import {
-  ChainId,
-  ListingType,
-  Marketplace,
-  NATIVE_TOKENS,
-} from "@thirdweb-dev/sdk";
 
 const Collection = () => {
   //Sanity
   const router = useRouter();
   const { collectionId } = router.query;
   const [collection, setCollection] = useState({});
-  const [nftsData, setNftsData] = useState({});
-  const [collId, setCollId] = useState({});
+
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
-
-  // Connect your marketplace smart contract here (replace this address)
-  const { contract: marketplace } = useContract(
-    "0xa744878C6e516317c2F74807d013c53a51200bCb", // Your marketplace contract address here
-    "marketplace"
-  );
-
-  const { data: listings, isLoading: isLoadingListing } =
-    useActiveListings(marketplace);
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
@@ -67,27 +42,11 @@ const Collection = () => {
     const collectionData = await sanityClient.fetch(query);
 
     console.log(collectionData, "🔥");
-
-    // the query returns 1 object inside of an array
-    await setCollection(collectionData[0]);
-    await setCollId(collectionData[0]._id);
-    console.log(collId, "collId");
-    const nftQuery = `*[_type == "nft" && collections._ref=="${collId}"] {
-      title,
-        logoImage,
-        collections,
-      }`;
-    const nftsDataa = await sanityClient.fetch(nftQuery);
-    console.log(nftsDataa, "nftsDataa🔥");
-    await setNftsData(nftsDataa);
   };
 
   useEffect(() => {
     fetchCollectionData();
   }, [collectionId]);
-
-  console.log(router.query);
-  console.log(router.query.collectionId);
 
   const handleLikes = () => {
     if (!likesImage) {
@@ -98,9 +57,7 @@ const Collection = () => {
   };
 
   return (
-    <div>
-      <Meta title={`${collection.title} || Artlux  NFT Marketplace `} />
-
+    <>
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}
         <div className="relative h-[300px]">
@@ -108,9 +65,10 @@ const Collection = () => {
             src={
               collection?.bannerImageUrl
                 ? collection.bannerImageUrl
-                : "https://via.placeholder.com/200"
+                : "/images/cta-bg.jpg"
             }
             alt="banner"
+            className="object-fill h-[300px] w-full"
           />
         </div>
         {/* <!-- end banner --> */}
@@ -235,7 +193,7 @@ const Collection = () => {
         {/* <!-- end profile --> */}
       </div>
 
-      <section className="relative mt-24 lg:pb-48 pb-24">
+      <section className="relative py-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           {/* <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" /> */}
           <Image
@@ -245,29 +203,12 @@ const Collection = () => {
             layout="fill"
           />
         </picture>
-        {/* <!-- end profile -->   */}
-        <div className="container">
-          {!isLoadingListing ? (
-            <div className="">
-              <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-                {nftsData.map((nftItem) => (
-                  <CollectionCards
-                    key={nftItem.metadata.id}
-                    nftItem={nftItem}
-                    title={collection?.title}
-                    listings={listings}
-                  />
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
-              Loading
-            </div>
-          )}
-        </div>
+
+        {/* <!-- Tabs Nav --> */}
+
+        <MyNFTContainer />
       </section>
-    </div>
+    </>
   );
 };
 

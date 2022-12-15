@@ -19,6 +19,11 @@ export default {
       type: "string",
     },
     {
+      name: "collectionType",
+      title: "CollectionType",
+      type: "string",
+    },
+    {
       name: "webAddress",
       title: "WebSite Address",
       type: "string",

@@ -156,7 +156,7 @@ export async function getStaticProps() {
      "bannerImageUrl": bannerImage.asset->url,
  "featuredImageUrl": featuredImage.asset->url,
      volumeTraded,
-     createdBy,
+   
      contractAddress,
  creator,
      "createdBy": createdBy->userName,

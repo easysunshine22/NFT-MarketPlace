@@ -1,7 +1,10 @@
 // React
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import Tippy from "@tippyjs/react";
 import Meta from "../../components/Meta";
+import { RadioGroup } from "@headlessui/react";
+import NcImage from "../../components/ayrisdev/NcImage/NcImage";
 //Thirdweb - Blockchain
 import {
   ThirdwebNftMedia,
@@ -22,7 +25,25 @@ import ImageUploader from "../../components/ayrisdev/imageUploader";
 // Icons
 import { IoCreateOutline } from "react-icons/io5";
 
-const ERC721 = () => {
+const plans = [
+  {
+    name: "Artlux Collection",
+    selCollAddress: "artluxCollectionAddress",
+    activeCat: "Artlux Collection",
+    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+  },
+  {
+    name: "Create Collection",
+    href: "/collection/create",
+  },
+];
+
+const ERC721 = ({ collectionListe }) => {
+  const [selected, setSelected] = useState(plans[1]);
+  const router = useRouter();
+  const createPage = () => {
+    router.push(`/collection/create`);
+  };
   //Thirdweb
   const sdk = useSDK();
   const address = useAddress();
@@ -219,6 +240,10 @@ const ERC721 = () => {
     );
   }
 
+  if (collectionListe.includes(nftName)) {
+    console.log("✅ array contains apple");
+  }
+
   return (
     <div>
       <Meta title="Create || Artlux  NFT Marketplace " />
@@ -336,208 +361,189 @@ const ERC721 = () => {
               </div>
 
               {/* <!-- Collections --> */}
-              <div className="mb-6">
-                <label
-                  htmlFor="item-supply"
-                  className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                  Collections
+              <div>
+                <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                  Choose collection
                 </label>
-                {/* dropdown */}
-
-                <div className="dropdown relative mb-4 cursor-pointer ">
-                  {collectionList.length > 0 ? (
-                    <>
-                      <div>
-                        <div
-                          className={
-                            dropdown
-                              ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
-                              : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
-                          }
-                          onClick={() => handleDropdown()}></div>
-
-                        <div
-                          className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
-                          onClick={() => handleDropdown()}>
-                          <span className="flex items-center">
-                            <img
-                              src={
-                                activeItem ? activeItem : "/images/artlux.png"
-                              }
-                              alt="eth"
-                              className="mr-2 h-5 w-5 rounded-full"
-                            />
-                            {activeCategory
-                              ? activeCategory
-                              : "Select Collection"}
-                          </span>
-
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="fill-jacarta-500 h-4 w-4 dark:fill-white">
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                          </svg>
-                        </div>
-                        <div
-                          className={
-                            dropdown
-                              ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
-                              : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
-                          }
-                          onClick={() => handleDropdown()}>
-                          <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
-                            {collectionList.map((collectionList, index) => (
-                              <li key={collectionList.id}>
-                                <button
-                                  href="#"
-                                  className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white"
-                                  onClick={() => {
-                                    setActiveItem(collectionList.logoImageUrl);
-                                    setActiveCategory(collectionList.title);
-                                    setSelectedCat(collectionList.id);
-                                    setSelectedCollectionAddress(
-                                      collectionList.contractAddress
-                                    );
-                                    console.log(selectedCollectionAddress);
-                                  }}>
-                                  <span className="flex items-center space-x-3">
-                                    <img
-                                      src={collectionList.logoImageUrl}
-                                      className="h-8 w-8 rounded-full"
-                                      loading="lazy"
-                                      alt="avatar"
-                                    />
-                                    <span className="text-jacarta-700 dark:text-white">
-                                      {collectionList.title}
-                                    </span>
-                                  </span>
-                                  {activeItem ===
-                                    collectionList.logoImageUrl && (
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 24 24"
-                                      width="24"
-                                      height="24"
-                                      className="fill-accent mb-[3px] h-4 w-4">
-                                      <path
-                                        fill="none"
-                                        d="M0 0h24v24H0z"></path>
-                                      <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                    </svg>
-                                  )}
-                                </button>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <div
-                          className={
-                            dropdown
-                              ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
-                              : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
-                          }
-                          onClick={() => handleDropdown()}></div>
-
-                        <div
-                          className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
-                          onClick={() => handleDropdown()}>
-                          <span className="flex items-center">
-                            <img
-                              src={
-                                activeItem ? activeItem : "/images/artlux.png"
-                              }
-                              alt="eth"
-                              className="mr-2 h-5 w-5 rounded-full"
-                            />
-                            {activeCategory
-                              ? activeCategory
-                              : "Select Collection"}
-                          </span>
-
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width="24"
-                            height="24"
-                            className="fill-jacarta-500 h-4 w-4 dark:fill-white">
-                            <path fill="none" d="M0 0h24v24H0z"></path>
-                            <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                          </svg>
-                        </div>
-
-                        <div
-                          className={
-                            dropdown
-                              ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
-                              : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
-                          }
-                          onClick={() => handleDropdown()}>
-                          <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
-                            <li>
-                              <button
-                                onClick={() => {
-                                  setSelectedCollectionAddress(
-                                    artluxCollectionAddress
-                                  );
-                                  setActiveItem("/images/artlux.png");
-                                  setActiveCategory("Artlux Collection");
-                                  setSelectedCat(
-                                    "d35fff87-116e-4c53-a478-21b588b295a4"
-                                  );
-                                }}
-                                className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white">
-                                <span className="flex items-center space-x-3">
-                                  <img
-                                    src="/images/artlux.png"
-                                    className="h-8 w-8 rounded-full"
-                                    loading="lazy"
-                                    alt="avatar"
-                                  />
-                                  <span className="text-jacarta-700 dark:text-white">
-                                    Artlux Collection
-                                  </span>
-                                </span>
-
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="fill-accent mb-[3px] h-4 w-4">
-                                  <path fill="none" d="M0 0h24v24H0z"></path>
-                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                </svg>
-                              </button>
-                            </li>
-                            <li>
-                              <button
-                                href="/collection/create"
-                                className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white">
-                                <span className="flex items-center space-x-3">
-                                  <IoCreateOutline className="h-8 w-8 rounded-full" />
-                                  <span className="text-jacarta-700 dark:text-white">
-                                    Create Collection
-                                  </span>
-                                </span>
-
-                                <IoCreateOutline />
-                              </button>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                <div className="text-neutral-500 dark:text-neutral-400 text-sm">
+                  Choose an exiting collection or create a new one
                 </div>
+
+                <RadioGroup value={selected} onChange={setSelected}>
+                  <RadioGroup.Label className="sr-only">
+                    Server size
+                  </RadioGroup.Label>
+                  <div className="flex overflow-auto py-2 space-x-4 customScrollBar">
+                    {collectionList.length > 0 ? (
+                      <>
+                        {collectionList.map((collectionList, index) => (
+                          <RadioGroup.Option
+                            key={index}
+                            value={collectionList}
+                            className={({ active, checked }) =>
+                              `${
+                                active
+                                  ? "ring-2 ring-offset-2 ring-offset-sky-300 ring-white ring-opacity-60"
+                                  : ""
+                              }
+                  ${
+                    checked
+                      ? "bg-teal-600 text-white"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  }
+                    relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
+                            }>
+                            {({ active, checked }) => (
+                              <>
+                                <div className="flex items-center justify-center w-full">
+                                  <div className="flex items-center">
+                                    <div className="text-sm">
+                                      <div className="flex items-center justify-center">
+                                        <RadioGroup.Description
+                                          as="div"
+                                          className={"w-24 rounded-xl"}>
+                                          <NcImage
+                                            containerClassName="aspect-w-1 aspect-h-1 rounded-xl overflow-hidden"
+                                            src={collectionList.logoImageUrl}
+                                          />
+                                        </RadioGroup.Description>
+                                        {checked && (
+                                          <div className="flex-shrink-0 text-white">
+                                            <CheckIcon className="w-6 h-6" />
+                                          </div>
+                                        )}
+                                      </div>
+                                      <RadioGroup.Label
+                                        as="p"
+                                        className={`font-semibold mt-3  ${
+                                          checked ? "text-white" : ""
+                                        }`}>
+                                        {collectionList.title}
+                                      </RadioGroup.Label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </>
+                            )}
+                          </RadioGroup.Option>
+                        ))}{" "}
+                      </>
+                    ) : (
+                      <>
+                        <RadioGroup.Option
+                          value="artlux"
+                          onClick={() => {
+                            setSelectedCollectionAddress(
+                              artluxCollectionAddress
+                            );
+                            setActiveItem("/images/artlux.png");
+                            setActiveCategory("Artlux Collection");
+                            setSelectedCat(
+                              "d35fff87-116e-4c53-a478-21b588b295a4"
+                            );
+                            console.log(artluxCollectionAddress);
+                          }}
+                          className={({ active, checked }) =>
+                            `${
+                              active
+                                ? "ring-2 ring-offset-2 ring-offset-sky-300 ring-white ring-opacity-60"
+                                : ""
+                            }
+                  ${
+                    checked
+                      ? "bg-teal-600 text-white"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  }
+                    relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
+                          }>
+                          {({ active, checked }) => (
+                            <>
+                              <div className="flex items-center justify-center w-full">
+                                <div className="flex items-center">
+                                  <div className="text-sm">
+                                    <div className="flex items-center justify-center">
+                                      <RadioGroup.Description
+                                        as="div"
+                                        className={"rounded-full w-16"}>
+                                        <NcImage
+                                          containerClassName="aspect-w-1 aspect-h-1 rounded-full overflow-hidden"
+                                          src="/images/artlux.png"
+                                        />
+                                      </RadioGroup.Description>
+                                      {checked && (
+                                        <div className="flex-shrink-0 text-white">
+                                          <CheckIcon className="w-6 h-6" />
+                                        </div>
+                                      )}
+                                    </div>
+                                    <RadioGroup.Label
+                                      as="p"
+                                      className={`font-semibold mt-3  ${
+                                        checked ? "text-white" : ""
+                                      }`}>
+                                      Artlux Collection
+                                    </RadioGroup.Label>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                        <RadioGroup.Option
+                          onClick={() => {
+                            createPage();
+                          }}
+                          value="create"
+                          className={({ active, checked }) =>
+                            `${
+                              active
+                                ? "ring-2 ring-offset-2 ring-offset-sky-300 ring-white ring-opacity-60"
+                                : ""
+                            }
+                  ${
+                    checked
+                      ? "bg-teal-600 text-white"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  }
+                    relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
+                          }>
+                          {({ active, checked }) => (
+                            <>
+                              <div className="flex items-center justify-center w-full">
+                                <div className="flex items-center">
+                                  <div className="text-sm">
+                                    <div className="flex items-center justify-center">
+                                      <RadioGroup.Description
+                                        as="div"
+                                        className={"rounded-full w-16"}>
+                                        <NcImage
+                                          containerClassName="aspect-w-1 aspect-h-1 rounded-full overflow-hidden"
+                                          src="/images/create.png"
+                                        />
+                                      </RadioGroup.Description>
+                                      {checked && (
+                                        <div className="flex-shrink-0 text-white">
+                                          <CheckIcon className="w-6 h-6" />
+                                        </div>
+                                      )}
+                                    </div>
+                                    <RadioGroup.Label
+                                      as="p"
+                                      className={`font-semibold mt-3  ${
+                                        checked ? "text-white" : ""
+                                      }`}>
+                                      Create
+                                    </RadioGroup.Label>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                      </>
+                    )}
+                  </div>
+                </RadioGroup>
               </div>
 
               <div className="mb-6">{button}</div>
@@ -565,14 +571,28 @@ export async function getServerSideProps() {
   
 }`;
 
+  const collectionListQuery = `*[_type == "collections" ] {
+  "logoImageUrl": logoImage.asset->url,
+ title,
+ _id,
+contractAddress,
+
+}`;
+
   const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);
+  const collectionListe = await client.fetch(collectionListQuery);
 
-  if (!categoryList.length && !blockchainList.length) {
+  if (
+    !categoryList.length &&
+    !blockchainList.length &&
+    !collectionListe.length
+  ) {
     return {
       props: {
         categoryList: [],
         blockchainList: [],
+        collectionListe: [],
       },
     };
   } else {
@@ -580,7 +600,23 @@ export async function getServerSideProps() {
       props: {
         categoryList,
         blockchainList,
+        collectionListe,
       },
     };
   }
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none">
+      <circle cx={12} cy={12} r={12} fill="#fff" opacity="0.2" />
+      <path
+        d="M7 13l3 3 7-7"
+        stroke="#fff"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
