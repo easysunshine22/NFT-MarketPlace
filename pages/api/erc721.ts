@@ -1,7 +1,7 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function server(
+export default async function erc721(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

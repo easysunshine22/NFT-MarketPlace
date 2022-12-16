@@ -1,24 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { FileUploader } from "react-drag-drop-files";
 import { useDispatch } from "react-redux";
 import Meta from "../../components/Meta";
 import { buyModalShow } from "../../redux/counterSlice";
+import { RadioGroup } from "@headlessui/react";
+import NcImage from "../../components/ayrisdev/NcImage/NcImage";
+
 // ThirdWeb
-import {
-  useAddress,
-  useContract,
-  getContract,
-  useSDK,
-  Web3Button,
-} from "@thirdweb-dev/react";
+import { useAddress, useSDK, Web3Button } from "@thirdweb-dev/react";
 // sanity
 import { client } from "../../lib/sanityClient";
-import { user } from "../../lib/user";
-// sanity
-import sanityClient from "@sanity/client";
-import ChainDropdown from "../../components/cards/chainDropdown";
-import CategoryDropdown from "../../components/cards/categoryDropdown";
+
 //Components
 import BannerUploader from "../../components/ayrisdev/bannerUploader";
 import ImageUploader from "../../components/ayrisdev/imageUploader";
@@ -26,7 +17,20 @@ import FeaturedUploader from "../../components/ayrisdev/featuredUploader";
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
 
-import axios from "axios";
+const plans = [
+  {
+    name: "Artlux Collection",
+    selCollAddress: "artluxCollectionAddress",
+    activeCat: "Artlux Collection",
+    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+  },
+  {
+    name: "Artlux Collection",
+    selCollAddress: "artluxCollectionAddress",
+    activeCat: "Artlux Collection",
+    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+  },
+];
 
 const ERC721Coll = ({ blockchainList, categoryList }) => {
   const fileTypes = [
@@ -42,68 +46,29 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
     "GLB",
     "GLTF",
   ];
-  const [file, setFile] = useState("");
 
+  const [selected, setSelected] = useState(plans[1]);
   const dispatch = useDispatch();
 
-  const [dropdown, setDropdown] = useState(false);
-  const [bdropdown, setBdropdown] = useState(false);
-  const [activeItem, setActiveItem] = useState(null);
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [activeBlockItem, setActiveBlockItem] = useState(null);
-  const [activeChain, setActiveChain] = useState(null);
   const [selectedChain, setSelectedChain] = useState(null);
-  const [selectedCat, setSelectedCat] = useState(null);
-
-  const handleBlockDropdown = () => {
-    window.addEventListener("click", (w) => {
-      if (w.target.closest(".dropdown-toggle")) {
-        if (bdropdown) {
-          setBdropdown(false);
-        } else {
-          setBdropdown(true);
-        }
-      } else {
-        setBdropdown(false);
-      }
-    });
-  };
-  const handleDropdown = () => {
-    window.addEventListener("click", (w) => {
-      if (w.target.closest(".dropdown-toggle")) {
-        if (dropdown) {
-          setDropdown(false);
-        } else {
-          setDropdown(true);
-        }
-      } else {
-        setDropdown(false);
-      }
-    });
-  };
+  const [selectedCat, setSelectedCat] = useState();
+  const [selectedd, setSelectedd] = useState(plans[1]);
 
   //sanity
-
   const [collectionName, setCollectionName] = useState();
   const [description, setDescription] = useState();
   const [website, setWebsite] = useState();
   const [twitter, setTwitter] = useState();
   const [telegram, setTelegram] = useState();
-  const [feeAddress, setFeeAddress] = useState();
-  const [fee, setFee] = useState();
-  const [logoImage, setLogoImage] = useState();
-  const [bannerImage, setBannerImage] = useState();
-  const [featuredImage, setFeaturedImage] = useState();
 
-  const [caAddress, setCaAddress] = useState();
   // thirdweb
-  const router = useRouter();
   const address = useAddress();
   const sdk = useSDK();
   const [collectionAddress, setCollectionAddress] = useState();
 
   // photo upload
-  console.log(selectedChain + "selected");
+  console.log(selectedChain + "selectedchain");
+  console.log(selectedCat + "selectedCat");
   const [preview, setPreview] = useState();
   const [bannerPreview, setBannerPreview] = useState();
   const [featuredPreview, setFeaturedPreview] = useState();
@@ -114,7 +79,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   const handleLogoImage = (e) => {
     const selectedLogoImage = e.target.files[0];
     setPreview(URL.createObjectURL(e.target.files[0]));
-    user.assets
+    client.assets
       .upload("image", selectedLogoImage, {
         contentType: selectedLogoImage.type,
         filename: selectedLogoImage.name,
@@ -131,7 +96,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   const handleBannerImage = (e) => {
     const selectedBannerImage = e.target.files[0];
     setBannerPreview(URL.createObjectURL(e.target.files[0]));
-    user.assets
+    client.assets
       .upload("image", selectedBannerImage, {
         contentType: selectedBannerImage.type,
         filename: selectedBannerImage.name,
@@ -148,7 +113,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   const handleFeaturedImage = (e) => {
     const selectedFeaturedImage = e.target.files[0];
     setFeaturedPreview(URL.createObjectURL(e.target.files[0]));
-    user.assets
+    client.assets
       .upload("image", selectedFeaturedImage, {
         contentType: selectedFeaturedImage.type,
         filename: selectedFeaturedImage.name,
@@ -172,28 +137,28 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
       collectionType: "erc721",
       twitterAddress: twitter,
       telegramAddress: telegram,
-      collectionAddress: collectionAddress,
+      contractAddress: collectionAddress,
       createdBy: {
         _type: "reference",
         _ref: address,
       },
       categories: {
         _type: "reference",
-        _ref: selectedCat,
+        _ref: `${selectedCat}`,
       },
       blockchain: {
         _type: "reference",
-        _ref: selectedChain,
+        _ref: `${selectedChain}`,
       },
       volumeTraded: 0,
       floorPrice: 0,
     };
     await client.create(userDoc);
 
-    updateLogoImage();
-    updateBannerImage();
-    updateFeaturedImage();
-    dispatch(buyModalShow());
+    await updateLogoImage();
+    await updateBannerImage();
+    await updateFeaturedImage();
+    notify();
   }
 
   const updateLogoImage = async (sanityClient = client) => {
@@ -259,6 +224,20 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
     createCollection();
   }
 
+  const notify = (collectionAddress) =>
+    toast(`Your Collection Deployed ${collectionAddress}!`, {
+      icon: "👏",
+      style: {
+        border: "1px solid #713200",
+        padding: "16px",
+        color: "#713200",
+      },
+      iconTheme: {
+        primary: "#713200",
+        secondary: "#FFFAEE",
+      },
+    });
+
   return (
     <div>
       <Meta title="Create Collection || Ayris.Dev NFT Marketplace" />
@@ -272,6 +251,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
           />
         </picture>
         <div className="container">
+          <Toaster />
           <h1 className="font-display text-jacarta-700 py-16 text-center text-4xl font-medium dark:text-white">
             Create NFT Collection
           </h1>
@@ -443,196 +423,186 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
             </div>
 
             {/* <!-- Blockchain --> */}
-            <div className="mb-6">
-              <label
-                htmlFor="item-supply"
-                className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Blockchain
+
+            <div>
+              <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                Choose Blockchain
               </label>
-
-              {/* dropdown */}
-              <div className="dropdown relative mb-4 cursor-pointer ">
-                {blockchainList.length > 0 && (
-                  <div>
-                    <div
-                      className={
-                        bdropdown
-                          ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
-                          : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
-                      }
-                      onClick={() => handleBlockDropdown()}></div>
-
-                    <div
-                      className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
-                      onClick={() => handleBlockDropdown()}>
-                      <span className="flex items-center">
-                        <img
-                          src={
-                            activeBlockItem
-                              ? activeBlockItem
-                              : "/images/chains/ETH.png"
-                          }
-                          alt="eth"
-                          className="mr-2 h-5 w-5 rounded-full"
-                        />
-                        {activeChain ? activeChain : "Ethereum Mainnet"}
-                      </span>
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="fill-jacarta-500 h-4 w-4 dark:fill-white">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                      </svg>
-                    </div>
-
-                    <div
-                      className={
-                        bdropdown
-                          ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
-                          : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
-                      }>
-                      <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
-                        {blockchainList.map((blockchainList, index) => (
-                          <li key={blockchainList.id}>
-                            <button
-                              href="#"
-                              className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white"
-                              onClick={() => {
-                                setActiveBlockItem(blockchainList.icon);
-                                setActiveChain(blockchainList.chainName);
-                                setSelectedChain(blockchainList.id);
-                              }}>
-                              <span className="flex items-center space-x-3">
-                                <img
-                                  src={blockchainList.icon}
-                                  className="h-8 w-8 rounded-full"
-                                  loading="lazy"
-                                  alt="avatar"
-                                />
-                                <span className="text-jacarta-700 dark:text-white">
-                                  {blockchainList.chainName}
-                                </span>
-                              </span>
-                              {activeBlockItem === blockchainList.icon && (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="fill-accent mb-[3px] h-4 w-4">
-                                  <path fill="none" d="M0 0h24v24H0z"></path>
-                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                </svg>
-                              )}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
+              <div className="text-neutral-500 dark:text-neutral-400 text-sm">
+                Choose Blockchain
               </div>
+
+              <RadioGroup value={selected} onChange={setSelected}>
+                <RadioGroup.Label className="sr-only">
+                  Server size
+                </RadioGroup.Label>
+                <div className="flex overflow-auto py-2 space-x-4 customScrollBar">
+                  {blockchainList.length > 0 && (
+                    <>
+                      {blockchainList.map((collectionList, index) => (
+                        <RadioGroup.Option
+                          key={index}
+                          onClick={() => {
+                            setSelectedChain(collectionList.id);
+                          }}
+                          value={collectionList}
+                          className={({ active, checked }) =>
+                            `${
+                              active
+                                ? "ring-2 ring-offset-2 ring-offset-sky-300 ring-white ring-opacity-60"
+                                : ""
+                            }
+                  ${
+                    checked
+                      ? "bg-teal-600 text-white"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  }
+                    relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
+                          }>
+                          {({ active, checked }) => (
+                            <>
+                              <div className="flex items-center justify-center w-full">
+                                <div className="flex items-center">
+                                  <div className="text-sm">
+                                    <div className="flex items-center justify-center">
+                                      <RadioGroup.Description
+                                        as="div"
+                                        className={"w-24 rounded-xl"}>
+                                        <NcImage
+                                          containerClassName="aspect-w-1 aspect-h-1 rounded-xl overflow-hidden"
+                                          src={collectionList.icon}
+                                        />
+                                      </RadioGroup.Description>
+                                      {checked && (
+                                        <div className="flex-shrink-0 text-white">
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="w-6 h-6">
+                                            <path
+                                              fillRule="evenodd"
+                                              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                                              clipRule="evenodd"
+                                            />
+                                          </svg>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <RadioGroup.Label
+                                      as="p"
+                                      className={`font-semibold mt-3  ${
+                                        checked ? "text-white" : ""
+                                      }`}>
+                                      {collectionList.chainName}
+                                    </RadioGroup.Label>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </RadioGroup>
             </div>
+
             {/* <!-- Category --> */}
-            <div className="mb-6">
-              <label
-                htmlFor="item-supply"
-                className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                Categories
+
+            <div>
+              <label className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                Choose Categories
               </label>
-
-              {/* dropdown */}
-              <div className="dropdown relative mb-4 cursor-pointer ">
-                {categoryList.length > 0 && (
-                  <div>
-                    <div
-                      className={
-                        dropdown
-                          ? "overlay h-[100vh] dropdown-toggle w-[100vw] fixed top-0 left-0 opacity-0 show bg-red z-40 cursor-default"
-                          : "overlay h-[100vh] w-[100vw] fixed top-0 left-0 opacity-0 hidden bg-red z-40 cursor-default"
-                      }
-                      onClick={() => handleDropdown()}></div>
-
-                    <div
-                      className="dark:bg-jacarta-700 dropdown-toggle border-jacarta-100 dark:border-jacarta-600 flex items-center justify-between rounded-lg border bg-white py-3.5 px-3 text-base dark:text-white"
-                      onClick={() => handleDropdown()}>
-                      <span className="flex items-center">
-                        <img
-                          src={activeItem ? activeItem : "/images/art.webp"}
-                          alt="eth"
-                          className="mr-2 h-5 w-5 rounded-full"
-                        />
-                        {activeCategory ? activeCategory : "Art"}
-                      </span>
-
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        height="24"
-                        className="fill-jacarta-500 h-4 w-4 dark:fill-white">
-                        <path fill="none" d="M0 0h24v24H0z"></path>
-                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z"></path>
-                      </svg>
-                    </div>
-
-                    <div
-                      className={
-                        dropdown
-                          ? "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl show z-50"
-                          : "absolute dark:bg-jacarta-800 whitespace-nowrap w-full rounded-xl bg-white py-4 px-2 text-left shadow-xl hidden z-50"
-                      }>
-                      <ul className="scrollbar-custom flex max-h-48 flex-col overflow-y-auto">
-                        {categoryList.map((categoryList, index) => (
-                          <li key={categoryList.id}>
-                            <button
-                              href="#"
-                              className="dropdown-item font-display dark:hover:bg-jacarta-600 hover:bg-jacarta-50 flex w-full items-center justify-between rounded-xl px-5 py-2 text-left text-sm transition-colors dark:text-white"
-                              onClick={() => {
-                                setActiveItem(categoryList.icon);
-                                setActiveCategory(categoryList.category);
-                                setSelectedCat(categoryList.id);
-                              }}>
-                              <span className="flex items-center space-x-3">
-                                <img
-                                  src={categoryList.icon}
-                                  className="h-8 w-8 rounded-full"
-                                  loading="lazy"
-                                  alt="avatar"
-                                />
-                                <span className="text-jacarta-700 dark:text-white">
-                                  {categoryList.category}
-                                </span>
-                              </span>
-                              {activeItem === categoryList.icon && (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  height="24"
-                                  className="fill-accent mb-[3px] h-4 w-4">
-                                  <path fill="none" d="M0 0h24v24H0z"></path>
-                                  <path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"></path>
-                                </svg>
-                              )}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
+              <div className="text-neutral-500 dark:text-neutral-400 text-sm">
+                Choose Categories
               </div>
+
+              <RadioGroup value={selectedd} onChange={setSelectedd}>
+                <RadioGroup.Label className="sr-only">
+                  Server size
+                </RadioGroup.Label>
+                <div className="flex overflow-auto py-2 space-x-4 customScrollBar">
+                  {categoryList.length > 0 && (
+                    <>
+                      {categoryList.map((categoryList, index) => (
+                        <RadioGroup.Option
+                          key={index}
+                          onClick={() => {
+                            setSelectedCat(categoryList.id);
+                          }}
+                          value={categoryList}
+                          className={({ active, checked }) =>
+                            `${
+                              active
+                                ? "ring-2 ring-offset-2 ring-offset-sky-300 ring-white ring-opacity-60"
+                                : ""
+                            }
+                  ${
+                    checked
+                      ? "bg-teal-600 text-white"
+                      : "hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                  }
+                    relative flex-shrink-0 w-44 rounded-xl border border-neutral-200 dark:border-neutral-700 px-6 py-5 cursor-pointer flex focus:outline-none `
+                          }>
+                          {({ active, checked }) => (
+                            <>
+                              <div className="flex items-center justify-center w-full">
+                                <div className="flex items-center">
+                                  <div className="text-sm">
+                                    <div className="flex items-center justify-center">
+                                      <RadioGroup.Description
+                                        as="div"
+                                        className={"w-24 rounded-xl"}>
+                                        <NcImage
+                                          containerClassName="aspect-w-1 aspect-h-1 rounded-xl overflow-hidden"
+                                          src={categoryList.icon}
+                                        />
+                                      </RadioGroup.Description>
+                                      {checked && (
+                                        <div className="flex-shrink-0 text-white">
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            className="w-6 h-6">
+                                            <path
+                                              fillRule="evenodd"
+                                              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm13.36-1.814a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z"
+                                              clipRule="evenodd"
+                                            />
+                                          </svg>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <RadioGroup.Label
+                                      as="p"
+                                      className={`font-semibold mt-3  ${
+                                        checked ? "text-white" : ""
+                                      }`}>
+                                      {categoryList.category}
+                                    </RadioGroup.Label>
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
+                    </>
+                  )}
+                </div>
+              </RadioGroup>
             </div>
 
             <span> </span>
             {/* <!-- Submit --> */}
 
-            <Web3Button action={() => deployCollection()}>
+            <Web3Button
+              contractAddress={process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}
+              action={() => deployCollection()}
+              onSuccess={notify}>
               Create Collection
             </Web3Button>
           </div>

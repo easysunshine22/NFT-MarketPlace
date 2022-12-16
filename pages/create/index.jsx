@@ -78,7 +78,7 @@ const Create = () => {
                       </span>
                     </div>
                   </Link>
-                  <Link href="#">
+                  <Link href="/create/erc-1155">
                     <div className="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl  mx-16">
                       <img
                         src="/images/715e004b0e940213d5a0.png"

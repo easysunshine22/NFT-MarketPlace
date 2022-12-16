@@ -38,7 +38,7 @@ const plans = [
   },
 ];
 
-const ERC721 = ({ collectionListe }) => {
+const ERC1155 = ({ collectionListe }) => {
   const [selected, setSelected] = useState(plans[1]);
   const router = useRouter();
   const createPage = () => {
@@ -104,8 +104,8 @@ const ERC721 = ({ collectionListe }) => {
       _type: "nft",
       _id: nftName,
       title: nftName,
-      collectionType: "ERC721",
       description: description,
+      collectionType: "ERC1155",
       createdBy: {
         _type: "reference",
         _ref: address,
@@ -128,7 +128,7 @@ const ERC721 = ({ collectionListe }) => {
 
   // Collection Data
   const fetchCollectionData = async (sanityClient = client) => {
-    const query = `*[_type == "collections" && createdBy._ref == "${address}" && collectionType == "erc721"] {
+    const query = `*[_type == "collections" && createdBy._ref == "${address}" && collectionType == "erc1155"] {
     "logoImageUrl": logoImage.asset->url,
    title,
    "id": _id,
@@ -160,7 +160,7 @@ const ERC721 = ({ collectionListe }) => {
       });
 
       // Make a request to /api/server
-      const signedPayloadReq = await fetch(`/api/erc721`, {
+      const signedPayloadReq = await fetch(`/api/server`, {
         method: "POST",
         body: JSON.stringify({
           authorAddress: address, // Address of the current user
@@ -566,7 +566,7 @@ const ERC721 = ({ collectionListe }) => {
   );
 };
 
-export default ERC721;
+export default ERC1155;
 
 export async function getServerSideProps() {
   const categoryListQuery = `*[_type == "category"] {

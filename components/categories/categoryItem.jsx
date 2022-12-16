@@ -36,12 +36,7 @@ const CategoryItem = () => {
   const [collection, setCollection] = useState({});
   const [nftsData, setNftsData] = useState({});
   const [collId, setCollId] = useState({});
-
-  const { contract: collectionData } = useContract(
-    "0x163E91439ab6CA73F823E0fF9261FBdE59dF46f4"
-  );
-
-  const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
+  const [contractAddress, setContractAddress] = useState();
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
@@ -61,8 +56,8 @@ const CategoryItem = () => {
 
     const collectionData = await sanityClient.fetch(query);
 
-    console.log(collectionData, "🔥");
-
+    await setContractAddress(collectionData[0].contractAddress);
+    console.log(collectionData[0].contractAddress, "🔥");
     // the query returns 1 object inside of an array
     await setCollection(collectionData[0]);
     await setCollId(collectionData[0]._id);
@@ -89,6 +84,10 @@ const CategoryItem = () => {
       </div>
     ); */
   }
+
+  const { contract: collectionData } = useContract(contractAddress);
+
+  const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
 
   return (
     <>
