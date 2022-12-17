@@ -1,16 +1,68 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import { bidsModalHide } from "../../redux/counterSlice";
+import {
+  useContract,
+  useNetwork,
+  Web3Button,
+  useNetworkMismatch,
+} from "@thirdweb-dev/react";
+import {
+  ChainId,
+  NATIVE_TOKEN_ADDRESS,
+  TransactionResult,
+} from "@thirdweb-dev/sdk";
 
-const BidsModal = () => {
+const BidsModal = ({ nftCollection, tokenId }) => {
+  const router = useRouter();
   const { bidsModal } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
   const [ETHAmount, setETHAmount] = useState(0.05);
-
+  const tokenIds = router.query.item;
+  const collectionAddress = router.query.address;
+  console.log(
+    "buy modal' + 'tokenId" +
+      tokenIds +
+      "" +
+      "collectionAddress" +
+      "" +
+      collectionAddress
+  );
   const handleEThAmount = (e) => {
     e.preventDefault();
     setETHAmount(e.target.value);
   };
+
+  const networkMismatch = useNetworkMismatch();
+  const [, switchNetwork] = useNetwork();
+
+  // Connect to our marketplace contract via the useContract hook
+  const { contract: marketplace } = useContract(
+    "0x6cc430d1D97B866aBbFDc186Fa9e8F1e50E1987c", // Your marketplace contract address here
+    "marketplace"
+  );
+
+  const tokenAddress = "0xAC0D4a478Eb1e614A066A622F3Cc9EF07270c460";
+
+  async function createDirectListing() {
+    try {
+      const transaction = await marketplace?.direct.createListing({
+        assetContractAddress: collectionAddress, // Contract Address of the NFT
+        buyoutPricePerToken: ETHAmount, // Maximum price, the auction will end immediately if a user pays this price.
+        currencyContractAddress: tokenAddress, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
+        listingDurationInSeconds: 60 * 60 * 24 * 7, // When the auction will be closed and no longer accept bids (1 Week)
+        quantity: 1, // How many of the NFTs are being listed (useful for ERC 1155 tokens)
+        startTimestamp: new Date(0), // When the listing will start
+        tokenId: tokenIds, // Token ID of the NFT.
+      });
+
+      return transaction;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div>
       <div className={bidsModal ? "modal fade show block" : "modal fade"}>
@@ -97,10 +149,16 @@ const BidsModal = () => {
             <div className="modal-footer">
               <div className="flex items-center justify-center space-x-4">
                 <button
+                  onClick={() => createDirectListing()}
                   type="button"
                   className="bg-accent shadow-accent-volume hover:bg-accent-dark rounded-full py-3 px-8 text-center font-semibold text-white transition-all">
                   Place Bid
                 </button>
+                <Web3Button
+                  contractAddress="0x86215C27fe82B493f9778363A54631218Cafe70E"
+                  action={() => createDirectListing()}>
+                  Mint NFT With Artlux Collection
+                </Web3Button>
               </div>
             </div>
           </div>

@@ -62,11 +62,6 @@ const Item = () => {
     tokenId
   );
 
-  const nftMetadata = async () => {
-    const metaNft = await nftCollection.get(tokenId);
-    await setNftMeta(metaNft);
-    console.log(metaNft, "metaNft🔥");
-  };
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "marketItems" && contractAddress == "${collectionAddress}" ] {
@@ -112,15 +107,12 @@ const Item = () => {
   useEffect(() => {
     userData();
   }, [address]);
-  useEffect(() => {
-    nftMetadata();
-  }, []);
 
   console.log("nft" + nfts);
 
   return (
     <>
-      <Meta title={`${nfts.metadata.name} || Artlux  NFT Marketplace `} />
+      <Meta title={`Artlux  NFT Marketplace `} />
       {/*  <!-- Item --> */}
 
       {isReadingNfts ? (
@@ -376,7 +368,14 @@ const Item = () => {
                   <Link href="#">
                     <button
                       className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                      onClick={() => dispatch(bidsModalShow())}>
+                      onClick={() =>
+                        dispatch(
+                          bidsModalShow(
+                            ((nftCollection = nftCollection),
+                            (tokenId = tokenId))
+                          )
+                        )
+                      }>
                       Place Bid
                     </button>
                   </Link>
