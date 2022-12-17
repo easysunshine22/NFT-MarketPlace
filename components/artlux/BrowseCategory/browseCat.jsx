@@ -8,6 +8,7 @@ const browseCat = () => {
     slidesToScroll: 1,
     arrows: false,
     dots: false,
+    adaptiveHeight: true,
     responsive: [
       {
         breakpoint: 1445,

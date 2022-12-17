@@ -43,6 +43,7 @@ const Home = ({ animals, categoryList, blockchainList }) => {
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
+
       <FrontPage />
 
       {/* 

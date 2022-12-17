@@ -1,17 +1,22 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, Component } from "react";
 import Slider from "react-slick";
 import ArtCarousel from "../../cards/artCarousel";
+import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 const ArtluxBanner = () => {
+  const SlickArrowLeft = () => <i className="prev fa fa-arrow-left"></i>;
+
+  const SlickArrowRight = () => <i className="next fa fa-arrow-right"></i>;
   const settings = {
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
-    arrows: true,
+
+    adaptiveHeight: true,
     dots: false,
-    prevArrow: "",
-    nextArrow: "",
+    prevArrow: <BsArrowLeftCircle />,
+    nextArrow: <BsArrowRightCircle />,
     centerMode: true,
-    centerPadding: "300px",
+    centerPadding: "150px",
     responsive: [
       {
         breakpoint: 1445,
@@ -45,6 +50,7 @@ const ArtluxBanner = () => {
         },
       },
     ],
+    className: "banner-sliders",
   };
 
   return (
@@ -62,9 +68,40 @@ const ArtluxBanner = () => {
         </div>
       </div>
       <div class="banner-right">
-        <div class="banner-sliders">
-          <ArtCarousel />
-        </div>
+        <Slider {...settings}>
+          <div class="banner-single-slide">
+            <div class="banner-slide-thumb">
+              <img src="/images/banner-slide-1.png" alt="" />
+              <h3>
+                Name of the art <span class="d-block">0.04 ETH</span>
+              </h3>
+            </div>
+          </div>
+          <div class="banner-single-slide">
+            <div class="banner-slide-thumb">
+              <img src="/images/banner-slide-2.png" alt="" />
+              <h3>
+                Name of the art <span class="d-block">0.04 ETH</span>
+              </h3>
+            </div>
+          </div>
+          <div class="banner-single-slide">
+            <div class="banner-slide-thumb">
+              <img src="/images/banner-slide-3.png" alt="" />
+              <h3>
+                Name of the art <span class="d-block">0.04 ETH</span>
+              </h3>
+            </div>
+          </div>
+          <div class="banner-single-slide">
+            <div class="banner-slide-thumb">
+              <img src="/images/banner-slide-2.png" alt="" />
+              <h3>
+                Name of the art <span class="d-block">0.04 ETH</span>
+              </h3>
+            </div>
+          </div>
+        </Slider>
       </div>
     </section>
   );

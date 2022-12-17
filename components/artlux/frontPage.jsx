@@ -8,7 +8,7 @@ import Hero from "../hero/hero";
 const FrontPage = ({ collectionItem }) => {
   return (
     <>
-      <Hero />
+      <BannerArea />
       <Table />
       <NotCollection />
       <BrowseCat />
