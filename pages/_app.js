@@ -1,5 +1,8 @@
 import "../styles/globals.css";
-
+import "../styles/slick.css";
+import "../styles/slick-theme.css";
+import "../styles/frontpage.css";
+import "../styles/responsive.css";
 import { ThemeProvider } from "next-themes";
 import Layout from "../components/layout";
 import { Provider } from "react-redux";

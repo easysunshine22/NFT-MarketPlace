@@ -1,0 +1,258 @@
+.bannerArea {
+  overflow: hidden;
+  display: flex;
+}
+
+.bannerLeft h1 {
+  font-size: 90px;
+  color: #fff;
+}
+.bannerLeft {
+  background-image: url(/images/banner-bg.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-width: 40%;
+  display: flex;
+  align-items: center;
+  padding-left: 9%;
+  padding-right: 30px;
+}
+.bannerLeft p {
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 30px;
+}
+.bannerRight {
+  background-image: url(/images/banner-right-bg.jpg);
+  min-width: 60%;
+  padding: 140px 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bannerSlideThumb {
+  height: 510px;
+  position: relative;
+}
+
+.bannerSlideThumb img {
+  height: 100%;
+  width: 100%;
+}
+
+.bannerSlideThumb h3 {
+  position: absolute;
+  bottom: 20px;
+  width: 92%;
+  margin-bottom: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(60px);
+  border-radius: 10px;
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+  padding: 10px;
+}
+
+.bannerSliders {
+  position: relative;
+  z-index: 1;
+  margin-right: -20px;
+}
+
+.bannerSliders .slickArrow {
+  position: absolute;
+  left: -30px;
+  top: 42%;
+  background: #ffffff;
+  box-shadow: 0px 15px 60px rgba(0, 0, 0, 0.5);
+  height: 70px;
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #000;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.bannerSliders .slickArrowNext {
+  left: auto;
+  right: 30px;
+}
+
+.bannerSliders:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(217, 217, 217, 0) 93.89%);
+  width: 130px;
+  content: "";
+  z-index: 1;
+}
+
+.bannerSliders .slick-list {
+  padding-right: 0 !important;
+}
+
+.bannerSliders .slick-slide {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.bannerSingleSlide {
+  gap: 25px;
+  display: flex;
+  align-items: center;
+}
+
+/* Start Primary btns css
+============================================================================================ */
+.primaryBtn {
+  position: relative;
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 16px 35px;
+  color: #fff;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  background: #d831b3;
+  box-shadow: 0px 15px 42px -4px rgb(122 104 255 / 54%);
+  border-radius: 100px;
+}
+.primaryBtn:hover {
+  color: #fff;
+  background: #fbb70a;
+}
+
+@media (min-width: 1200px) {
+}
+
+@media (min-width: 1680px) {
+}
+
+@media (min-width: 1800px) {
+}
+
+/* max width  */
+@media (max-width: 1680px) {
+  .bannerLeft {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .bannerLeft h1 {
+    font-size: 60px;
+  }
+  .bannerLeft p {
+    font-size: 20px;
+  }
+  .bannerRight {
+    padding: 80px 0;
+  }
+}
+
+@media (max-width: 1366px) {
+  .bannerSlideThumb {
+    height: 370px;
+  }
+  .bannerSlideThumb h3 {
+    font-size: 20px;
+  }
+  .bannerSliders .slickSlide {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+  .bannerLeft h1 {
+    font-size: 52px;
+  }
+  .bannerSliders .slickArrow {
+    left: -25px;
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 1199px) {
+}
+
+@media (max-width: 991px) {
+  .bannerLeft h1 {
+    font-size: 42px;
+  }
+  .bannerLeft p {
+    font-size: 16px;
+  }
+  .primaryBtn {
+    font-size: 16px;
+    padding: 13px 25px;
+  }
+}
+
+@media (max-width: 767px) {
+}
+
+@media (max-width: 575px) {
+  .bannerLeft {
+    padding: 80px 20px;
+  }
+  .bannerArea {
+    display: block;
+  }
+  .bannerLeft h1 {
+    font-size: 40px;
+  }
+  .bannerLeft div {
+    width: 80%;
+  }
+  .bannerLeft p {
+    margin-bottom: 20px;
+  }
+  .bannerRight {
+    padding: 40px 0;
+  }
+  .bannerSliders .slickList {
+    padding-right: 50px !important;
+  }
+  .bannerSliders {
+    margin-right: 0;
+  }
+  .bannerSliders .slickArrow {
+    height: 32px;
+    width: 32px;
+    font-size: 15px;
+    left: 10px;
+  }
+  .bannerSliders .slickArrowNext {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bannerSlideThumb {
+    height: 330px;
+  }
+}
+
+@media (max-width: 400px) {
+}
+
+@media (max-width: 375px) {
+}

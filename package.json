@@ -52,7 +52,6 @@
     "react-tabs": "^5.1.0",
     "sanity": "^3.0.6",
     "sharp": "^0.30.7",
-    "slick-carousel": "^1.8.1",
     "swiper": "^8.2.4"
   },
   "devDependencies": {

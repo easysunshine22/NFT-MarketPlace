@@ -5,7 +5,7 @@ import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
 import Image from "next/image";
-
+import NavHed from "./artlux/NavHead/NavHed";
 // ThirdWeb
 // import { useWeb3 } from "@3rdweb/hooks";
 import {
@@ -61,7 +61,7 @@ export default function Layout({ children }) {
 
   return (
     <div>
-      <Header />
+      <NavHed />
       <Wallet_modal />
       <BidsModal />
       <BuyModal />
