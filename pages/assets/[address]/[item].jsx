@@ -23,6 +23,7 @@ import {
   useNFT,
   useActiveListings,
   ThirdwebNftMedia,
+  useAddress,
 } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -38,8 +39,9 @@ const Item = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [collection, setCollection] = useState({});
+  const [nftMeta, setNftMeta] = useState({});
   const [user, setUser] = useState({});
-
+  const address = useAddress();
   const tokenId = router.query.item;
   const collectionAddress = router.query.address;
 
@@ -54,11 +56,17 @@ const Item = () => {
     collectionAddress, // Your marketplace contract address here
     "nft-collection"
   );
+
   const { data: nfts, isLoading: isReadingNfts } = useNFT(
     nftCollection,
     tokenId
   );
 
+  const nftMetadata = async () => {
+    const metaNft = await nftCollection.get(tokenId);
+    await setNftMeta(metaNft);
+    console.log(metaNft, "metaNft🔥");
+  };
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "marketItems" && contractAddress == "${collectionAddress}" ] {
@@ -82,7 +90,7 @@ const Item = () => {
   };
 
   const userData = async (sanityClient = client) => {
-    const query = `*[_type == "users" && walletAddress == "0xAB3Cb8a4C3E679BA3F4a3f3C856AcBe3Bd3e4A8c"] {
+    const query = `*[_type == "users" && walletAddress == "${address}"] {
 		"imageUrl": profileImage.asset->url,
 		"bannerImageUrl": bannerImage.asset->url,
 		twitterHandle,
@@ -103,13 +111,16 @@ const Item = () => {
 
   useEffect(() => {
     userData();
-  }, ["0xAB3Cb8a4C3E679BA3F4a3f3C856AcBe3Bd3e4A8c"]);
+  }, [address]);
+  useEffect(() => {
+    nftMetadata();
+  }, []);
 
   console.log("nft" + nfts);
 
   return (
     <>
-      <Meta title={`${collection.title}  || Artlux  NFT Marketplace `} />
+      <Meta title={`${nfts.metadata.name} || Artlux  NFT Marketplace `} />
       {/*  <!-- Item --> */}
 
       {isReadingNfts ? (
@@ -132,7 +143,7 @@ const Item = () => {
                 <button className=" w-full" onClick={() => setImageModal(true)}>
                   <img
                     src={nfts.metadata.image}
-                    alt={nfts.metadata.title}
+                    alt={nfts.metadata.name}
                     className="rounded-2xl cursor-pointer  w-full"
                   />
                 </button>

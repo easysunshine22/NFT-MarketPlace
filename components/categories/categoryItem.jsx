@@ -88,7 +88,7 @@ const CategoryItem = () => {
   const { contract: collectionData } = useContract(contractAddress);
 
   const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
-
+  console.log(collectionData);
   return (
     <>
       {loadingNfts ? (
@@ -98,10 +98,10 @@ const CategoryItem = () => {
       ) : (
         <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
           {nfts?.map((nft) => (
-            <article key={nft.metadata.tokenId}>
+            <article key={nft.metadata.id}>
               <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
                 <figure className="relative">
-                  <Link href={`/item/${nft.metadata.name}`}>
+                  <Link href={`/assets/${contractAddress}/${nft.metadata.id}`}>
                     <a>
                       <img
                         src={nft.metadata.image}
