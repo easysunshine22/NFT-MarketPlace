@@ -6,6 +6,7 @@ import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
 import Image from "next/image";
 import NavHed from "./artlux/NavHead/NavHed";
+import Foot from "./artlux/Footer/foot";
 // ThirdWeb
 // import { useWeb3 } from "@3rdweb/hooks";
 import {
@@ -66,7 +67,7 @@ export default function Layout({ children }) {
       <BidsModal />
       <BuyModal />
       <main>{children}</main>
-      <Footer />
+      <Foot />
     </div>
   );
 }

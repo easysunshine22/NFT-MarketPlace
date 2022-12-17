@@ -19,7 +19,7 @@ const ArtluxTable = () => {
                     <option value="12hr">12 Hr</option>
                   </select>
                   <div class="all-chains">
-                    <div>
+                    <div class="all-chain">
                       All chains:{" "}
                       <span>
                         <img src="/images/collections/1.png" alt="" />

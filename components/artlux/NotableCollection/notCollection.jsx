@@ -58,96 +58,98 @@ const notCollection = () => {
           </div>
         </div>
         <div class="collection-slider-area">
-          <Slider {...settings} class="collection-slides">
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/1.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+          <div class="collection-slides">
+            <Slider {...settings}>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/1.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/2.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/2.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/3.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/3.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/4.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/4.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/5.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/5.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/2.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/2.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/3.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/3.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-            <div class="single-collection-slide">
-              <img
-                class="collection-thumb"
-                src="/images/notable-collections/1.png"
-                alt=""
-              />
-              <div class="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
+              <div class="single-collection-slide">
+                <img
+                  class="collection-thumb"
+                  src="/images/notable-collections/1.png"
+                  alt=""
+                />
+                <div class="single-collection-slide-description">
+                  <img src="/images/s.png" alt="" />
+                  <h3>The Sandbox California</h3>
+                </div>
               </div>
-            </div>
-          </Slider>
+            </Slider>
+          </div>
         </div>
       </div>
 

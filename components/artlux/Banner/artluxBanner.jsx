@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Slider from "react-slick";
-
+import ArtCarousel from "../../cards/artCarousel";
 const ArtluxBanner = () => {
   const settings = {
     infinite: true,
@@ -8,7 +8,8 @@ const ArtluxBanner = () => {
     slidesToScroll: 1,
     arrows: true,
     dots: false,
-
+    prevArrow: "",
+    nextArrow: "",
     centerMode: true,
     centerPadding: "300px",
     responsive: [
@@ -45,9 +46,10 @@ const ArtluxBanner = () => {
       },
     ],
   };
+
   return (
-    <section id="banner" className="banner-area">
-      <div className="banner-left">
+    <section id="banner" class="banner-area">
+      <div class="banner-left">
         <div>
           <h1>A NFTs Marketplace</h1>
           <p>
@@ -59,41 +61,10 @@ const ArtluxBanner = () => {
           </a>
         </div>
       </div>
-      <div className="banner-right">
-        <Slider {...settings} className="banner-sliders">
-          <div className="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-1.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-          <div className="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-2.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-          <div className="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-3.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-          <div className="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-2.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-        </Slider>
+      <div class="banner-right">
+        <div class="banner-sliders">
+          <ArtCarousel />
+        </div>
       </div>
     </section>
   );

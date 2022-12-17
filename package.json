@@ -30,6 +30,7 @@
     "formidable": "^2.0.1",
     "fs": "^0.0.1-security",
     "heroicons-react": "^1.4.1",
+    "jquery": "^3.6.2",
     "metamask-react": "^2.4.0",
     "moment": "^2.29.4",
     "next": "12.1.6",

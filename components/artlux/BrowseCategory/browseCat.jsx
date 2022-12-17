@@ -46,40 +46,42 @@ const browseCat = () => {
         </div>
       </div>
       <div class="category-slider-area">
-        <Slider {...settings} class="category-slider">
-          <div class="category-slide-item">
-            <img src="/images/category/1.png" alt="" />
-            <h3>Art</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/2.png" alt="" />
-            <h3>Music</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/3.png" alt="" />
-            <h3>Photography</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/4.png" alt="" />
-            <h3>Trading Card</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/5.png" alt="" />
-            <h3>Domain Name</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/6.png" alt="" />
-            <h3>Sports</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/3.png" alt="" />
-            <h3>Travel</h3>
-          </div>
-          <div class="category-slide-item">
-            <img src="/images/category/2.png" alt="" />
-            <h3>Business</h3>
-          </div>
-        </Slider>
+        <div class="category-slider">
+          <Slider {...settings}>
+            <div class="category-slide-item">
+              <img src="/images/category/1.png" alt="" />
+              <h3>Art</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/2.png" alt="" />
+              <h3>Music</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/3.png" alt="" />
+              <h3>Photography</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/4.png" alt="" />
+              <h3>Trading Card</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/5.png" alt="" />
+              <h3>Domain Name</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/6.png" alt="" />
+              <h3>Sports</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/3.png" alt="" />
+              <h3>Travel</h3>
+            </div>
+            <div class="category-slide-item">
+              <img src="/images/category/2.png" alt="" />
+              <h3>Business</h3>
+            </div>
+          </Slider>
+        </div>
       </div>
     </section>
   );
