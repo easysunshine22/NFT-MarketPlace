@@ -16,10 +16,8 @@
 .slick-next {
   font-size: 0;
   line-height: 0;
-
   position: absolute;
   top: 50%;
-
   display: block;
 
   width: 20px;
@@ -40,9 +38,7 @@
 .slick-prev:focus,
 .slick-next:hover,
 .slick-next:focus {
-  color: transparent;
-  outline: none;
-  background: transparent;
+  opacity: 1;
 }
 .slick-prev:hover:before,
 .slick-prev:focus:before,
@@ -70,6 +66,8 @@
 
 .slick-prev {
   left: -25px;
+  height: 70px;
+  width: 70px;
 }
 [dir="rtl"] .slick-prev {
   right: -25px;
@@ -83,7 +81,8 @@
 }
 
 .slick-next {
-  right: -25px;
+  left: auto;
+  right: 30px;
 }
 [dir="rtl"] .slick-next {
   right: auto;

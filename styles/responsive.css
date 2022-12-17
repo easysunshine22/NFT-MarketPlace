@@ -370,6 +370,11 @@
     font-size: 15px;
     left: 10px;
   }
+
+  .banner-sliders .slick-arrow.prev {
+    left: 10px;
+  }
+
   .banner-sliders .slick-arrow.next {
     right: 10px;
   }

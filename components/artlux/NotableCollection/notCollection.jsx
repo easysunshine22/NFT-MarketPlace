@@ -37,9 +37,9 @@ const notCollection = () => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.1,
           slidesToScroll: 1,
-          centerPadding: "50px",
+          centerPadding: "30px",
         },
       },
     ],

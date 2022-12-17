@@ -110,6 +110,9 @@ img {
   padding-right: 20px;
 }
 
+.collapse {
+  visibility: visible;
+}
 /* preloader area css
 ============================================================================================ */
 .preloader {
@@ -349,7 +352,7 @@ img {
 .banner-area {
   overflow: hidden;
   display: flex;
-  margin-top: 130px;
+  margin-top: 80px;
 }
 .banner-left h1 {
   font-size: 90px;
@@ -415,7 +418,7 @@ img {
 
 .banner-sliders .slick-arrow {
   position: absolute;
-  left: -30px;
+
   top: 42%;
   background: #ffffff;
   box-shadow: 0px 15px 60px rgba(0, 0, 0, 0.5);
@@ -429,6 +432,10 @@ img {
   color: #000;
   z-index: 1;
   cursor: pointer;
+}
+
+.banner-sliders .slick-arrow.prev {
+  left: -25px;
 }
 
 .banner-sliders .slick-arrow.next {

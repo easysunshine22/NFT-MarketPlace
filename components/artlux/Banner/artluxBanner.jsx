@@ -2,35 +2,52 @@ import React, { useContext, useEffect, Component } from "react";
 import Slider from "react-slick";
 import ArtCarousel from "../../cards/artCarousel";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-const ArtluxBanner = () => {
-  const SlickArrowLeft = () => <i className="prev fa fa-arrow-left"></i>;
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-  const SlickArrowRight = () => <i className="next fa fa-arrow-right"></i>;
+const ArtluxBanner = () => {
+  const SlickArrowLeft = ({ onClick }) => (
+    <i className="slick-arrow prev fa fa-arrow-left" onClick={onClick}></i>
+  );
+
+  const SlickArrowRight = ({ onClick }) => (
+    <i className="slick-arrow next fa fa-arrow-right" onClick={onClick}></i>
+  );
   const settings = {
     infinite: true,
     slidesToShow: 2,
     slidesToScroll: 1,
-
+    arrows: true,
     adaptiveHeight: true,
     dots: false,
-    prevArrow: <BsArrowLeftCircle />,
-    nextArrow: <BsArrowRightCircle />,
+    prevArrow: <SlickArrowLeft />,
+    nextArrow: <SlickArrowRight />,
+
     centerMode: true,
-    centerPadding: "150px",
+    centerPadding: "200px",
     responsive: [
       {
         breakpoint: 1445,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          centerPadding: "200px",
+          centerPadding: "50px",
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          centerPadding: "50px",
         },
       },
       {
         breakpoint: 992,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
           slidesToScroll: 1,
+          centerPadding: "50px",
         },
       },
       {
@@ -44,7 +61,7 @@ const ArtluxBanner = () => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 1.3,
           slidesToScroll: 1,
           centerPadding: "50px",
         },
