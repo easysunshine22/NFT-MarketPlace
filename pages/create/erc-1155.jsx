@@ -15,6 +15,7 @@ import {
   Web3Button,
   useSDK,
   ConnectWallet,
+  ChainId,
 } from "@thirdweb-dev/react";
 //Sanity - Database
 import sanityClient from "@sanity/client";
@@ -48,14 +49,15 @@ const ERC1155 = ({ collectionListe }) => {
   const sdk = useSDK();
   const address = useAddress();
   const { mutateAsync: upload } = useStorageUpload();
-  const artluxCollectionAddress = "0xA71a329a6F84c4191abE80DC8497D604023bc23B";
+  const artluxCollectionAddress = "0x86215C27fe82B493f9778363A54631218Cafe70E";
+
   //States
   const [dropdown, setDropdown] = useState(false);
-  const [activeItem, setActiveItem] = useState();
-  const [activeCategory, setActiveCategory] = useState(null);
   const [selectedCat, setSelectedCat] = useState(null);
   const [selectedCollectionAddress, setSelectedCollectionAddress] =
     useState(null);
+  const [activeCategory, setActiveCategory] = useState();
+  const [activeItem, setActiveItem] = useState();
   //Image States
   const [preview, setPreview] = useState();
   const [image, setImage] = useState(null);
@@ -64,6 +66,7 @@ const ERC1155 = ({ collectionListe }) => {
   const [collectionList, setCollectionList] = useState({});
   // NFTs States
   const [nftName, setNFTName] = useState();
+  const [supply, setSupply] = useState();
   const [description, setDescription] = useState();
 
   //Sanity
@@ -147,6 +150,7 @@ const ERC1155 = ({ collectionListe }) => {
   }, [address]);
 
   // Mint NFT
+  // Mint NFT
   const mintWithSignature = async () => {
     try {
       if (!image || !nftName) {
@@ -160,13 +164,14 @@ const ERC1155 = ({ collectionListe }) => {
       });
 
       // Make a request to /api/server
-      const signedPayloadReq = await fetch(`/api/server`, {
+      const signedPayloadReq = await fetch(`/api/erc1155`, {
         method: "POST",
         body: JSON.stringify({
           authorAddress: address, // Address of the current user
           nftName: nftName,
           description: description,
           imagePath: uris[0],
+          quantity: supply,
         }),
       });
 
@@ -203,8 +208,8 @@ const ERC1155 = ({ collectionListe }) => {
     };
 
     const metadataWithSupply = {
-      metadata,
-      supply: 1, // The number of this NFT you want to mint
+      metadata: metadata,
+      supply: supply, // The number of this NFT you want to mint
     };
 
     const tx = await nftCollection.mintTo(address, metadataWithSupply);
@@ -219,7 +224,7 @@ const ERC1155 = ({ collectionListe }) => {
   if (selectedCollectionAddress === artluxCollectionAddress) {
     button = (
       <Web3Button
-        contractAddress="0xA71a329a6F84c4191abE80DC8497D604023bc23B"
+        contractAddress="0x86215C27fe82B493f9778363A54631218Cafe70E"
         action={() => mintWithSignature()}>
         Mint NFT With Artlux Collection
       </Web3Button>
@@ -242,7 +247,7 @@ const ERC1155 = ({ collectionListe }) => {
   const { contract: nftCollection } = useContract(
     // Replace this with your NFT Collection contract address
     selectedCollectionAddress,
-    "nft-collection"
+    "edition"
   );
 
   return (
@@ -281,7 +286,7 @@ const ERC1155 = ({ collectionListe }) => {
                       // If you want users to sign in after connecting their wallet
                       loginOptional: true,
                       loginOptions: {
-                        chainId: process.env.NEXT_PUBLIC_CHAINID,
+                        chainId: ChainId.BinanceSmartChainTestnet,
                       },
                     }}
                   />
@@ -359,6 +364,23 @@ const ERC1155 = ({ collectionListe }) => {
                   required
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Provide a detailed description of your item."></textarea>
+              </div>
+
+              {/* <!-- supplu--> */}
+              <div className="mb-6">
+                <label
+                  htmlFor="item-name"
+                  className="font-display text-jacarta-700 mb-2 block dark:text-white">
+                  Name<span className="text-red">*</span>
+                </label>
+                <input
+                  type="number"
+                  id="item-name"
+                  className="dark:bg-jacarta-700 border-jacarta-100 hover:ring-accent/10 focus:ring-accent dark:border-jacarta-600 dark:placeholder:text-jacarta-300 w-full rounded-lg py-3 px-3 hover:ring-2 dark:text-white"
+                  placeholder="Supply"
+                  required
+                  onChange={(e) => setSupply(e.target.value)}
+                />
               </div>
 
               {/* <!-- Collections --> */}
@@ -446,8 +468,7 @@ const ERC1155 = ({ collectionListe }) => {
                             setSelectedCollectionAddress(
                               artluxCollectionAddress
                             );
-                            setActiveItem("/images/artlux.png");
-                            setActiveCategory("Artlux Collection");
+
                             setSelectedCat(
                               "d35fff87-116e-4c53-a478-21b588b295a4"
                             );

@@ -36,5 +36,10 @@ export default {
       title: "Logo Image",
       type: "image",
     },
+    {
+      name: "collectionType",
+      title: "CollectionType",
+      type: "string",
+    },
   ],
 };

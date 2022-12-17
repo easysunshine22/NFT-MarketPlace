@@ -1,15 +1,14 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function erc1155(
+export default async function erc1555(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
     // De-structure the arguments we passed in out of the request body
-    const { authorAddress, nftName, imagePath, description } = JSON.parse(
-      req.body
-    );
+    const { authorAddress, nftName, imagePath, description, quantity } =
+      JSON.parse(req.body);
 
     // You'll need to add your private key in a .env.local file in the root of your project
 
@@ -23,7 +22,7 @@ export default async function erc1155(
     // Load the NFT Collection via it's contract address using the SDK
     const nftCollection = await sdk.getContract(
       // Replace this with your NFT Collection contract address
-      process.env.NEXT_PUBLIC_COLLECTION_ADDRESS,
+      "0x86215C27fe82B493f9778363A54631218Cafe70E",
       "edition"
     );
 
@@ -31,6 +30,7 @@ export default async function erc1155(
     // Generate the signature for the page NFT
     const signedPayload = await nftCollection.signature.generate({
       to: authorAddress,
+      quantity: quantity,
       metadata: {
         name: nftName as string,
         image: imagePath as string,
