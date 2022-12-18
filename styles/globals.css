@@ -21,7 +21,7 @@ html {
 
 @layer components {
   .show .dropdown-menu {
-    display: block !important;
+    display: none !important;
   }
 
   .dropdown-menu-end {

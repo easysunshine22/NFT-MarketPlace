@@ -912,3 +912,45 @@ footer {
 .footer-section {
   margin-bottom: 50px;
 }
+
+.demo-dropdown a {
+  text-decoration: none; /* Link default gelen alt çizgi kaldırıldı */
+  font-weight: 600;
+  font-size: 16px;
+  display: block; /* a elemanları Block-Level Düzeyine getirilerek alt alta gelmesi sağlandı */
+}
+
+.demo-dropdown > li {
+  position: relative; /* içerisinde ul position:absolute değerine sahip olduğu için kapsayıcı li relative olmalı */
+  display: inline-block;
+}
+
+.demo-dropdown > li > a {
+  color: #fff;
+  background: #e21346;
+  padding: 20px 25px;
+}
+
+.demo-dropdown > li ul {
+  position: absolute; /* Açılır menü mouse üzerine gelerek açıldığında aşağıdaki öğeleri kaydırması istenmiyor. Bu yüzden absolute. */
+  display: none; /* Açılır menü li:hover olmadığı sürece gizlencektir */
+  top: 100%; /* Top 100% değeri parent li'ye göre hesaplanır ve li'nin bittiği noktayı göstermektedir. */
+  left: 0; /* left:0 değeri li'nin sol başlangıç değerini referans alır ve ul'yi aynı hizda konumlandırı. */
+  width: 250px;
+  border: 2px solid #e2e2e2;
+  background-color: #fff;
+}
+
+.demo-dropdown > li ul li a {
+  color: #333;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.demo-dropdown > li ul li:hover a {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.demo-dropdown > li:hover ul {
+  display: block; /* Açılır menü li'nin üzerine mouse ile gelindiğinde görünür olacaktır. */
+}
