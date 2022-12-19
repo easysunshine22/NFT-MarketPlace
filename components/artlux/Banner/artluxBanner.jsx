@@ -5,7 +5,7 @@ import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const ArtluxBanner = () => {
+const ArtluxBanner = ({ listings, collectionList }) => {
   const SlickArrowLeft = ({ onClick }) => (
     <i className="slick-arrow prev fa fa-arrow-left" onClick={onClick}></i>
   );
@@ -79,45 +79,24 @@ const ArtluxBanner = () => {
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in
             magna
           </p>
-          <a href="#" class="primary-btn">
+          <a href="/collection/explore_collection" class="primary-btn">
             Get Started
           </a>
         </div>
       </div>
       <div class="banner-right">
         <Slider {...settings}>
-          <div class="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-1.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
+          {collectionList?.map((collectionList) => (
+            <div class="banner-single-slide">
+              <div class="banner-slide-thumb">
+                <img src={collectionList.featuredImageUrl} alt="" />
+                <h3>
+                  {collectionList.title}{" "}
+                  <span class="d-block">{collectionList.floorPrice} AD</span>
+                </h3>
+              </div>
             </div>
-          </div>
-          <div class="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-2.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-          <div class="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-3.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
-          <div class="banner-single-slide">
-            <div class="banner-slide-thumb">
-              <img src="/images/banner-slide-2.png" alt="" />
-              <h3>
-                Name of the art <span class="d-block">0.04 ETH</span>
-              </h3>
-            </div>
-          </div>
+          ))}
         </Slider>
       </div>
     </section>

@@ -21,14 +21,7 @@ const BidsModal = ({ nftCollection, tokenId }) => {
   const [ETHAmount, setETHAmount] = useState(0.05);
   const tokenIds = router.query.item;
   const collectionAddress = router.query.address;
-  console.log(
-    "buy modal' + 'tokenId" +
-      tokenIds +
-      "" +
-      "collectionAddress" +
-      "" +
-      collectionAddress
-  );
+
   const handleEThAmount = (e) => {
     e.preventDefault();
     setETHAmount(e.target.value);
@@ -39,11 +32,11 @@ const BidsModal = ({ nftCollection, tokenId }) => {
 
   // Connect to our marketplace contract via the useContract hook
   const { contract: marketplace } = useContract(
-    "0x6cc430d1D97B866aBbFDc186Fa9e8F1e50E1987c", // Your marketplace contract address here
+    process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
     "marketplace"
   );
 
-  const tokenAddress = "0xAC0D4a478Eb1e614A066A622F3Cc9EF07270c460";
+  const tokenAddress = process.env.NEXT_PUBLIC_ARTLUX_TOKEN_ADDRESS;
 
   async function createDirectListing() {
     try {

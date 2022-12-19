@@ -9,6 +9,7 @@ import Auctions_dropdown from "../dropdown/Auctions_dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { buyModalShow } from "../../redux/counterSlice";
 
+import NftCard from "../ayrisdev/nftCard";
 //sanity
 import { client } from "../../lib/sanityClient";
 // thirdweb
@@ -22,6 +23,7 @@ import {
   useActiveListings,
   ThirdwebNftMedia,
   useContractMetadata,
+  useAddress,
 } from "@thirdweb-dev/react";
 
 const CategoryItem = () => {
@@ -37,7 +39,10 @@ const CategoryItem = () => {
   const [nftsData, setNftsData] = useState({});
   const [collId, setCollId] = useState({});
   const [contractAddress, setContractAddress] = useState();
+  const [ownerAddress, setOwnerAddress] = useState();
 
+  const [isListed, setIsListed] = useState(false);
+  const [price, setPrice] = useState(0);
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "collections" && title == "${collectionId}" ] {
@@ -45,6 +50,7 @@ const CategoryItem = () => {
       "bannerImageUrl": bannerImage.asset->url,
   "featuredImageUrl": featuredImage.asset->url,
       volumeTraded,
+      "creatorAddress": createdBy->walletAddress,
       createdBy,
       contractAddress,
       "creator": createdBy->userName,
@@ -57,11 +63,10 @@ const CategoryItem = () => {
     const collectionData = await sanityClient.fetch(query);
 
     await setContractAddress(collectionData[0].contractAddress);
-    console.log(collectionData[0].contractAddress, "🔥");
-    // the query returns 1 object inside of an array
+    await setOwnerAddress(collectionData[0].creatorAddress);
     await setCollection(collectionData[0]);
     await setCollId(collectionData[0]._id);
-    console.log(collId, "collId");
+
     const nftQuery = `*[_type == "nft" && collections._ref=="${collId}"] {
       title,
         logoImage,
@@ -75,20 +80,29 @@ const CategoryItem = () => {
   useEffect(() => {
     fetchCollectionData();
   }, [collectionId]);
-  {
-    /* 
+
+  //ThirdWeb
+  // Collection Data
+  const { contract: collectionData } = useContract(contractAddress);
+  // Collection NFT Data
+  const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
+  // MarketPlace Data
+  const { contract: marketplace } = useContract(
+    process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
+    "marketplace"
+  );
+  console.log(collectionData);
+
+  const { data: listings, isLoading: loadingListings } =
+    useActiveListings(marketplace);
+
   if (loadingNfts || !nfts)
     return (
       <div className={"flex h-screen items-center justify-center"}>
         Loading ...
       </div>
-    ); */
-  }
+    );
 
-  const { contract: collectionData } = useContract(contractAddress);
-
-  const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
-  console.log(collectionData);
   return (
     <>
       {loadingNfts ? (
@@ -97,90 +111,14 @@ const CategoryItem = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-2 lg:grid-cols-4">
-          {nfts?.map((nft) => (
-            <article key={nft.metadata.id}>
-              <div className="dark:bg-jacarta-700 dark:border-jacarta-700 border-jacarta-100 rounded-2.5xl block border bg-white p-[1.1875rem] transition-shadow hover:shadow-lg">
-                <figure className="relative">
-                  <Link href={`/assets/${contractAddress}/${nft.metadata.id}`}>
-                    <a>
-                      <img
-                        src={nft.metadata.image}
-                        alt="item 5"
-                        className="w-full h-[230px] rounded-[0.625rem] object-cover"
-                      />
-                    </a>
-                  </Link>
-
-                  <div className="absolute left-3 -bottom-3">
-                    <div className="flex -space-x-2">
-                      <Link href={`/item/${nft.metadata.name}`}>
-                        <a>
-                          {/* 
-                      <Tippy content={<span>creator: {creator.name}</span>}>
-                        <img
-                          src={creator.image}
-                          alt="creator"
-                          className="dark:border-jacarta-600 hover:border-accent dark:hover:border-accent h-6 w-6 rounded-full border-2 border-white"
-                        />
-                      </Tippy> */}
-                        </a>
-                      </Link>
-                      <Link href={`/item/${nft.metadata.name}`}>
-                        <a>
-                          {/* 
-                      <Tippy content={<span>creator: {owner.name}</span>}>
-                        <img
-                          src={owner.image}
-                          alt="owner"
-                          layout="fill"
-                          className="dark:border-jacarta-600 hover:border-accent dark:hover:border-accent h-6 w-6 rounded-full border-2 border-white"
-                        />
-                      </Tippy> */}
-                        </a>
-                      </Link>
-                    </div>
-                  </div>
-                </figure>
-                <div className="mt-7 flex items-center justify-between">
-                  <Link href={`/item/${nft.metadata.name}`}>
-                    <a>
-                      <span className="font-display text-jacarta-700 hover:text-accent text-base dark:text-white">
-                        {nft.metadata.name}
-                      </span>
-                    </a>
-                  </Link>
-
-                  {/* auction dropdown  */}
-                  <Auctions_dropdown classes="dark:hover:bg-jacarta-600 dropup hover:bg-jacarta-100 rounded-full" />
-                </div>
-                <div className="mt-2 text-sm">
-                  <span className="dark:text-jacarta-200 text-jacarta-700 mr-1">
-                    10 eth
-                  </span>
-                  <span className="dark:text-jacarta-300 text-jacarta-500">
-                    1/3
-                  </span>
-                </div>
-
-                <div className="mt-8 flex items-center justify-between">
-                  <button
-                    className="text-accent font-display text-sm font-semibold"
-                    onClick={() => dispatch(buyModalShow())}>
-                    Buy now
-                  </button>
-                  <Link href={`/item/${nft.metadata.name}`}>
-                    <a className="group flex items-center">
-                      <svg className="icon icon-history group-hover:fill-accent dark:fill-jacarta-200 fill-jacarta-500 mr-1 mb-[3px] h-4 w-4">
-                        <use xlinkHref="/icons.svg#icon-history"></use>
-                      </svg>
-                      <span className="group-hover:text-accent font-display dark:text-jacarta-200 text-sm font-semibold">
-                        View History
-                      </span>
-                    </a>
-                  </Link>
-                </div>
-              </div>
-            </article>
+          {nfts?.map((nft, id) => (
+            <NftCard
+              key={id}
+              nft={nft}
+              contractAddress={contractAddress}
+              listings={listings}
+              ownerAddress={ownerAddress}
+            />
           ))}
         </div>
       )}

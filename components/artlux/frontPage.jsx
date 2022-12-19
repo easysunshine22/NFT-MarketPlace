@@ -5,13 +5,13 @@ import NotCollection from "./NotableCollection/notCollection";
 import BrowseCat from "./BrowseCategory/browseCat";
 import Foot from "./Footer/foot";
 import Hero from "../hero/hero";
-const FrontPage = ({ collectionItem }) => {
+const FrontPage = ({ listings, collectionList, categoryList }) => {
   return (
     <>
-      <BannerArea />
-      <Table />
-      <NotCollection />
-      <BrowseCat />
+      <BannerArea listings={listings} collectionList={collectionList} />
+      <Table collectionList={collectionList} />
+      <NotCollection collectionList={collectionList} />
+      <BrowseCat categoryList={categoryList} />
     </>
   );
 };

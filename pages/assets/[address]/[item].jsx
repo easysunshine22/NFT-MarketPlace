@@ -24,6 +24,7 @@ import {
   useActiveListings,
   ThirdwebNftMedia,
   useAddress,
+  Web3Button,
 } from "@thirdweb-dev/react";
 import {
   ChainId,
@@ -64,21 +65,22 @@ const Item = () => {
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
-    const query = `*[_type == "marketItems" && contractAddress == "${collectionAddress}" ] {
+    const query = `*[_type == "collections" && contractAddress == "${collectionAddress}" ] {
 		  "imageUrl": profileImage.asset->url,
 		  "bannerImageUrl": bannerImage.asset->url,
+      "creatorAddress": createdBy->walletAddress,
 		  volumeTraded,
 		  createdBy,
 		  contractAddress,
 		  "creator": createdBy->userName,
 		  title, floorPrice,
-		  "allOwners": owners[0]->profileImage.asset->url,
+		  "allOwners": createdBy->profileImage.asset->url,
 		  description
 		}`;
 
     const collectionData = await sanityClient.fetch(query);
 
-    console.log(collectionData, "🔥");
+    console.log(collectionData, "🔥collection data");
 
     // the query returns 1 object inside of an array
     await setCollection(collectionData[0]);
@@ -109,6 +111,19 @@ const Item = () => {
   }, [address]);
 
   console.log("nft" + nfts);
+
+  let webutton;
+  if (!address) {
+    webutton = (
+      <Web3Button
+        contractAddress="0xA71a329a6F84c4191abE80DC8497D604023bc23B"
+        action={() => mintWithSignature()}>
+        Mint NFT With Artlux Collection
+      </Web3Button>
+    );
+  } else {
+    webutton = <Web3Button>Mint NFT With Your Collection</Web3Button>;
+  }
 
   return (
     <>
@@ -196,14 +211,14 @@ const Item = () => {
                   {/* <!-- Likes / Actions --> */}
                   <div className="ml-auto flex items-stretch space-x-2 relative">
                     {/* <!-- Actions --> */}
-                    <Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white" />
+                    <Auctions_dropdown classes="border-jacarta-100 dropdown hover:bg-jacarta-100 rounded-xl border bg-white" />
                   </div>
                 </div>
 
                 <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
                   {nfts.metadata.name}
                 </h1>
-
+                {/* <!-- Collection / Likes / Actions --> 
                 <div className="mb-8 flex items-center space-x-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <Tippy content={<span>ETH</span>}>
@@ -224,7 +239,7 @@ const Item = () => {
                     1/1 available
                   </span>
                 </div>
-
+*/}
                 <p className="dark:text-jacarta-300 mb-10">
                   {collection?.description}
                 </p>
@@ -267,7 +282,7 @@ const Item = () => {
                       </Link>
                     </div>
                   </div>
-                  {/* <!-- Owner --> 
+                  {/* <!-- Owner --> 	  */}
                   <div className="mb-4 flex">
                     <figure className="mr-4 shrink-0">
                       <Link href="/user/123">
@@ -303,67 +318,66 @@ const Item = () => {
                       </Link>
                     </div>
                   </div>
-				  */}
                 </div>
 
                 {/* <!-- Bid --> */}
                 <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
-                  {/* <!-- Highest bid --> 
-				  <div className="mb-8 sm:flex sm:flex-wrap">
-                    {/* <!-- Highest bid --> 
-                  <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
-                    <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                      <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                        Highest bid by{" "}
-                      </span>
-                      <Link href="/user/avatar_6">
-                        <a className="text-accent text-sm font-bold">
-                          0x695d2ef170ce69e794707eeef9497af2de25df82
-                        </a>
-                      </Link>
-                    </div>
-                    <div className="mt-3 flex">
-                      <figure className="mr-4 shrink-0">
-                        <Link href="#">
-                          <a className="relative block">
-                            <img
-                              src="/images/avatars/avatar_4.jpg"
-                              alt="avatar"
-                              className="rounded-2lg h-12 w-12"
-                              loading="lazy"
-                            />
+                  {/* <!-- Highest bid -->  */}
+                  <div className="mb-8 sm:flex sm:flex-wrap">
+                    {/* <!-- Highest bid -->  */}
+                    <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
+                      <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
+                        <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
+                          Highest bid by{" "}
+                        </span>
+                        <Link href="/user/avatar_6">
+                          <a className="text-accent text-sm font-bold">
+                            0x695d2ef170ce69e794707eeef9497af2de25df82
                           </a>
                         </Link>
-                      </figure>
-                      <div>
-                        <div className="flex items-center whitespace-nowrap">
-                          <Tippy content={<span>ETH</span>}>
-                            <span className="-ml-1">
-                              <svg className="icon mr-1 h-4 w-4">
-                                <use xlinkHref="/icons.svg#icon-ETH"></use>
-                              </svg>
+                      </div>
+                      <div className="mt-3 flex">
+                        <figure className="mr-4 shrink-0">
+                          <Link href="#">
+                            <a className="relative block">
+                              <img
+                                src="/images/avatars/avatar_4.jpg"
+                                alt="avatar"
+                                className="rounded-2lg h-12 w-12"
+                                loading="lazy"
+                              />
+                            </a>
+                          </Link>
+                        </figure>
+                        <div>
+                          <div className="flex items-center whitespace-nowrap">
+                            <Tippy content={<span>ETH</span>}>
+                              <span className="-ml-1">
+                                <svg className="icon mr-1 h-4 w-4">
+                                  <use xlinkHref="/icons.svg#icon-ETH"></use>
+                                </svg>
+                              </span>
+                            </Tippy>
+                            <span className="text-green text-lg font-medium leading-tight tracking-tight">
+                              1 ETH
                             </span>
-                          </Tippy>
-                          <span className="text-green text-lg font-medium leading-tight tracking-tight">
-                            1 ETH
+                          </div>
+                          <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
+                            ~10,864.10
                           </span>
                         </div>
-                        <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                          ~10,864.10
-                        </span>
                       </div>
                     </div>
-                  </div>
-*/}
-                  {/* <!-- Countdown -->
+
+                    {/* <!-- Countdown --> */}
                     <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
                       <span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
                         Auction ends in
                       </span>
-                      {/* <!-- Countdown --> 
-                      <Items_Countdown_timer time={+auction_timer} /> 
+                      {/* <!-- Countdown -->  */}
+                      <Items_Countdown_timer />
                     </div>
-                  </div>  */}
+                  </div>
 
                   <Link href="#">
                     <button
@@ -384,8 +398,8 @@ const Item = () => {
               </div>
               {/* <!-- end details --> */}
             </div>
-            {/* <!-- Item --> 
-            <ItemsTabs /> */}
+            {/*   <!-- Item --> */}
+            <ItemsTabs />
           </div>
         </section>
       )}

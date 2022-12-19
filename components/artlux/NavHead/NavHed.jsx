@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import {
   isChildrenPageActive,
@@ -6,11 +6,20 @@ import {
 } from "../../../utils/daynamicNavigation";
 import { useRouter } from "next/router";
 import Link from "next/link";
+
+//Icons
 import { BsCart2 } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
 import { AiOutlineTable, AiOutlineSetting } from "react-icons/ai";
 import { VscAccount } from "react-icons/vsc";
 import { CiWallet, CiLogout } from "react-icons/ci";
+
+//Thirdweb
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+
+//sanity
+import { client } from "../../../lib/sanityClient";
+
 const NavHed = () => {
   const route = useRouter();
   const explore = {
@@ -199,6 +208,31 @@ const NavHed = () => {
       },
     ],
   };
+
+  //Thirdweb
+  const address = useAddress();
+
+  // Sanity
+  const [collection, setCollection] = useState({});
+  const fetchCollectionData = async (sanityClient = client) => {
+    const query = `*[_type == "users" && walletAddress=="${address}"] {
+        userName,
+        walletAddress
+      }`;
+
+    const collectionData = await sanityClient.fetch(query);
+
+    // the query returns 1 object inside of an array
+    await setCollection(collectionData[0]);
+  };
+
+  useEffect(() => {
+    if (!address) {
+      return;
+    } else {
+      fetchCollectionData();
+    }
+  }, [address]);
 
   return (
     <header class="header-area" id="header_area">
@@ -427,12 +461,12 @@ const NavHed = () => {
             </ul>
 
             <ul class="header-meta ">
-              <div className="mr-[35px] js-nav-dropdown group-dropdown relative">
+              <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/user.png" alt="" />
                 </button>
                 <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
-                  <Link href="#">
+                  <Link href={`/user/${collection.userName}`}>
                     <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                       <VscAccount />
                       <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
@@ -457,7 +491,7 @@ const NavHed = () => {
                     </a>
                   </Link>
 
-                  <Link href="#">
+                  <Link href={`/profile/${collection.userName}`}>
                     <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
                       <AiOutlineSetting />
                       <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
@@ -476,55 +510,22 @@ const NavHed = () => {
                 </div>
               </div>
 
-              <div className="mr-[35px] js-nav-dropdown group-dropdown relative">
+              <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/wallet.png" alt="" />
                 </button>
                 <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
                   <Link href="#">
                     <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <VscAccount />
                       <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Profile
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/collection">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <AiOutlineTable />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        My Collections
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/create">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <IoCreateOutline />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Create
-                      </span>
-                    </a>
-                  </Link>
-
-                  <Link href="#">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <AiOutlineSetting />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Settings
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/login">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <CiLogout />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Log out
+                        <ConnectWallet />
                       </span>
                     </a>
                   </Link>
                 </div>
               </div>
-              <div className="mr-[35px] js-nav-dropdown group-dropdown relative">
+
+              <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/cart.png" alt="" />
                 </button>

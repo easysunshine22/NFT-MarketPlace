@@ -1,6 +1,6 @@
 import React from "react";
 
-const ArtluxTable = () => {
+const ArtluxTable = ({ collectionList }) => {
   return (
     <section id="nft-table-section">
       <img class="shape1" src="/images/shape-right.png" alt="" />
@@ -38,7 +38,9 @@ const ArtluxTable = () => {
                       </span>
                     </div>
                   </div>
-                  <button class="primary-btn">View All</button>
+                  <button class="primary-btn">
+                    <a href="collection/explore_collection">View All</a>
+                  </button>
                 </div>
               </div>
               <table class="table">
@@ -50,136 +52,21 @@ const ArtluxTable = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>1</span>
-                          <img src="/images/nft-icon.png" alt="" />
+                  {collectionList?.map((collectionList) => (
+                    <tr>
+                      <td class="min-table-width">
+                        <div class="nft-table-item">
+                          <div class="nft-icon">
+                            <span>1</span>
+                            <img src={collectionList.logoImageUrl} alt="" />
+                          </div>
+                          <h4>{collectionList.title}</h4>
                         </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>2</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>3</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>4</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>5</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>6</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>7</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>8</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>9</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
-                  <tr>
-                    <td class="min-table-width">
-                      <div class="nft-table-item">
-                        <div class="nft-icon">
-                          <span>10</span>
-                          <img src="/images/nft-icon.png" alt="" />
-                        </div>
-                        <h4>Aboard NFTs</h4>
-                      </div>
-                    </td>
-                    <td>0.01 ETH</td>
-                    <td>3ETH</td>
-                  </tr>
+                      </td>
+                      <td>{collectionList.floorPrice} AD</td>
+                      <td>{collectionList.volumeTraded} AD</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

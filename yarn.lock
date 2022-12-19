@@ -3756,6 +3756,13 @@ codemirror@^6.0.0:
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
 
+coingecko-api-v3@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/coingecko-api-v3/-/coingecko-api-v3-0.0.15.tgz#a29ad190a1ced52db4ca48ff4e347366a3ed1b35"
+  integrity sha512-iD6uSWiI2wP/vTA6AWN7y/DujIHV6q+ddinDguzkyZ8Kj/3RmQrESQdSpe3WT9MturRL+M7ZL1I8d/o5c/nPbw==
+  dependencies:
+    https "^1.0.0"
+
 color-convert@^1.9.0:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
@@ -6097,6 +6104,11 @@ https-proxy-agent@^5.0.1:
   dependencies:
     agent-base "6"
     debug "4"
+
+https@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/https/-/https-1.0.0.tgz#3c37c7ae1a8eeb966904a2ad1e975a194b7ed3a4"
+  integrity sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==
 
 humanize-list@^1.0.1:
   version "1.0.1"

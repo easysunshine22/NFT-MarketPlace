@@ -1,6 +1,7 @@
 import React from "react";
 import Slider from "react-slick";
-const notCollection = () => {
+import Link from "next/link";
+const notCollection = ({ collectionList }) => {
   const settings = {
     infinite: true,
     slidesToShow: 3,
@@ -61,94 +62,21 @@ const notCollection = () => {
         </div>
         <div className="collection-slider-area">
           <Slider {...settings}>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/1.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/2.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/3.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/4.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/5.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/2.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/3.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
-            <div className="single-collection-slide">
-              <img
-                className="collection-thumb"
-                src="/images/notable-collections/1.png"
-                alt=""
-              />
-              <div className="single-collection-slide-description">
-                <img src="/images/s.png" alt="" />
-                <h3>The Sandbox California</h3>
-              </div>
-            </div>
+            {collectionList?.map((collectionList) => (
+              <Link href={`/collection/${collectionList.title}`}>
+                <div className="single-collection-slide">
+                  <img
+                    className="collection-thumb"
+                    src={collectionList.featuredImageUrl}
+                    alt=""
+                  />
+                  <div className="single-collection-slide-description">
+                    <img src={collectionList.logoImageUrl} alt="" />
+                    <h3>{collectionList.title}</h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </Slider>
         </div>
       </div>

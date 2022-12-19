@@ -13,7 +13,12 @@ import SpotlightCards from "../components/cards/spotlightCards";
 import ListCategories from "../components/cards/listCategories";
 
 // ThirdWeb
-import { useAddress } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useContract,
+  useActiveListings,
+  useListing,
+} from "@thirdweb-dev/react";
 // sanity
 import { client } from "../lib/sanityClient";
 
@@ -23,7 +28,18 @@ import Cta from "../components/cta/cta";
 
 import FrontPage from "../components/artlux/frontPage";
 
-const Home = ({ animals, categoryList, blockchainList }) => {
+const Home = ({ categoryList, blockchainList, collectionList }) => {
+  // Connect your marketplace smart contract here (replace this address)
+  const { contract: marketplace } = useContract(
+    process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
+    "marketplace"
+  );
+
+  console.log(categoryList + "category");
+
+  const { data: listings, isLoading: loadingListings } =
+    useActiveListings(marketplace);
+
   const address = useAddress();
 
   const { scrollRef } = useContext(UserContext);
@@ -39,12 +55,20 @@ const Home = ({ animals, categoryList, blockchainList }) => {
     };
   });
 
+  if (loadingListings) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Meta title=" Artlux  NFT Marketplace " />
       <Toaster position="bottom-center" reverseOrder={false} />
 
-      <FrontPage />
+      <FrontPage
+        listings={listings}
+        collectionList={collectionList}
+        categoryList={categoryList}
+      />
 
       {/* 
 
@@ -76,14 +100,15 @@ export async function getServerSideProps() {
      contractAddress,
      creator,
      "createdBy": createdBy->userName,
-     title, floorPrice,
-    
+     title, 
+     floorPrice,    
      description
 }`;
   const categoryListQuery = `*[_type == "category"] {
   category,
   icon,
   url,
+  "featuredImageUrl": featuredImage.asset->url,
 }`;
 
   const blockchainListQuery = `*[_type == "blockchain"] {
@@ -92,25 +117,29 @@ export async function getServerSideProps() {
   "id": _id,
 }`;
 
-  const animals = await client.fetch(animalsQuery);
+  const collectionList = await client.fetch(animalsQuery);
   const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);
 
-  if (!animals.length && !categoryList.length && !blockchainList.length) {
+  if (
+    !collectionList.length &&
+    !categoryList.length &&
+    !blockchainList.length
+  ) {
     return {
       props: {
-        animals: [],
+        collectionList: [],
         categoryList: [],
         blockchainList: [],
       },
     };
   } else {
-    console.log(animals + "collections");
-    console.log(categoryList + "category");
+    console.log(collectionList + "collections");
+
     console.log(blockchainList + "blockchain");
     return {
       props: {
-        animals,
+        collectionList,
         categoryList,
         blockchainList,
       },

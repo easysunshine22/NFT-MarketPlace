@@ -18,5 +18,10 @@ export default {
       title: "icon",
       type: "image",
     },
+    {
+      name: "featuredImage",
+      title: "Featured Image",
+      type: "image",
+    },
   ],
 };

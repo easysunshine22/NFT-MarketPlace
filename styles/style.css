@@ -663,16 +663,18 @@ th {
 }
 
 .single-collection-slide-description img {
-  height: auto;
-  max-width: 125px;
+  width: 80px;
+  height: 80px;
   margin-top: -55px;
+  border-radius: 100%;
+  border: 3px solid #fff;
 }
 
 .single-collection-slide-description h3 {
   font-size: 24px;
   font-weight: 600;
   margin-bottom: 0;
-  margin-top: -15px;
+  margin-top: 5px;
 }
 
 .collection-slides .slick-slide:nth-child(odd) {

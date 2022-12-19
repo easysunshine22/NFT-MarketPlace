@@ -1,12 +1,14 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { buyModalHide } from "../../redux/counterSlice";
 import { Confirm_checkout } from "../metamask/Metamask";
 
-const BuyModal = () => {
+const BuyModal = ({ nft, isListed, price, symbol }) => {
   const { buyModal } = useSelector((state) => state.counter);
   const dispatch = useDispatch();
+
+  // Thirdweb
 
   return (
     <div>
@@ -56,9 +58,7 @@ const BuyModal = () => {
                 </figure>
 
                 <div>
-                  <a href="collection.html" className="text-accent text-sm">
-                    Elon Musk #709
-                  </a>
+                  <a href="collection.html" className="text-accent text-sm"></a>
                   <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
                     Lazyone Panda
                   </h3>
@@ -88,11 +88,11 @@ const BuyModal = () => {
                       </svg>
                     </span>
                     <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
-                      1.55 ETH
+                      {price}
                     </span>
                   </span>
                   <div className="dark:text-jacarta-300 text-right text-sm">
-                    $130.82
+                    {price}
                   </div>
                 </div>
               </div>
