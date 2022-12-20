@@ -12,7 +12,7 @@ import Likes from "../../../components/likes";
 import Meta from "../../../components/Meta";
 import { useDispatch } from "react-redux";
 import { bidsModalShow } from "../../../redux/counterSlice";
-
+import axios from "axios";
 // thirdweb
 import {
   MediaRenderer,
@@ -39,17 +39,39 @@ import { client } from "../../../lib/sanityClient";
 const Item = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  //Theme
+  const [showModal, setShowModal] = useState(false);
   const [collection, setCollection] = useState({});
   const [nftMeta, setNftMeta] = useState({});
   const [user, setUser] = useState({});
   const address = useAddress();
   const tokenId = router.query.item;
   const collectionAddress = router.query.address;
+  const [nftOwnerAddress, setNftOwnerAddress] = useState();
+  const [myNft, setMyNft] = useState(false);
+  const [isListed, setListed] = useState(router.query.isListed);
+
+  const [tokenPrice, setData] = useState(null);
+
+  const url =
+    "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data.ethereum.usd);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const [imageModal, setImageModal] = useState(false);
   console.log(
     "tokenId" + tokenId + "" + "collectionAddress" + "" + collectionAddress
   );
+  console.log(JSON.stringify(tokenPrice) + "tokenPrice");
 
   //ThirdWeb
   // Connect to our Collection contract via the useContract hook
@@ -110,19 +132,15 @@ const Item = () => {
     userData();
   }, [address]);
 
-  console.log("nft" + nfts);
+  if (!isReadingNfts && address === nfts.owner) {
+    setMyNft(true);
+  }
 
   let webutton;
-  if (!address) {
-    webutton = (
-      <Web3Button
-        contractAddress="0xA71a329a6F84c4191abE80DC8497D604023bc23B"
-        action={() => mintWithSignature()}>
-        Mint NFT With Artlux Collection
-      </Web3Button>
-    );
+  if (!isReadingNfts && router.query.isListed === true) {
+    webutton = <div>Listeli</div>;
   } else {
-    webutton = <Web3Button>Mint NFT With Your Collection</Web3Button>;
+    webutton = <div>Listeli degil</div>;
   }
 
   return (
@@ -312,88 +330,117 @@ const Item = () => {
                       <Link href="/user/avatar_6">
                         <a className="text-accent block">
                           <span className="text-sm font-bold">
-                            {nfts.metadata.ownerName}
+                            {nfts.owner}
                           </span>
                         </a>
                       </Link>
                     </div>
                   </div>
                 </div>
+                {isListed ? (
+                  <div>
+                    {myNft ? (
+                      <div> Listeli değil ve benim değil </div>
+                    ) : (
+                      <div>
+                        {" "}
+                        <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
+                          <div className="mb-8 sm:flex sm:flex-wrap"></div>
 
-                {/* <!-- Bid --> */}
-                <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
-                  {/* <!-- Highest bid -->  */}
-                  <div className="mb-8 sm:flex sm:flex-wrap">
-                    {/* <!-- Highest bid -->  */}
-                    <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
-                      <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                        <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                          Highest bid by{" "}
-                        </span>
-                        <Link href="/user/avatar_6">
-                          <a className="text-accent text-sm font-bold">
-                            0x695d2ef170ce69e794707eeef9497af2de25df82
-                          </a>
-                        </Link>
+                          <button
+                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+                            onClick={() => setShowModal(true)}>
+                            Listeli değil ve benim
+                          </button>
+                        </div>{" "}
                       </div>
-                      <div className="mt-3 flex">
-                        <figure className="mr-4 shrink-0">
-                          <Link href="#">
-                            <a className="relative block">
-                              <img
-                                src="/images/avatars/avatar_4.jpg"
-                                alt="avatar"
-                                className="rounded-2lg h-12 w-12"
-                                loading="lazy"
-                              />
-                            </a>
-                          </Link>
-                        </figure>
-                        <div>
-                          <div className="flex items-center whitespace-nowrap">
-                            <Tippy content={<span>ETH</span>}>
-                              <span className="-ml-1">
-                                <svg className="icon mr-1 h-4 w-4">
-                                  <use xlinkHref="/icons.svg#icon-ETH"></use>
-                                </svg>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {myNft ? (
+                      <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
+                        <div className="mb-8 sm:flex sm:flex-wrap">
+                          {/* <!-- Highest bid -->  */}
+                          <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
+                            <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
+                              <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
+                                Highest bid by{" "}
                               </span>
-                            </Tippy>
-                            <span className="text-green text-lg font-medium leading-tight tracking-tight">
-                              1 ETH
-                            </span>
+                              <Link href="/user/avatar_6">
+                                <a className="text-accent text-sm font-bold">
+                                  0x695d2ef170ce69e794707eeef9497af2de25df82
+                                </a>
+                              </Link>
+                            </div>
+                            <div className="mt-3 flex">
+                              <figure className="mr-4 shrink-0">
+                                <Link href="#">
+                                  <a className="relative block">
+                                    <img
+                                      src="/images/avatars/avatar_4.jpg"
+                                      alt="avatar"
+                                      className="rounded-2lg h-12 w-12"
+                                      loading="lazy"
+                                    />
+                                  </a>
+                                </Link>
+                              </figure>
+                              <div>
+                                <div className="flex items-center whitespace-nowrap">
+                                  <Tippy content={<span>ETH</span>}>
+                                    <span className="-ml-1">
+                                      <svg className="icon mr-1 h-4 w-4">
+                                        <use xlinkHref="/icons.svg#icon-ETH"></use>
+                                      </svg>
+                                    </span>
+                                  </Tippy>
+                                  <span className="text-green text-lg font-medium leading-tight tracking-tight">
+                                    1 ETH
+                                  </span>
+                                </div>
+                                <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
+                                  ~10,864.10
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                          <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                            ~10,864.10
-                          </span>
+
+                          {/* <!-- Countdown --> */}
+                          <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
+                            <span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
+                              Auction ends in
+                            </span>
+                            {/* <!-- Countdown -->  */}
+                            <Items_Countdown_timer />
+                          </div>
+                        </div>
+
+                        <div>
+                          <button
+                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+                            onClick={() => setShowModal(true)}>
+                            Başkasının NFT Listeli // Make Offer
+                          </button>
+                        </div>
+
+                        <div>
+                          <button
+                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+                            onClick={() => setShowModal(true)}>
+                            Benim NFT Listeli Değil // Sell Now
+                          </button>
                         </div>
                       </div>
-                    </div>
-
-                    {/* <!-- Countdown --> */}
-                    <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
-                      <span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
-                        Auction ends in
-                      </span>
-                      {/* <!-- Countdown -->  */}
-                      <Items_Countdown_timer />
-                    </div>
+                    ) : (
+                      <button
+                        className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+                        onClick={() => setShowModal(true)}>
+                        Benim NFT Listeli Değil // Sell Now
+                      </button>
+                    )}
                   </div>
-
-                  <Link href="#">
-                    <button
-                      className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                      onClick={() =>
-                        dispatch(
-                          bidsModalShow(
-                            ((nftCollection = nftCollection),
-                            (tokenId = tokenId))
-                          )
-                        )
-                      }>
-                      Place Bid
-                    </button>
-                  </Link>
-                </div>
+                )}
                 {/* <!-- end bid --> */}
               </div>
               {/* <!-- end details --> */}
@@ -404,9 +451,139 @@ const Item = () => {
         </section>
       )}
 
-      {/* <!-- end item --> 
+      {showModal ? (
+        <>
+          <div className="modal fade show block">
+            <div className="modal-dialog max-w-2xl">
+              {/*content*/}
+              <div className="modal-content">
+                {/*header*/}
+                <div className="modal-header">
+                  <h5 className="modal-title" id="placeBidLabel">
+                    Complete Checkout
+                  </h5>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="fill-jacarta-700 h-6 w-6 dark:fill-white">
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                    </svg>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="modal-body p-6">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Item
+                    </span>
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Subtotal
+                    </span>
+                  </div>
 
-      <More_items /> */}
+                  <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
+                    <figure className="mr-5 self-start">
+                      <img
+                        src={nfts.metadata.image}
+                        alt="avatar 2"
+                        className="rounded-2lg w-[150px] h-[150px] object-fill"
+                        loading="lazy"
+                      />
+                    </figure>
+
+                    <div>
+                      <a
+                        href="collection.html"
+                        className="text-accent text-sm"></a>
+                      <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                        {nfts.metadata.name}
+                      </h3>
+                      <div className="flex flex-wrap items-center">
+                        <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
+                          Creator Earnings: 5%
+                        </span>
+                        <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="dark:fill-jacarta-300 fill-jacarta-700 h-4 w-4">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="ml-auto">
+                      <span className="mb-1 flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight"></span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right text-sm"></div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Total --> */}
+                  <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
+                    <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
+                      Total
+                    </span>
+                    <div className="ml-auto">
+                      <span className="flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="text-green font-medium tracking-tight"></span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right"></div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Terms --> */}
+                  <div className="mt-4 flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="buyNowTerms"
+                      className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                    />
+                    <label
+                      htmlFor="buyNowTerms"
+                      className="dark:text-jacarta-200 text-sm">
+                      By checking this box, I agree to {"Ayris.Dev's"}{" "}
+                      <Link href="/tarms">
+                        <a className="text-accent">Terms of Service</a>
+                      </Link>
+                    </label>
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="modal-footer">
+                  <div className="flex items-center justify-center space-x-4">
+                    {webutton}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+
+      <More_items />
     </>
   );
 };

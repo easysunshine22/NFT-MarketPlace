@@ -27,7 +27,7 @@
     "@thirdweb-dev/react": "^3.6.2",
     "@thirdweb-dev/sdk": "^3.6.2",
     "@tippyjs/react": "^4.2.6",
-    "axios": "^1.2.0",
+    "axios": "^1.2.1",
     "chart.js": "^3.8.0",
     "coingecko-api-v3": "^0.0.15",
     "ethers": "^5.7.2",
