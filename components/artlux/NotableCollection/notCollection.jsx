@@ -64,17 +64,19 @@ const notCollection = ({ collectionList }) => {
           <Slider {...settings}>
             {collectionList?.map((collectionList) => (
               <Link href={`/collection/${collectionList.title}`}>
-                <div className="single-collection-slide">
-                  <img
-                    className="collection-thumb"
-                    src={collectionList.featuredImageUrl}
-                    alt=""
-                  />
-                  <div className="single-collection-slide-description">
-                    <img src={collectionList.logoImageUrl} alt="" />
-                    <h3>{collectionList.title}</h3>
+                <a>
+                  <div className="single-collection-slide">
+                    <img
+                      className="collection-thumb"
+                      src={collectionList.featuredImageUrl}
+                      alt=""
+                    />
+                    <div className="single-collection-slide-description">
+                      <img src={collectionList.logoImageUrl} alt="" />
+                      <h3>{collectionList.title}</h3>
+                    </div>
                   </div>
-                </div>
+                </a>
               </Link>
             ))}
           </Slider>
@@ -95,22 +97,31 @@ const notCollection = ({ collectionList }) => {
           </div>
           <div className="row gy-4">
             <div className="col-md-6">
-              <div className="spotlight-item">
-                <img src="/images/spotlight/1.png" alt="" />
-                <div className="spotlight-meta">
-                  <img src="/images/spotlight/meta-1.png" alt="" />
-                  <h4>Pancake Squad</h4>
-                </div>
-              </div>
+              <Link href="/collection/explore_collection">
+                <a>
+                  <div className="spotlight-item">
+                    <img src="/images/spotlight/1.png" alt="" />
+                    <div className="spotlight-meta">
+                      <img src="/images/spotlight/meta-1.png" alt="" />
+                      <h4>Pancake Squad</h4>
+                    </div>
+                  </div>
+                </a>
+              </Link>
             </div>
+
             <div className="col-md-6">
-              <div className="spotlight-item">
-                <img src="/images/spotlight/2.png" alt="" />
-                <div className="spotlight-meta">
-                  <img src="/images/spotlight/meta-1.png" alt="" />
-                  <h4>Pancake Squad</h4>
-                </div>
-              </div>
+              <Link href="/collection/explore_collection">
+                <a>
+                  <div className="spotlight-item">
+                    <img src="/images/spotlight/2.png" alt="" />
+                    <div className="spotlight-meta">
+                      <img src="/images/spotlight/meta-1.png" alt="" />
+                      <h4>Pancake Squad</h4>
+                    </div>
+                  </div>
+                </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, Component } from "react";
 import Slider from "react-slick";
+import Link from "next/link";
 import ArtCarousel from "../../cards/artCarousel";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
@@ -87,15 +88,21 @@ const ArtluxBanner = ({ listings, collectionList }) => {
       <div class="banner-right">
         <Slider {...settings}>
           {collectionList?.map((collectionList) => (
-            <div class="banner-single-slide">
-              <div class="banner-slide-thumb">
-                <img src={collectionList.featuredImageUrl} alt="" />
-                <h3>
-                  {collectionList.title}{" "}
-                  <span class="d-block">{collectionList.floorPrice} AD</span>
-                </h3>
-              </div>
-            </div>
+            <Link href={`/collection/${collectionList.title}`}>
+              <a>
+                <div class="banner-single-slide">
+                  <div class="banner-slide-thumb">
+                    <img src={collectionList.featuredImageUrl} alt="" />
+                    <h3>
+                      {collectionList.title}{" "}
+                      <span class="d-block">
+                        {collectionList.floorPrice} AD
+                      </span>
+                    </h3>
+                  </div>
+                </div>
+              </a>
+            </Link>
           ))}
         </Slider>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
-
+import Link from "next/link";
 const browseCat = ({ categoryList }) => {
   const settings = {
     infinite: true,
@@ -50,10 +50,14 @@ const browseCat = ({ categoryList }) => {
         <div class="category-slider">
           <Slider {...settings}>
             {categoryList?.map((categoryList) => (
-              <div class="category-slide-item">
-                <img src={categoryList.featuredImageUrl} alt="" />
-                <h3>{categoryList.category}</h3>
-              </div>
+              <Link href={`/category/${categoryList.category}`}>
+                <a>
+                  <div class="category-slide-item">
+                    <img src={categoryList.featuredImageUrl} alt="" />
+                    <h3>{categoryList.category}</h3>
+                  </div>
+                </a>
+              </Link>
             ))}
           </Slider>
         </div>

@@ -1,5 +1,5 @@
 import "tippy.js/dist/tippy.css";
-
+import Link from "next/link";
 import {
   BsFillArrowLeftCircleFill,
   BsArrowRight,
@@ -63,30 +63,32 @@ const ArtsCarousel = ({ collectionItem }) => {
         className=" -ml-3 relative z-10 ">
         {collectionItem &&
           collectionItem.map((collectionItem, _id) => (
-            <SwiperSlide className="w-full h-full ">
-              <article className="w-full h-full  rounded-md sm:w-auto ">
-                <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
-                  <img
-                    src={collectionItem.featuredImageUrl}
-                    className="object-fill object-center rounded-[20px] w-full h-[515px]"
-                  />
+            <Link>
+              <SwiperSlide className="w-full h-full ">
+                <article className="w-full h-full  rounded-md sm:w-auto ">
+                  <div className="flex flex-shrink-0  sm:w-auto s:mx-2 sm:mx-0 ">
+                    <img
+                      src={collectionItem.featuredImageUrl}
+                      className="object-fill object-center rounded-[20px] w-full h-[515px]"
+                    />
 
-                  <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-4 ">
-                    <div className="flex h-full  items-end justify-center pb-2 text-center ">
-                      <div className="min-w-[80%] max-h-20  bg-white rounded-xl bg-opacity-10 py-2 backdrop-filter backdrop-blur-lg ">
-                        <h1 className="text-base  text-white">
-                          {collectionItem.title.slice(0, 15)}
-                        </h1>
-                        <p className="text-base text-white ">
-                          {" "}
-                          {collectionItem.floorPrice} BNB
-                        </p>
+                    <div className="bg-gray-800 bg-opacity-30 absolute w-full h-full px-4 py-4 ">
+                      <div className="flex h-full  items-end justify-center pb-2 text-center ">
+                        <div className="min-w-[80%] max-h-20  bg-white rounded-xl bg-opacity-10 py-2 backdrop-filter backdrop-blur-lg ">
+                          <h1 className="text-base  text-white">
+                            {collectionItem.title.slice(0, 15)}
+                          </h1>
+                          <p className="text-base text-white ">
+                            {" "}
+                            {collectionItem.floorPrice} BNB
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </article>
-            </SwiperSlide>
+                </article>
+              </SwiperSlide>
+            </Link>
           ))}
         <div className="swiper-button-prev-4 group absolute top-1/2 4xl:left-[810px] s:left-4 lg:hidden  z-50  flex h-16 w-16 cursor-pointer items-center justify-center rounded-full bg-white p-3 text-jacarta-700 text-xl shadow-white-volume">
           <BsArrowLeft

@@ -817,6 +817,9 @@ th {
   padding: 0 20px;
   font-size: 18px;
   font-weight: 600;
+  background: #d831b3;
+  box-shadow: 0px 15px 42px -4px rgb(122 104 255 / 54%);
+  border-radius: 100px;
 }
 
 .social-media a {
@@ -955,4 +958,28 @@ footer {
 
 .demo-dropdown > li:hover ul {
   display: block; /* Açılır menü li'nin üzerine mouse ile gelindiğinde görünür olacaktır. */
+}
+
+.loader {
+  border-top-color: #3498db;
+  -webkit-animation: spinner 1.5s linear infinite;
+  animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

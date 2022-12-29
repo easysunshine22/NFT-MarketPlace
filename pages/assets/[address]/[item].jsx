@@ -340,20 +340,16 @@ const Item = () => {
                 {isListed ? (
                   <div>
                     {myNft ? (
-                      <div> Listeli değil ve benim değil </div>
-                    ) : (
                       <div>
                         {" "}
-                        <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
-                          <div className="mb-8 sm:flex sm:flex-wrap"></div>
-
-                          <button
-                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                            onClick={() => setShowModal(true)}>
-                            Listeli değil ve benim
-                          </button>
-                        </div>{" "}
+                        <button
+                          className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
+                          onClick={() => setShowModal(true)}>
+                          Listeli değil ve benim değil
+                        </button>
                       </div>
+                    ) : (
+                      <div></div>
                     )}
                   </div>
                 ) : (

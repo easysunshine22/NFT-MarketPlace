@@ -33,20 +33,6 @@ const plans = [
 ];
 
 const ERC721Coll = ({ blockchainList, categoryList }) => {
-  const fileTypes = [
-    "JPG",
-    "PNG",
-    "GIF",
-    "SVG",
-    "MP4",
-    "WEBM",
-    "MP3",
-    "WAV",
-    "OGG",
-    "GLB",
-    "GLTF",
-  ];
-
   const [selected, setSelected] = useState(plans[1]);
   const dispatch = useDispatch();
 
@@ -216,11 +202,13 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   };
 
   async function deployCollection() {
-    const contractAddress = await sdk.deployer.deployNFTCollection({
+    const contractAddresss = await sdk.deployer.deployNFTCollection({
       name: collectionName,
       primary_sale_recipient: address,
     });
-    await setCollectionAddress(contractAddress);
+
+    setCollectionAddress(contractAddresss);
+    console.log("test123456");
     createCollection();
   }
 
@@ -599,12 +587,9 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
             <span> </span>
             {/* <!-- Submit --> */}
 
-            <Web3Button
-              contractAddress={process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}
-              action={() => deployCollection()}
-              onSuccess={notify}>
+            <button onClick={() => deployCollection()}>
               Create Collection
-            </Web3Button>
+            </button>
           </div>
         </div>
       </section>

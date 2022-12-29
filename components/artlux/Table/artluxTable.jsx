@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const ArtluxTable = ({ collectionList }) => {
   return (
@@ -53,19 +54,23 @@ const ArtluxTable = ({ collectionList }) => {
                 </thead>
                 <tbody>
                   {collectionList?.map((collectionList) => (
-                    <tr>
-                      <td class="min-table-width">
-                        <div class="nft-table-item">
-                          <div class="nft-icon">
-                            <span>1</span>
-                            <img src={collectionList.logoImageUrl} alt="" />
+                    <Link href={`/collection/${collectionList.title}`}>
+                      <tr>
+                        <td class="min-table-width">
+                          <div class="nft-table-item">
+                            <div class="nft-icon">
+                              <span>1</span>
+                              <img src={collectionList.logoImageUrl} alt="" />
+                            </div>
+                            <h4>
+                              <a> {collectionList.title} </a>
+                            </h4>
                           </div>
-                          <h4>{collectionList.title}</h4>
-                        </div>
-                      </td>
-                      <td>{collectionList.floorPrice} AD</td>
-                      <td>{collectionList.volumeTraded} AD</td>
-                    </tr>
+                        </td>
+                        <td>{collectionList.floorPrice} AD</td>
+                        <td>{collectionList.volumeTraded} AD</td>
+                      </tr>
+                    </Link>
                   ))}
                 </tbody>
               </table>
