@@ -206,9 +206,9 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
       name: collectionName,
       primary_sale_recipient: address,
     });
+    const data = await contractAddresss.json();
 
-    setCollectionAddress(contractAddresss);
-    console.log("test123456");
+    await setCollectionAddress(data);
     createCollection();
   }
 
@@ -587,9 +587,11 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
             <span> </span>
             {/* <!-- Submit --> */}
 
-            <button onClick={() => deployCollection()}>
+            <Web3Button
+              contractAddress={process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}
+              onClick={() => deployCollection()}>
               Create Collection
-            </button>
+            </Web3Button>
           </div>
         </div>
       </section>

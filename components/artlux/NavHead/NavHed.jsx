@@ -444,6 +444,9 @@ const NavHed = () => {
                   ))}
                 </ul>
               </li>
+              <li className="xl:hidden">
+                <ConnectWallet />
+              </li>
             </ul>
 
             <ul class="search-meta ms-auto">
