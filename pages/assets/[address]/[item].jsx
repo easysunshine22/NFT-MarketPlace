@@ -345,7 +345,7 @@ const Item = () => {
                         <button
                           className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
                           onClick={() => setShowModal(true)}>
-                          Listeli değil ve benim değil
+                          Listeli değil ve benim
                         </button>
                       </div>
                     ) : (
