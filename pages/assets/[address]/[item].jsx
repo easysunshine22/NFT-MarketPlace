@@ -44,10 +44,11 @@ const Item = () => {
   const [collection, setCollection] = useState({});
   const [nftMeta, setNftMeta] = useState({});
   const [user, setUser] = useState({});
+  const [nftsOwner, setNftsOwner] = useState({});
   const address = useAddress();
   const tokenId = router.query.item;
   const collectionAddress = router.query.address;
-  const [nftOwnerAddress, setNftOwnerAddress] = useState();
+
   const [myNft, setMyNft] = useState(false);
   const [isListed, setListed] = useState(router.query.isListed);
 
@@ -69,7 +70,7 @@ const Item = () => {
 
   const [imageModal, setImageModal] = useState(false);
   console.log(
-    "tokenId" + tokenId + "" + "collectionAddress" + "" + collectionAddress
+    "tokenId" + myNft + "" + "collectionAddress" + "" + collectionAddress
   );
   console.log(JSON.stringify(tokenPrice) + "tokenPrice");
 
@@ -132,15 +133,8 @@ const Item = () => {
     userData();
   }, [address]);
 
-  if (!isReadingNfts && address === nfts.owner) {
-    setMyNft(true);
-  }
-
-  let webutton;
-  if (!isReadingNfts && router.query.isListed === true) {
-    webutton = <div>Listeli</div>;
-  } else {
-    webutton = <div>Listeli degil</div>;
+  if (!isReadingNfts) {
+    setNftsOwner(nfts.owner);
   }
 
   return (
@@ -339,101 +333,38 @@ const Item = () => {
                 </div>
                 {isListed ? (
                   <div>
-                    {myNft ? (
+                    Listed
+                    {address === nftsOwner ? (
                       <div>
-                        {" "}
                         <button
-                          className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                          onClick={() => setShowModal(true)}>
-                          Listeli değil ve benim
+                          type="button"
+                          class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                          Cancel Listing
                         </button>
                       </div>
                     ) : (
-                      <div></div>
+                      <div>
+                        <button
+                          type="button"
+                          class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                          Buy NFT
+                        </button>
+                      </div>
                     )}
                   </div>
                 ) : (
                   <div>
+                    Not Listed{" "}
                     {myNft ? (
-                      <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 rounded-2lg border bg-white p-8">
-                        <div className="mb-8 sm:flex sm:flex-wrap">
-                          {/* <!-- Highest bid -->  */}
-                          <div className="sm:w-1/2 sm:pr-4 lg:pr-8">
-                            <div className="block overflow-hidden text-ellipsis whitespace-nowrap">
-                              <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                                Highest bid by{" "}
-                              </span>
-                              <Link href="/user/avatar_6">
-                                <a className="text-accent text-sm font-bold">
-                                  0x695d2ef170ce69e794707eeef9497af2de25df82
-                                </a>
-                              </Link>
-                            </div>
-                            <div className="mt-3 flex">
-                              <figure className="mr-4 shrink-0">
-                                <Link href="#">
-                                  <a className="relative block">
-                                    <img
-                                      src="/images/avatars/avatar_4.jpg"
-                                      alt="avatar"
-                                      className="rounded-2lg h-12 w-12"
-                                      loading="lazy"
-                                    />
-                                  </a>
-                                </Link>
-                              </figure>
-                              <div>
-                                <div className="flex items-center whitespace-nowrap">
-                                  <Tippy content={<span>ETH</span>}>
-                                    <span className="-ml-1">
-                                      <svg className="icon mr-1 h-4 w-4">
-                                        <use xlinkHref="/icons.svg#icon-ETH"></use>
-                                      </svg>
-                                    </span>
-                                  </Tippy>
-                                  <span className="text-green text-lg font-medium leading-tight tracking-tight">
-                                    1 ETH
-                                  </span>
-                                </div>
-                                <span className="dark:text-jacarta-300 text-jacarta-400 text-sm">
-                                  ~10,864.10
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* <!-- Countdown --> */}
-                          <div className="dark:border-jacarta-600 sm:border-jacarta-100 mt-4 sm:mt-0 sm:w-1/2 sm:border-l sm:pl-4 lg:pl-8">
-                            <span className="js-countdown-ends-label text-jacarta-400 dark:text-jacarta-300 text-sm">
-                              Auction ends in
-                            </span>
-                            {/* <!-- Countdown -->  */}
-                            <Items_Countdown_timer />
-                          </div>
-                        </div>
-
-                        <div>
-                          <button
-                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                            onClick={() => setShowModal(true)}>
-                            Başkasının NFT Listeli // Make Offer
-                          </button>
-                        </div>
-
-                        <div>
-                          <button
-                            className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                            onClick={() => setShowModal(true)}>
-                            Benim NFT Listeli Değil // Sell Now
-                          </button>
-                        </div>
+                      <div>
+                        <button
+                          type="button"
+                          class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                          Sell NFT
+                        </button>
                       </div>
                     ) : (
-                      <button
-                        className="bg-accent shadow-accent-volume hover:bg-accent-dark inline-block w-full rounded-full py-3 px-8 text-center font-semibold text-white transition-all"
-                        onClick={() => setShowModal(true)}>
-                        Benim NFT Listeli Değil // Sell Now
-                      </button>
+                      <div></div>
                     )}
                   </div>
                 )}

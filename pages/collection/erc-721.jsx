@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import Meta from "../../components/Meta";
-import { buyModalShow } from "../../redux/counterSlice";
+
 import { RadioGroup } from "@headlessui/react";
 import NcImage from "../../components/ayrisdev/NcImage/NcImage";
-
+import { useRouter } from "next/router";
 // ThirdWeb
 import { useAddress, useSDK, Web3Button } from "@thirdweb-dev/react";
 // sanity
@@ -34,7 +34,8 @@ const plans = [
 
 const ERC721Coll = ({ blockchainList, categoryList }) => {
   const [selected, setSelected] = useState(plans[1]);
-  const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const [selectedChain, setSelectedChain] = useState(null);
   const [selectedCat, setSelectedCat] = useState();
@@ -53,8 +54,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   const [collectionAddress, setCollectionAddress] = useState();
 
   // photo upload
-  console.log(selectedChain + "selectedchain");
-  console.log(selectedCat + "selectedCat");
+
   const [preview, setPreview] = useState();
   const [bannerPreview, setBannerPreview] = useState();
   const [featuredPreview, setFeaturedPreview] = useState();
@@ -113,39 +113,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
       });
   };
 
-  async function createCollection() {
-    const userDoc = {
-      _type: "collections",
-      _id: collectionName,
-      title: collectionName,
-      description: description,
-      webAddress: website,
-      collectionType: "erc721",
-      twitterAddress: twitter,
-      telegramAddress: telegram,
-      contractAddress: collectionAddress,
-      createdBy: {
-        _type: "reference",
-        _ref: address,
-      },
-      categories: {
-        _type: "reference",
-        _ref: `${selectedCat}`,
-      },
-      blockchain: {
-        _type: "reference",
-        _ref: `${selectedChain}`,
-      },
-      volumeTraded: 0,
-      floorPrice: 0,
-    };
-    await client.create(userDoc);
-
-    await updateLogoImage();
-    await updateBannerImage();
-    await updateFeaturedImage();
-    notify();
-  }
+  async function createCollection() {}
 
   const updateLogoImage = async (sanityClient = client) => {
     client
@@ -206,10 +174,41 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
       name: collectionName,
       primary_sale_recipient: address,
     });
-    const data = await contractAddresss.json();
+    const data = await contractAddresss.toString();
+    console.log(data + "contractAddressssss");
+    setCollectionAddress(data);
+    const userDoc = {
+      _type: "collections",
+      _id: collectionName,
+      title: collectionName,
+      description: description,
+      webAddress: website,
+      collectionType: "erc721",
+      twitterAddress: twitter,
+      telegramAddress: telegram,
+      contractAddress: contractAddresss,
+      createdBy: {
+        _type: "reference",
+        _ref: address,
+      },
+      categories: {
+        _type: "reference",
+        _ref: `${selectedCat}`,
+      },
+      blockchain: {
+        _type: "reference",
+        _ref: `${selectedChain}`,
+      },
+      volumeTraded: 0,
+      floorPrice: 0,
+    };
+    await client.create(userDoc);
 
-    await setCollectionAddress(data);
-    createCollection();
+    await updateLogoImage();
+    await updateBannerImage();
+    await updateFeaturedImage();
+    await notify();
+    router.push(`/collection/${collectionName}`);
   }
 
   const notify = (collectionAddress) =>
@@ -586,12 +585,13 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
 
             <span> </span>
             {/* <!-- Submit --> */}
-
-            <Web3Button
-              contractAddress={process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}
-              onClick={() => deployCollection()}>
-              Create Collection
-            </Web3Button>
+            <div className="mb-6 mt-16">
+              <Web3Button
+                contractAddress={process.env.NEXT_PUBLIC_COLLECTION_ADDRESS}
+                action={() => deployCollection()}>
+                Create Collection
+              </Web3Button>
+            </div>
           </div>
         </div>
       </section>

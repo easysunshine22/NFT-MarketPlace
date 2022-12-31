@@ -216,13 +216,15 @@ const ERC1155Coll = ({ blockchainList, categoryList }) => {
   };
 
   async function deployCollection() {
-    const contractAddress = await sdk.deployer.deployEdition({
+    const contractAddresss = await sdk.deployer.deployEdition({
       name: collectionName,
       primary_sale_recipient: address,
     });
-    await setCollectionAddress(contractAddress);
+
+    const data = await contractAddresss.toString();
+    console.log(data + "contractAddressssss");
+    setCollectionAddress(data);
     createCollection();
-    console.log(collectionAddress);
   }
 
   const notify = (collectionAddress) =>

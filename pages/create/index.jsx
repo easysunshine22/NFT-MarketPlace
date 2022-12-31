@@ -68,7 +68,7 @@ const Create = () => {
 
                 <div className="dark:bg-jacarta-700 dark:border-jacarta-600 border-jacarta-100 group relative flex  s:flex-col sx:flex-row items-center justify-center rounded-lg border-2 border-dashed bg-white py-20 px-5 text-center">
                   <Link href="/create/erc-721" className="cursor-pointer">
-                    <div className="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl mx-16">
+                    <div className="h-44 w-32 bg-gray-100 rounded-xl cursor-pointer flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl mx-16">
                       <img
                         src="/images/266f63b07dfa0c7a232b.png"
                         className="h-32"
@@ -79,7 +79,7 @@ const Create = () => {
                     </div>
                   </Link>
                   <Link href="/create/erc-1155">
-                    <div className="h-44 w-32 bg-gray-100 rounded-xl flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl  mx-16">
+                    <div className="h-44 w-32 bg-gray-100 rounded-xl cursor-pointer flex flex-col justify-center shadow duration-300 hover:bg-white hover:shadow-xl  mx-16">
                       <img
                         src="/images/715e004b0e940213d5a0.png"
                         className="h-32"

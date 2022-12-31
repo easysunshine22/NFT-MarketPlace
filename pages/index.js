@@ -63,6 +63,10 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
     );
   }
 
+  if (loadingListings) {
+    return <div>Loading</div>;
+  }
+
   return (
     <>
       <Meta title=" Artlux  NFT Marketplace " />
@@ -73,22 +77,6 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
         collectionList={collectionList}
         categoryList={categoryList}
       />
-
-      {/* 
-
-
-      {animals.length && blockchainList.length > 0 && (
-        <RanksComp collectionItem={animals} blockchainList={blockchainList} />
-      )}
-      <h2 className="items-center justify-center flex py-5 bg-white font-bold text-4xl">
-        {" "}
-        Notable Collections{" "}
-      </h2>
-      {animals.length > 0 && <CoverCarousel collectionItem={animals} />}
-
-      <SpotlightCards />
-      <ListCategories />
-      <Cta /> */}
     </>
   );
 };
