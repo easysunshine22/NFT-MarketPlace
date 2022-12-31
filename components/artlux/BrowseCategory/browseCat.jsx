@@ -36,23 +36,23 @@ const browseCat = ({ categoryList }) => {
     ],
   };
   return (
-    <section id="browse-category" class="browse-category">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="section-title text-center">
+    <section id="browse-category" className="browse-category">
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="section-title text-center">
               <h2>Browse by category</h2>
             </div>
           </div>
         </div>
       </div>
-      <div class="category-slider-area">
-        <div class="category-slider">
+      <div className="category-slider-area">
+        <div className="category-slider">
           <Slider {...settings}>
             {categoryList?.map((categoryList) => (
               <Link href={`/category/${categoryList.category}`}>
                 <a>
-                  <div class="category-slide-item">
+                  <div className="category-slide-item">
                     <img src={categoryList.featuredImageUrl} alt="" />
                     <h3>{categoryList.category}</h3>
                   </div>

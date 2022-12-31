@@ -5,8 +5,8 @@ jQuery(document).ready(function ($) {
     slidesToScroll: 1,
     arrows: true,
     dots: false,
-    prevArrow: "<i class='prev fa fa-arrow-left'></i>",
-    nextArrow: "<i class='next fa fa-arrow-right'></i>",
+    prevArrow: "<i className='prev fa fa-arrow-left'></i>",
+    nextArrow: "<i className='next fa fa-arrow-right'></i>",
     centerMode: true,
     centerPadding: "300px",
     responsive: [

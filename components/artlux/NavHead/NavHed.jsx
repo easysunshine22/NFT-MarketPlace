@@ -235,47 +235,47 @@ const NavHed = () => {
   }, [address]);
 
   return (
-    <header class="header-area" id="header_area">
-      <nav class="navbar navbar-expand-xl">
-        <div class="container-fluid custom-container">
-          <a class="navbar-brand" href="/" id="logo">
+    <header className="header-area" id="header_area">
+      <nav className="navbar navbar-expand-xl">
+        <div className="container-fluid custom-container">
+          <a className="navbar-brand" href="/" id="logo">
             <img src="images/logo.png" alt="" />
           </a>
 
-          <ul class="header-meta ms-auto mobile-meta">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+          <ul className="header-meta ms-auto mobile-meta">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 <img src="/images/user.png" alt="" />
               </a>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 <img src="/images/wallet.png" alt="" />
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 <img src="/images/cart.png" alt="" />
               </a>
             </li>
           </ul>
 
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#main_nav"
             aria-expanded="false"
             aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
+            <span className="icon-bar"></span>
           </button>
 
-          <div class="collapse navbar-collapse" id="main_nav">
-            <ul class="navbar-nav ms-auto">
-              <li className="js-nav-dropdown nav-item dropdown group relative">
+          <div className="collapse navbar-collapse" id="main_nav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item group relative">
                 <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5 dark:text-white lg:px-5 w-full">
                   <span
                     className={
@@ -356,7 +356,7 @@ const NavHed = () => {
               </li>
 
               {/* Stats */}
-              <li className="js-nav-dropdown nav-item  group relative">
+              <li className=" nav-item  group relative">
                 <button className=" text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3]   flex items-center justify-between py-3.5  dark:text-white lg:px-5 w-full">
                   <span
                     className={
@@ -401,7 +401,7 @@ const NavHed = () => {
               </li>
 
               {/* resource */}
-              <li className="js-nav-dropdown nav-item  group relative">
+              <li className=" nav-item  group relative">
                 <button className="flex items-center justify-between py-3.5 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3]    dark:text-white lg:px-5 w-full">
                   <span
                     className={
@@ -449,21 +449,21 @@ const NavHed = () => {
               </li>
             </ul>
 
-            <ul class="search-meta ms-auto">
+            <ul className="search-meta ms-auto">
               <li>
-                <div class="form-group">
+                <div className="form-group">
                   <input
                     type="search"
                     name="search"
                     id="search"
                     placeholder="Search"
                   />
-                  <i class="fas fa-search"></i>
+                  <i className="fas fa-search"></i>
                 </div>
               </li>
             </ul>
 
-            <ul class="header-meta ">
+            <ul className="header-meta ">
               <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/user.png" alt="" />

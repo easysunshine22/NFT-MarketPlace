@@ -99,10 +99,10 @@ const CategoryItem = () => {
   if (loadingNfts || !nfts)
     return (
       <div className={"flex h-screen items-center justify-center"}>
-        <div class="flex-col">
-          <x-loading class="w-24 h-24" />
+        <div className="flex-col">
+          <x-loading className="w-24 h-24" />
           <svg
-            class="inline mr-2 w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+            className="inline mr-2 w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +116,7 @@ const CategoryItem = () => {
             />
           </svg>
 
-          <div class="mt-3 text-gray-200 font-mono text-sm sm:text-xs">
+          <div className="mt-3 text-gray-200 font-mono text-sm sm:text-xs">
             Loading...
           </div>
         </div>
@@ -127,11 +127,11 @@ const CategoryItem = () => {
     <>
       {loadingNfts ? (
         <div className={"flex h-screen items-center justify-center"}>
-          <div class="inset-0 bg-gray-800 fixed flex w-full h-full items-center justify-center duration-300 transition-opacity">
-            <div class="flex-col">
-              <x-loading class="w-24 h-24" />
+          <div className="inset-0 bg-gray-800 fixed flex w-full h-full items-center justify-center duration-300 transition-opacity">
+            <div className="flex-col">
+              <x-loading className="w-24 h-24" />
               <svg
-                class="inline mr-2 w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="inline mr-2 w-16 h-16 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg">
@@ -145,7 +145,7 @@ const CategoryItem = () => {
                 />
               </svg>
 
-              <div class="mt-3 text-gray-200 font-mono text-sm sm:text-xs">
+              <div className="mt-3 text-gray-200 font-mono text-sm sm:text-xs">
                 Loading...
               </div>
             </div>

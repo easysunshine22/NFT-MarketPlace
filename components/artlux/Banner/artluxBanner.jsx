@@ -72,30 +72,30 @@ const ArtluxBanner = ({ listings, collectionList }) => {
   };
 
   return (
-    <section id="banner" class="banner-area">
-      <div class="banner-left">
+    <section id="banner" className="banner-area">
+      <div className="banner-left">
         <div>
           <h1>A NFTs Marketplace</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in
             magna
           </p>
-          <a href="/collection/explore_collection" class="primary-btn">
+          <a href="/collection/explore_collection" className="primary-btn">
             Get Started
           </a>
         </div>
       </div>
-      <div class="banner-right">
+      <div className="banner-right">
         <Slider {...settings}>
           {collectionList?.map((collectionList) => (
             <Link href={`/collection/${collectionList.title}`}>
               <a>
-                <div class="banner-single-slide">
-                  <div class="banner-slide-thumb">
+                <div className="banner-single-slide">
+                  <div className="banner-slide-thumb">
                     <img src={collectionList.featuredImageUrl} alt="" />
                     <h3>
                       {collectionList.title}{" "}
-                      <span class="d-block">
+                      <span className="d-block">
                         {collectionList.floorPrice} AD
                       </span>
                     </h3>

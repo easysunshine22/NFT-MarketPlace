@@ -4,13 +4,13 @@ const NotableCard = ({ title, logo, banner }) => {
   return (
     <article>
       <Link href={`/collection/${title}`}>
-        <div class="single-collection-slide">
+        <div className="single-collection-slide">
           <img
-            class="collection-thumb"
+            className="collection-thumb"
             src="/images/notable-collections/1.png"
             alt=""
           />
-          <div class="single-collection-slide-description">
+          <div className="single-collection-slide-description">
             <img src="/images/s.png" alt="" />
             <h3>The Sandbox California</h3>
           </div>

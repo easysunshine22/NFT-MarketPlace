@@ -3,34 +3,34 @@ import React from "react";
 const foot = () => {
   return (
     <footer id="footer">
-      <div class="cta-section">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="cta-content text-center">
+      <div className="cta-section">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <div className="cta-content text-center">
                 <h2>Stay in the loop</h2>
                 <form action="">
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="email"
                     placeholder="Your Email"
                   />
-                  <button class="btn btn-primary" type="submit">
+                  <button className="btn btn-primary" type="submit">
                     Sign Up
                   </button>
                 </form>
-                <div class="social-media">
+                <div className="social-media">
                   <a href="#" target="_blank">
-                    <i class="fab fa-facebook-f"></i>
+                    <i className="fab fa-facebook-f"></i>
                   </a>
                   <a href="#" target="_blank">
-                    <i class="fab fa-instagram"></i>
+                    <i className="fab fa-instagram"></i>
                   </a>
                   <a href="#" target="_blank">
-                    <i class="fab fa-twitter"></i>
+                    <i className="fab fa-twitter"></i>
                   </a>
                   <a href="#" target="_blank">
-                    <i class="fab fa-linkedin-in"></i>
+                    <i className="fab fa-linkedin-in"></i>
                   </a>
                 </div>
               </div>
@@ -39,11 +39,11 @@ const foot = () => {
         </div>
       </div>
 
-      <div class="footer-section text-white">
-        <div class="container">
-          <div class="row">
-            <div class="col-xl-4">
-              <div class="footer-about">
+      <div className="footer-section text-white">
+        <div className="container">
+          <div className="row">
+            <div className="col-xl-4">
+              <div className="footer-about">
                 <img src="/images/footer-logo.png" alt="" />
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -52,8 +52,8 @@ const foot = () => {
                 </p>
               </div>
             </div>
-            <div class="col-xl-2 col-lg-3 col-sm-6">
-              <div class="footer-widget">
+            <div className="col-xl-2 col-lg-3 col-sm-6">
+              <div className="footer-widget">
                 <h3>Marketplace</h3>
                 <ul>
                   <li>
@@ -86,8 +86,8 @@ const foot = () => {
                 </ul>
               </div>
             </div>
-            <div class="col-xl-2 col-lg-3 col-sm-6">
-              <div class="footer-widget">
+            <div className="col-xl-2 col-lg-3 col-sm-6">
+              <div className="footer-widget">
                 <h3>My Account</h3>
                 <ul>
                   <li>
@@ -111,8 +111,8 @@ const foot = () => {
                 </ul>
               </div>
             </div>
-            <div class="col-xl-2 col-lg-3 col-sm-6">
-              <div class="footer-widget">
+            <div className="col-xl-2 col-lg-3 col-sm-6">
+              <div className="footer-widget">
                 <h3>Resources</h3>
                 <ul>
                   <li>
@@ -133,8 +133,8 @@ const foot = () => {
                 </ul>
               </div>
             </div>
-            <div class="col-xl-2 col-lg-3 col-sm-6">
-              <div class="footer-widget">
+            <div className="col-xl-2 col-lg-3 col-sm-6">
+              <div className="footer-widget">
                 <h3>Company</h3>
                 <ul>
                   <li>
@@ -156,16 +156,16 @@ const foot = () => {
         </div>
       </div>
 
-      <div class="copyright-section text-white">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="copyright-text">
+      <div className="copyright-section text-white">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <div className="copyright-text">
                 <p>&copy; 2018 - 2022 Name Of Company</p>
               </div>
             </div>
-            <div class="col-md-6 text-end">
-              <div class="terms">
+            <div className="col-md-6 text-end">
+              <div className="terms">
                 <ul>
                   <li>
                     <a href="#">Privacy Policy</a>

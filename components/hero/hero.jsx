@@ -9,21 +9,21 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 
 const Hero = ({ collectionItem }) => {
   return (
-    <section id="banner" class="banner-area">
-      <div class="banner-left">
+    <section id="banner" className="banner-area">
+      <div className="banner-left">
         <div>
           <h1>A NFTs Marketplace</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in
             magna
           </p>
-          <a href="#" class="primary-btn">
+          <a href="#" className="primary-btn">
             Get Started
           </a>
         </div>
       </div>
-      <div class="banner-right">
-        <div class="banner-sliders">
+      <div className="banner-right">
+        <div className="banner-sliders">
           <ArtCarousel collectionItem={collectionItem} />
         </div>
       </div>
