@@ -6,7 +6,8 @@ import {
 } from "../../../utils/daynamicNavigation";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
+import Logo from "../../../styles/logo.png";
+import Image from "next/image";
 //Icons
 import { BsCart2 } from "react-icons/bs";
 import { IoCreateOutline } from "react-icons/io5";
@@ -239,25 +240,31 @@ const NavHed = () => {
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid custom-container">
           <a className="navbar-brand" href="/" id="logo">
-            <img src="images/logo.png" alt="" />
+            <Image src={Logo} alt="" />
           </a>
 
           <ul className="header-meta ms-auto mobile-meta">
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                <img src="/images/user.png" alt="" />
-              </a>
+              <Link href={`/user/${collection.userName}`}>
+                <a className="nav-link" href="#">
+                  <img src="/images/user.png" alt="" />
+                </a>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                <img src="/images/wallet.png" alt="" />
-              </a>
+              <Link href={`/user/${collection.userName}`}>
+                <a className="nav-link" href="#">
+                  <img src="/images/wallet.png" alt="" />
+                </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                <img src="/images/cart.png" alt="" />
-              </a>
+              <Link href={`/user/${collection.userName}`}>
+                <a className="nav-link" href="#">
+                  <img src="/images/cart.png" alt="" />
+                </a>
+              </Link>
             </li>
           </ul>
 
