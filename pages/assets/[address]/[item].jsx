@@ -41,6 +41,9 @@ const Item = () => {
   const [showModal, setShowModal] = useState(false);
   const [sellModal, setSellModal] = useState(false);
 
+  const [sellPrice, setSellPrice] = useState();
+  const [listingType, setListingType] = useState([]);
+
   const [collection, setCollection] = useState({});
 
   const [user, setUser] = useState({});
@@ -51,12 +54,15 @@ const Item = () => {
 
   const address = useAddress();
   const tokenId = router.query.item;
+
   const collectionAddress = router.query.address;
 
   const [myNft, setMyNft] = useState();
   const [isListed, setListed] = useState(false);
 
   const [tokenPrice, setData] = useState(null);
+
+  const [userAddress, setUserAddress] = useState();
 
   const url =
     "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
@@ -72,10 +78,14 @@ const Item = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const userAddress = localStorage.getItem("userAddress");
+    if (userAddress) {
+      setUserAddress(userAddress);
+    }
+  }, []);
+
   const [imageModal, setImageModal] = useState(false);
-  console.log(
-    "tokenId" + myNft + "" + "collectionAddress" + "" + collectionAddress
-  );
 
   //ThirdWeb
   // Connect to our Collection contract via the useContract hook
@@ -96,23 +106,6 @@ const Item = () => {
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
-
-  useEffect(() => {
-    if (!listings) return;
-    (async () => {
-      const listing = listings.find(
-        (listing) => listing.id === nft.metadata.id
-      );
-      if (Boolean(listing)) {
-        setIsListed(true);
-        setPrice(listing.buyoutCurrencyValuePerToken.displayValue);
-        setSymbol(listing.buyoutCurrencyValuePerToken.symbol);
-        setListId(listing.id);
-      }
-    })();
-  }, [listings]);
-
-  console.log(nfts);
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
@@ -136,6 +129,23 @@ const Item = () => {
     // the query returns 1 object inside of an array
     await setCollection(collectionData[0]);
   };
+
+  useEffect(() => {
+    if (!listings) return;
+    (async () => {
+      const listing = listings.find(
+        (listing) => listing.assetContractAddress === collectionAddress,
+        (listing) => listing.tokenId === nfts.metadata.id
+      );
+
+      if (Boolean(listing)) {
+        setListed(true);
+        setPrice(listing.buyoutCurrencyValuePerToken.displayValue);
+        setSymbol(listing.buyoutCurrencyValuePerToken.symbol);
+        setListId(listing.id);
+      }
+    })();
+  }, [listings, nfts]);
 
   const userData = async (sanityClient = client) => {
     const query = `*[_type == "users" && walletAddress == "${address}"] {
@@ -161,50 +171,48 @@ const Item = () => {
     userData();
   }, [address]);
 
-  async function handleCreateListing(e) {
+  async function handleCreateListing() {
     try {
-      // Prevent page from refreshing
-      e.preventDefault();
-
-      // De-construct data from form submission
-      const { listingType, contractAddress, tokenId, price } =
-        e.target.elements;
+      // Ensure user is on the correct network
+      //  if (networkMismatch) {
+      //    switchNetwork && switchNetwork(ChainId.Goerli);
+      //    return;
+      //  }
 
       // Depending on the type of listing selected, call the appropriate function
       // For Direct Listings:
-      if (listingType.value === "directListing") {
+      if (listingType === 1) {
         transactionResult = await createDirectListing(
           collectionAddress,
           tokenId,
-          price.value
+          sellPrice
         );
       }
 
       // For Auction Listings:
-      if (listingType.value === "auctionListing") {
+      if (listingType === 2) {
         transactionResult = await createAuctionListing(
           collectionAddress,
           tokenId,
-          price.value
+          sellPrice
         );
       }
-      {
-        /* 
+
       // If the transaction succeeds, take the user back to the homepage to view their listing!
       if (transactionResult) {
-        router.push(`/`);
-      } */
+        window.location.reload();
+        console.log(transactionResult);
       }
     } catch (error) {
       console.error(error);
     }
   }
 
-  async function createAuctionListing(collectionAddress, tokenId, price) {
+  async function createAuctionListing(collectionAddress, tokenId, sellPrice) {
     try {
       const transaction = await marketplace?.auction.createListing({
         assetContractAddress: collectionAddress, // Contract Address of the NFT
-        buyoutPricePerToken: price, // Maximum price, the auction will end immediately if a user pays this price.
+        buyoutPricePerToken: sellPrice, // Maximum price, the auction will end immediately if a user pays this price.
         currencyContractAddress: process.env.NEXT_PUBLIC_ARTLUX_TOKEN_ADDRESS, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
         listingDurationInSeconds: 60 * 60 * 24 * 7, // When the auction will be closed and no longer accept bids (1 Week)
         quantity: 1, // How many of the NFTs are being listed (useful for ERC 1155 tokens)
@@ -219,12 +227,12 @@ const Item = () => {
     }
   }
 
-  async function createDirectListing(collectionAddress, tokenId, price) {
+  async function createDirectListing(collectionAddress, tokenId, sellPrice) {
     try {
       const transaction = await marketplace?.direct.createListing({
         assetContractAddress: collectionAddress, // Contract Address of the NFT
-        buyoutPricePerToken: price, // Maximum price, the auction will end immediately if a user pays this price.
-        currencyContractAddress: NATIVE_TOKEN_ADDRESS, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
+        buyoutPricePerToken: sellPrice, // Maximum price, the auction will end immediately if a user pays this price.
+        currencyContractAddress: process.env.NEXT_PUBLIC_ARTLUX_TOKEN_ADDRESS, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
         listingDurationInSeconds: 60 * 60 * 24 * 7, // When the auction will be closed and no longer accept bids (1 Week)
         quantity: 1, // How many of the NFTs are being listed (useful for ERC 1155 tokens)
         startTimestamp: new Date(0), // When the listing will start
@@ -236,6 +244,13 @@ const Item = () => {
       console.error(error);
     }
   }
+
+  console.log(isListed + "geti item");
+  console.log(nfts);
+
+  console.log(
+    "tokenId" + tokenId + "" + "collectionAddress" + "" + collectionAddress
+  );
 
   return (
     <>
@@ -432,44 +447,51 @@ const Item = () => {
                     </div>
                   </div>
                 </div>
-                {isListed ? (
+                {address === nfts.owner ? (
                   <div>
-                    Listed
-                    {address === nfts.owner ? (
+                    {isListed ? (
                       <div>
-                        <button
-                          type="button"
-                          className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                          Cancel Listing
-                        </button>
+                        {" "}
+                        <div class="b mx-auto h-16 w-64 flex justify-center items-center">
+                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                            Cancel
+                          </a>
+                        </div>{" "}
                       </div>
                     ) : (
                       <div>
-                        <button
-                          type="button"
-                          className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                          Buy NFT
-                        </button>
+                        {" "}
+                        <div
+                          class="b mx-auto h-16 w-64 flex justify-center items-center"
+                          onClick={() => setSellModal(true)}>
+                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                            Sell NFT
+                          </a>
+                        </div>{" "}
                       </div>
                     )}
                   </div>
                 ) : (
                   <div>
-                    Not Listed{" "}
-                    {address === nfts.owner ? (
+                    {" "}
+                    {isListed ? (
                       <div>
-                        <button
-                          type="button"
-                          onClick={setSellModal(true)}
-                          className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                          Sell NFT
-                        </button>
+                        {" "}
+                        <div class="b mx-auto h-16 w-64 flex justify-center items-center">
+                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                            Buy NFT
+                          </a>
+                        </div>{" "}
                       </div>
                     ) : (
-                      <div> </div>
-                    )}
+                      <div></div>
+                    )}{" "}
                   </div>
                 )}
+
                 {/* <!-- end bid --> */}
               </div>
               {/* <!-- end details --> */}
@@ -619,11 +641,11 @@ const Item = () => {
                 {/*header*/}
                 <div className="modal-header">
                   <h5 className="modal-title" id="placeBidLabel">
-                    Complete Checkout
+                    Sell NFTs
                   </h5>
                   <button
-                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}>
+                    className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setSellModal(false)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -637,12 +659,26 @@ const Item = () => {
                 </div>
                 {/*body*/}
                 <div className="modal-body p-6">
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-                      Item
+                  <div className="mb-2 flex items-center justify-center ">
+                    <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
+                      <div
+                        class="b mx-auto h-16 w-64 flex justify-center items-center "
+                        onClick={() => setListingType(1)}>
+                        <button class="i h-16 w-64  focus:bg-green-500 bg-gradient-to-br from-red-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></button>
+                        <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                          Direct Listing
+                        </a>
+                      </div>
                     </span>
-                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
-                      Subtotal
+                    <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
+                      <div
+                        class="b mx-auto h-16 w-64 flex justify-center items-center"
+                        onClick={() => setListingType(2)}>
+                        <div class="i h-16 w-64 bg-gradient-to-br from-yellow-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                        <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                          Auction Listing
+                        </a>
+                      </div>
                     </span>
                   </div>
 
@@ -688,9 +724,19 @@ const Item = () => {
                             <use xlinkHref="/icons.svg#icon-ETH"></use>
                           </svg>
                         </span>
-                        <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight"></span>
+                        <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
+                          <input
+                            className="dark:text-jacarta-100 text-sm font-medium tracking-tight border-1 border-jacarta-200 "
+                            type="text"
+                            name="price"
+                            placeholder="Sale Price"
+                            onChange={(e) => setSellPrice(e.target.value)}
+                          />
+                        </span>
                       </span>
-                      <div className="dark:text-jacarta-300 text-right text-sm"></div>
+                      <div className="dark:text-jacarta-300 text-right text-sm">
+                        {sellPrice * tokenPrice} $
+                      </div>
                     </div>
                   </div>
 
@@ -706,9 +752,13 @@ const Item = () => {
                             <use xlinkHref="/icons.svg#icon-ETH"></use>
                           </svg>
                         </span>
-                        <span className="text-green font-medium tracking-tight"></span>
+                        <span className="text-green font-medium tracking-tight">
+                          {sellPrice}
+                        </span>
                       </span>
-                      <div className="dark:text-jacarta-300 text-right"></div>
+                      <div className="dark:text-jacarta-300 text-right">
+                        {sellPrice * tokenPrice} $
+                      </div>
                     </div>
                   </div>
 
@@ -731,7 +781,16 @@ const Item = () => {
                 </div>
                 {/*footer*/}
                 <div className="modal-footer">
-                  <div className="flex items-center justify-center space-x-4"></div>
+                  <button
+                    className="flex items-center justify-center space-x-4"
+                    onClick={() => handleCreateListing()}>
+                    <div class="b mx-auto h-16 w-64 flex justify-center items-center">
+                      <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                      <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                        Sell NFT
+                      </a>
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>

@@ -239,7 +239,7 @@ const NavHed = () => {
     <header className="header-area" id="header_area">
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid custom-container">
-          <a className="navbar-brand">
+          <a className="navbar-brand" href="/">
             <Image src={Logo} alt="" />
           </a>
 

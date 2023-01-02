@@ -22,6 +22,7 @@ export default function Layout({ children }) {
   // const { address, connectWallet } = useWeb3();
 
   const [colorTheme, setTheme] = useDarkMode();
+  const [userAddress, setUserAddress] = useState();
 
   const { contract: marketplace } = useContract(
     process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
@@ -47,7 +48,8 @@ export default function Layout({ children }) {
         emailAddress: "Email Address",
       };
       const result = await client.createIfNotExists(userDoc);
-      window.location.reload();
+
+      localStorage.setItem("userAddress", address);
     })();
   }, [address]);
 
