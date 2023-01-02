@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import Header from "./header/Header";
-import Footer from "./footer";
+import React, { useEffect } from "react";
+
 import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
@@ -11,11 +10,6 @@ import Foot from "./artlux/Footer/foot";
 // import { useWeb3 } from "@3rdweb/hooks";
 import {
   useAddress,
-  useMetamask,
-  useNetwork,
-  useNetworkMismatch,
-  ConnectWallet,
-  useListing,
   useActiveListings,
   useContract,
 } from "@thirdweb-dev/react";
