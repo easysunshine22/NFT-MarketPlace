@@ -40,9 +40,10 @@ const CategoryItem = () => {
   const [collId, setCollId] = useState({});
   const [contractAddress, setContractAddress] = useState();
   const [ownerAddress, setOwnerAddress] = useState();
-
+  console.log(collectionId, "collectionId");
   const [isListed, setIsListed] = useState(false);
   const [price, setPrice] = useState(0);
+  console.log(contractAddress, "contractAddress");
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "collections" && title == "${collectionId}" ] {
@@ -95,7 +96,7 @@ const CategoryItem = () => {
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
-
+  console.log(nfts, "nfts");
   if (loadingNfts || !nfts)
     return (
       <div className={"flex h-screen items-center justify-center"}>

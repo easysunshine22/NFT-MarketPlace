@@ -49,7 +49,7 @@ const Item = () => {
   const tokenId = router.query.item;
   const collectionAddress = router.query.address;
 
-  const [myNft, setMyNft] = useState(false);
+  const [myNft, setMyNft] = useState();
   const [isListed, setListed] = useState(router.query.isListed);
 
   const [tokenPrice, setData] = useState(null);
@@ -72,7 +72,6 @@ const Item = () => {
   console.log(
     "tokenId" + myNft + "" + "collectionAddress" + "" + collectionAddress
   );
-  console.log(JSON.stringify(tokenPrice) + "tokenPrice");
 
   //ThirdWeb
   // Connect to our Collection contract via the useContract hook
@@ -85,6 +84,8 @@ const Item = () => {
     nftCollection,
     tokenId
   );
+
+  console.log(nfts);
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
@@ -133,10 +134,6 @@ const Item = () => {
     userData();
   }, [address]);
 
-  if (!isReadingNfts) {
-    setNftsOwner(nfts.owner);
-  }
-
   return (
     <>
       <Meta title={`Artlux  NFT Marketplace `} />
@@ -153,6 +150,7 @@ const Item = () => {
               className="h-full"
             />
           </picture>
+
           <div className="container">
             {/* <!-- Item --> */}
 
@@ -161,8 +159,8 @@ const Item = () => {
               <figure className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2 w-full">
                 <button className=" w-full" onClick={() => setImageModal(true)}>
                   <img
-                    src={nfts.metadata.image}
-                    alt={nfts.metadata.name}
+                    src={nfts.metadata.metadata.image}
+                    alt={nfts.metadata.metadata.name}
                     className="rounded-2xl cursor-pointer  w-full"
                   />
                 </button>
@@ -174,8 +172,8 @@ const Item = () => {
                   }>
                   <div className="modal-dialog !my-0 flex h-full max-w-4xl items-center justify-center">
                     <img
-                      src={nfts.metadata.image}
-                      alt={nfts.metadata.name}
+                      src={nfts.metadata.metadata.image}
+                      alt={nfts.metadata.metadata.name}
                       className="h-full rounded-2xl"
                     />
                   </div>
@@ -228,7 +226,7 @@ const Item = () => {
                 </div>
 
                 <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
-                  {nfts.metadata.name}
+                  {nfts.metadata.metadata.name}
                 </h1>
                 {/* <!-- Collection / Likes / Actions --> 
                 <div className="mb-8 flex items-center space-x-4 whitespace-nowrap">
@@ -264,7 +262,7 @@ const Item = () => {
                         <a className="relative block">
                           <img
                             src={collection?.allOwners}
-                            alt={nfts.metadata.ownerName}
+                            alt={nfts.metadata.metadata.ownerName}
                             className="rounded-2lg h-12 w-12"
                             loading="lazy"
                           />
@@ -300,8 +298,8 @@ const Item = () => {
                       <Link href="/user/123">
                         <a className="relative block">
                           <img
-                            src={nfts.metadata.ownerImage}
-                            alt={nfts.metadata.ownerName}
+                            src={nfts.metadata.metadata.ownerImage}
+                            alt={nfts.metadata.metadata.ownerName}
                             className="rounded-2lg h-12 w-12"
                             loading="lazy"
                           />
@@ -334,7 +332,7 @@ const Item = () => {
                 {isListed ? (
                   <div>
                     Listed
-                    {address === nftsOwner ? (
+                    {address === nfts.owner ? (
                       <div>
                         <button
                           type="button"
@@ -355,7 +353,7 @@ const Item = () => {
                 ) : (
                   <div>
                     Not Listed{" "}
-                    {myNft ? (
+                    {address === nfts.owner ? (
                       <div>
                         <button
                           type="button"
@@ -364,7 +362,7 @@ const Item = () => {
                         </button>
                       </div>
                     ) : (
-                      <div></div>
+                      <div> Sell NFT</div>
                     )}
                   </div>
                 )}
@@ -417,7 +415,7 @@ const Item = () => {
                   <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                     <figure className="mr-5 self-start">
                       <img
-                        src={nfts.metadata.image}
+                        src={nfts.metadata.metadata.image}
                         alt="avatar 2"
                         className="rounded-2lg w-[150px] h-[150px] object-fill"
                         loading="lazy"
@@ -429,7 +427,7 @@ const Item = () => {
                         href="collection.html"
                         className="text-accent text-sm"></a>
                       <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
-                        {nfts.metadata.name}
+                        {nfts.metadata.metadata.name}
                       </h3>
                       <div className="flex flex-wrap items-center">
                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
