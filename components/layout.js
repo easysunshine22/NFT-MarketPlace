@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
+import useDarkMode from "../lib/useDarkmode";
 import Wallet_modal from "./modal/wallet_modal";
 import BidsModal from "./modal/bidsModal";
 import BuyModal from "./modal/buyModal";
@@ -16,9 +16,12 @@ import {
 
 // sanity
 import { client } from "../lib/sanityClient";
+import { light } from "@mui/material/styles/createPalette";
 
 export default function Layout({ children }) {
   // const { address, connectWallet } = useWeb3();
+
+  const [colorTheme, setTheme] = useDarkMode();
 
   const { contract: marketplace } = useContract(
     process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
@@ -44,8 +47,16 @@ export default function Layout({ children }) {
         emailAddress: "Email Address",
       };
       const result = await client.createIfNotExists(userDoc);
+      window.location.reload();
     })();
   }, [address]);
+
+  useEffect(() => {
+    if (colorTheme === "light") return;
+    (async () => {
+      setTheme("light");
+    })();
+  }, [colorTheme]);
 
   return (
     <div>

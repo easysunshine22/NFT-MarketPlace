@@ -19,12 +19,11 @@ html {
   }
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 }
-
 @layer components {
   .show .dropdown-menu {
     display: none !important;
@@ -98,7 +97,7 @@ html {
   }
 
   .nav-link.active {
-    @apply text-jacarta-700 after:bg-accent after:absolute after:inset-x-0 after:-bottom-px after:block after:h-[2px] after:w-full dark:text-white dark:hover:text-white;
+    @apply text-jacarta-700 after:bg-accent after:absolute after:inset-x-0 after:-bottom-px after:block after:h-[2px] after:w-full;
   }
 
   .tabs li {
@@ -176,11 +175,11 @@ html {
   }
 
   .scrollbar-custom::-webkit-scrollbar-track {
-    @apply: bg-jacarta-100 dark: bg-jacarta-800;
+    @apply: bg-jacarta-100;
   }
 
   .scrollbar-custom::-webkit-scrollbar-thumb {
-    @apply bg-jacarta-300 dark:bg-jacarta-600 rounded-lg;
+    @apply bg-jacarta-300  rounded-lg;
   }
 
   /* Dropdowns */
@@ -269,13 +268,13 @@ html {
   }
 
   .js-page-header--is-sticky.page-header--transparent,
-  .dark .js-page-header--is-sticky {
+  .js-page-header--is-sticky {
     @apply bg-jacarta-700/50 !important;
   }
 
   /* Tabs */
   .nav-link.active {
-    @apply text-jacarta-700 after:bg-accent after:absolute after:inset-x-0 after:-bottom-px after:block after:h-[2px] after:w-full dark:text-white dark:hover:text-white;
+    @apply text-jacarta-700 after:bg-accent after:absolute after:inset-x-0 after:-bottom-px after:block after:h-[2px] after:w-full;
   }
 
   .tab-content > .tab-pane {
