@@ -239,7 +239,7 @@ const NavHed = () => {
     <header className="header-area" id="header_area">
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid custom-container">
-          <a className="navbar-brand" href="/" id="logo">
+          <a className="navbar-brand">
             <Image src={Logo} alt="" />
           </a>
 
@@ -283,11 +283,11 @@ const NavHed = () => {
           <div className="collapse navbar-collapse" id="main_nav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item group relative">
-                <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5 dark:text-white lg:px-5 w-full">
+                <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5  lg:px-5 w-full">
                   <span
                     className={
                       isParentPageActive(explore.pages, route.asPath)
-                        ? "text-accent dark:text-accent nav-link"
+                        ? "text-accent nav-link"
                         : ""
                     }>
                     Explore

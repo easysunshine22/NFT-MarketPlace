@@ -26,7 +26,7 @@ import {
   useAddress,
 } from "@thirdweb-dev/react";
 
-const CategoryItem = () => {
+const CategoryItem = ({ collection }) => {
   const { sortedtrendingCategoryItemData } = useSelector(
     (state) => state.counter
   );
@@ -35,7 +35,7 @@ const CategoryItem = () => {
 
   const router = useRouter();
   const { collectionId } = router.query;
-  const [collection, setCollection] = useState({});
+
   const [nftsData, setNftsData] = useState({});
   const [collId, setCollId] = useState({});
   const [contractAddress, setContractAddress] = useState();
@@ -44,47 +44,10 @@ const CategoryItem = () => {
   const [isListed, setIsListed] = useState(false);
   const [price, setPrice] = useState(0);
   console.log(contractAddress, "contractAddress");
-  // Sanity
-  const fetchCollectionData = async (sanityClient = client) => {
-    const query = `*[_type == "collections" && title == "${collectionId}" ] {
-      "logoImageUrl": logoImage.asset->url,
-      "bannerImageUrl": bannerImage.asset->url,
-  "featuredImageUrl": featuredImage.asset->url,
-      volumeTraded,
-      "creatorAddress": createdBy->walletAddress,
-      createdBy,
-      contractAddress,
-      "creator": createdBy->userName,
-      title, floorPrice,
-      "allOwners": owners[]->,
-      description,
-      _id
-    }`;
-
-    const collectionData = await sanityClient.fetch(query);
-
-    await setContractAddress(collectionData[0].contractAddress);
-    await setOwnerAddress(collectionData[0].creatorAddress);
-    await setCollection(collectionData[0]);
-    await setCollId(collectionData[0]._id);
-
-    const nftQuery = `*[_type == "nft" && collections._ref=="${collId}"] {
-      title,
-        logoImage,
-        collections,
-      }`;
-    const nftsDataa = await sanityClient.fetch(nftQuery);
-    console.log(nftsDataa, "nftsDataa🔥");
-    await setNftsData(nftsDataa);
-  };
-
-  useEffect(() => {
-    fetchCollectionData();
-  }, [collectionId]);
 
   //ThirdWeb
   // Collection Data
-  const { contract: collectionData } = useContract(contractAddress);
+  const { contract: collectionData } = useContract(collection);
   // Collection NFT Data
   const { data: nfts, isLoading: loadingNfts } = useNFTs(collectionData);
   // MarketPlace Data
@@ -97,6 +60,7 @@ const CategoryItem = () => {
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
   console.log(nfts, "nfts");
+
   if (loadingNfts || !nfts)
     return (
       <div className={"flex h-screen items-center justify-center"}>
@@ -158,7 +122,7 @@ const CategoryItem = () => {
             <NftCard
               key={id}
               nft={nft}
-              contractAddress={contractAddress}
+              contractAddress={collection}
               listings={listings}
               ownerAddress={ownerAddress}
             />

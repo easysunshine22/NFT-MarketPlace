@@ -5,7 +5,7 @@ import CategoryItem from "./categoryItem";
 import { useDispatch } from "react-redux";
 import { updateTrendingCategoryItemData } from "../../redux/counterSlice";
 
-const FilterCategoryItem = ({ nfts }) => {
+const FilterCategoryItem = ({ nfts, collection }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const FilterCategoryItem = ({ nfts }) => {
     <div>
       {/* <!-- Filter --> */}
       <Collection_category_filter />
-      <CategoryItem nfts={nfts} />
+      <CategoryItem nfts={nfts} collection={collection} />
     </div>
   );
 };

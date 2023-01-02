@@ -10,8 +10,7 @@ import { ItemsTabs } from "../../../components/component";
 import More_items from "../more_items";
 import Likes from "../../../components/likes";
 import Meta from "../../../components/Meta";
-import { useDispatch } from "react-redux";
-import { bidsModalShow } from "../../../redux/counterSlice";
+
 import axios from "axios";
 // thirdweb
 import {
@@ -37,20 +36,25 @@ import {
 import { client } from "../../../lib/sanityClient";
 
 const Item = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   //Theme
   const [showModal, setShowModal] = useState(false);
+  const [sellModal, setSellModal] = useState(false);
+
   const [collection, setCollection] = useState({});
-  const [nftMeta, setNftMeta] = useState({});
+
   const [user, setUser] = useState({});
-  const [nftsOwner, setNftsOwner] = useState({});
+
+  const [price, setPrice] = useState(0);
+  const [symbol, setSymbol] = useState();
+  const [listId, setListId] = useState();
+
   const address = useAddress();
   const tokenId = router.query.item;
   const collectionAddress = router.query.address;
 
   const [myNft, setMyNft] = useState();
-  const [isListed, setListed] = useState(router.query.isListed);
+  const [isListed, setListed] = useState(false);
 
   const [tokenPrice, setData] = useState(null);
 
@@ -84,6 +88,29 @@ const Item = () => {
     nftCollection,
     tokenId
   );
+
+  const { contract: marketplace } = useContract(
+    process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
+    "marketplace"
+  );
+
+  const { data: listings, isLoading: loadingListings } =
+    useActiveListings(marketplace);
+
+  useEffect(() => {
+    if (!listings) return;
+    (async () => {
+      const listing = listings.find(
+        (listing) => listing.id === nft.metadata.id
+      );
+      if (Boolean(listing)) {
+        setIsListed(true);
+        setPrice(listing.buyoutCurrencyValuePerToken.displayValue);
+        setSymbol(listing.buyoutCurrencyValuePerToken.symbol);
+        setListId(listing.id);
+      }
+    })();
+  }, [listings]);
 
   console.log(nfts);
 
@@ -133,6 +160,82 @@ const Item = () => {
   useEffect(() => {
     userData();
   }, [address]);
+
+  async function handleCreateListing(e) {
+    try {
+      // Prevent page from refreshing
+      e.preventDefault();
+
+      // De-construct data from form submission
+      const { listingType, contractAddress, tokenId, price } =
+        e.target.elements;
+
+      // Depending on the type of listing selected, call the appropriate function
+      // For Direct Listings:
+      if (listingType.value === "directListing") {
+        transactionResult = await createDirectListing(
+          collectionAddress,
+          tokenId,
+          price.value
+        );
+      }
+
+      // For Auction Listings:
+      if (listingType.value === "auctionListing") {
+        transactionResult = await createAuctionListing(
+          collectionAddress,
+          tokenId,
+          price.value
+        );
+      }
+      {
+        /* 
+      // If the transaction succeeds, take the user back to the homepage to view their listing!
+      if (transactionResult) {
+        router.push(`/`);
+      } */
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function createAuctionListing(collectionAddress, tokenId, price) {
+    try {
+      const transaction = await marketplace?.auction.createListing({
+        assetContractAddress: collectionAddress, // Contract Address of the NFT
+        buyoutPricePerToken: price, // Maximum price, the auction will end immediately if a user pays this price.
+        currencyContractAddress: process.env.NEXT_PUBLIC_ARTLUX_TOKEN_ADDRESS, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
+        listingDurationInSeconds: 60 * 60 * 24 * 7, // When the auction will be closed and no longer accept bids (1 Week)
+        quantity: 1, // How many of the NFTs are being listed (useful for ERC 1155 tokens)
+        reservePricePerToken: 0, // Minimum price, users cannot bid below this amount
+        startTimestamp: new Date(), // When the listing will start
+        tokenId: tokenId, // Token ID of the NFT.
+      });
+
+      return transaction;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function createDirectListing(collectionAddress, tokenId, price) {
+    try {
+      const transaction = await marketplace?.direct.createListing({
+        assetContractAddress: collectionAddress, // Contract Address of the NFT
+        buyoutPricePerToken: price, // Maximum price, the auction will end immediately if a user pays this price.
+        currencyContractAddress: NATIVE_TOKEN_ADDRESS, // NATIVE_TOKEN_ADDRESS is the crpyto curency that is native to the network. i.e. Goerli ETH.
+        listingDurationInSeconds: 60 * 60 * 24 * 7, // When the auction will be closed and no longer accept bids (1 Week)
+        quantity: 1, // How many of the NFTs are being listed (useful for ERC 1155 tokens)
+        startTimestamp: new Date(0), // When the listing will start
+        tokenId: tokenId, // Token ID of the NFT.
+      });
+
+      return transaction;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <>
@@ -225,7 +328,7 @@ const Item = () => {
                   </div>
                 </div>
 
-                <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold dark:text-white">
+                <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold ">
                   {nfts.metadata.metadata.name}
                 </h1>
                 {/* <!-- Collection / Likes / Actions --> 
@@ -250,7 +353,7 @@ const Item = () => {
                   </span>
                 </div>
 */}
-                <p className="dark:text-jacarta-300 mb-10">
+                <p className="text-jacarta-300 mb-10">
                   {collection?.description}
                 </p>
 
@@ -267,7 +370,7 @@ const Item = () => {
                             loading="lazy"
                           />
                           <div
-                            className="dark:border-jacarta-600 bg-green absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
+                            className=" bg-green absolute -right-3 top-[60%] flex h-6 w-6 items-center justify-center rounded-full border-2 border-white"
                             data-tippy-content="Verified Collection">
                             <Tippy content={<span>Verified Collection</span>}>
                               <svg className="icon h-[.875rem] w-[.875rem] fill-white">
@@ -280,7 +383,7 @@ const Item = () => {
                     </figure>
 
                     <div className="flex flex-col justify-center">
-                      <span className="text-jacarta-400 block text-sm dark:text-white">
+                      <span className="text-jacarta-400 block text-sm ">
                         Creator <strong>10% royalties</strong>
                       </span>
                       <Link href="/user/avatar_6">
@@ -357,12 +460,13 @@ const Item = () => {
                       <div>
                         <button
                           type="button"
+                          onClick={setSellModal(true)}
                           className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                           Sell NFT
                         </button>
                       </div>
                     ) : (
-                      <div> Sell NFT</div>
+                      <div> </div>
                     )}
                   </div>
                 )}
@@ -497,9 +601,137 @@ const Item = () => {
                 </div>
                 {/*footer*/}
                 <div className="modal-footer">
-                  <div className="flex items-center justify-center space-x-4">
-                    {webutton}
+                  <div className="flex items-center justify-center space-x-4"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+
+      {sellModal ? (
+        <>
+          <div className="modal fade show block">
+            <div className="modal-dialog max-w-2xl">
+              {/*content*/}
+              <div className="modal-content">
+                {/*header*/}
+                <div className="modal-header">
+                  <h5 className="modal-title" id="placeBidLabel">
+                    Complete Checkout
+                  </h5>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="fill-jacarta-700 h-6 w-6 dark:fill-white">
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                    </svg>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="modal-body p-6">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Item
+                    </span>
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Subtotal
+                    </span>
                   </div>
+
+                  <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
+                    <figure className="mr-5 self-start">
+                      <img
+                        src={nfts.metadata.metadata.image}
+                        alt="avatar 2"
+                        className="rounded-2lg w-[150px] h-[150px] object-fill"
+                        loading="lazy"
+                      />
+                    </figure>
+
+                    <div>
+                      <a
+                        href="collection.html"
+                        className="text-accent text-sm"></a>
+                      <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                        {nfts.metadata.metadata.name}
+                      </h3>
+                      <div className="flex flex-wrap items-center">
+                        <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
+                          Creator Earnings: 5%
+                        </span>
+                        <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="dark:fill-jacarta-300 fill-jacarta-700 h-4 w-4">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="ml-auto">
+                      <span className="mb-1 flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight"></span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right text-sm"></div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Total --> */}
+                  <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
+                    <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
+                      Total
+                    </span>
+                    <div className="ml-auto">
+                      <span className="flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="text-green font-medium tracking-tight"></span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right"></div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Terms --> */}
+                  <div className="mt-4 flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="buyNowTerms"
+                      className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                    />
+                    <label
+                      htmlFor="buyNowTerms"
+                      className="dark:text-jacarta-200 text-sm">
+                      By checking this box, I agree to {"Ayris.Dev's"}{" "}
+                      <Link href="/tarms">
+                        <a className="text-accent">Terms of Service</a>
+                      </Link>
+                    </label>
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="modal-footer">
+                  <div className="flex items-center justify-center space-x-4"></div>
                 </div>
               </div>
             </div>

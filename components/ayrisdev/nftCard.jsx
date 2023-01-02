@@ -63,7 +63,6 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             onClick={() => {
               Router.push({
                 pathname: `/assets/${contractAddress}/${nft.metadata.id}`,
-                query: { isListed: isListed },
               });
             }}>
             <a>
@@ -81,38 +80,17 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
                 onClick={() => {
                   Router.push({
                     pathname: `/assets/${contractAddress}/${nft.metadata.id}`,
-                    query: { isListed: isListed },
                   });
                 }}>
-                <a>
-                  {/* 
-          <Tippy content={<span>creator: {creator.name}</span>}>
-            <img
-              src={creator.image}
-              alt="creator"
-              className="dark:border-jacarta-600 hover:border-accent dark:hover:border-accent h-6 w-6 rounded-full border-2 border-white"
-            />
-          </Tippy> */}
-                </a>
+                <a></a>
               </div>
               <div
                 onClick={() => {
                   Router.push({
                     pathname: `/assets/${contractAddress}/${nft.metadata.id}`,
-                    query: { isListed: isListed },
                   });
                 }}>
-                <a>
-                  {/* 
-          <Tippy content={<span>creator: {owner.name}</span>}>
-            <img
-              src={owner.image}
-              alt="owner"
-              layout="fill"
-              className="dark:border-jacarta-600 hover:border-accent dark:hover:border-accent h-6 w-6 rounded-full border-2 border-white"
-            />
-          </Tippy> */}
-                </a>
+                <a></a>
               </div>
             </div>
           </div>
@@ -123,7 +101,6 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             onClick={() => {
               Router.push({
                 pathname: `/assets/${contractAddress}/${nft.metadata.id}`,
-                query: { isListed: isListed },
               });
             }}>
             <a>
@@ -163,7 +140,6 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             onClick={() => {
               Router.push({
                 pathname: `/assets/${contractAddress}/${nft.metadata.id}`,
-                query: { isListed: isListed },
               });
             }}>
             <a className="group flex items-center">

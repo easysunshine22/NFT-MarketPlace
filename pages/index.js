@@ -1,16 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import UserContext from "../components/UserContext";
-import Collection_category from "../components/collectrions/collection_category";
-import { Feature_collections, HeadLine } from "../components/component";
 import Meta from "../components/Meta";
-import Hero from "../components/hero/hero";
-import Process from "../components/blog/process";
-import FilterCategoryItem from "../components/categories/filterCategoryItem";
-import Download from "../components/blog/download";
-import RanksComp from "../components/cards/ranksComp";
-import CoverCarousel from "../components/cards/coverCarousel";
-import SpotlightCards from "../components/cards/spotlightCards";
-import ListCategories from "../components/cards/listCategories";
 
 // ThirdWeb
 import {
@@ -24,7 +14,6 @@ import { client } from "../lib/sanityClient";
 
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
-import Cta from "../components/cta/cta";
 
 import FrontPage from "../components/artlux/frontPage";
 
@@ -39,8 +28,6 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
-
-  const address = useAddress();
 
   const { scrollRef } = useContext(UserContext);
 
@@ -61,10 +48,6 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
         load
       </div>
     );
-  }
-
-  if (loadingListings) {
-    return <div>Loading</div>;
   }
 
   return (

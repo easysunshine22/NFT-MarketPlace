@@ -18,6 +18,7 @@ const Collection = () => {
   //Sanity
   const router = useRouter();
   const { collectionId } = router.query;
+  console.log(router.query + "query router");
   const [collection, setCollection] = useState({});
 
   // Theme Component
@@ -56,6 +57,10 @@ const Collection = () => {
       setLikesImage(false);
     }
   };
+
+  if (collection === undefined) {
+    return <div> test</div>;
+  }
 
   return (
     <>
@@ -207,7 +212,7 @@ const Collection = () => {
 
         {/* <!-- Tabs Nav --> */}
 
-        <MyNFTContainer />
+        <MyNFTContainer collection={collection.contractAddress} />
       </section>
     </>
   );

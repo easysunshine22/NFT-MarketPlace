@@ -19,6 +19,12 @@ html {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
 @layer components {
   .show .dropdown-menu {
     display: none !important;

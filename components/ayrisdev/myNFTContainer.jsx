@@ -6,7 +6,7 @@ import { truncateEthAddress } from "../../lib/truncAddress";
 import FilterCategoryItem from "../categories/filterCategoryItem";
 import Activity_item from "../collectrions/Activity_item";
 
-const MyNFTContainer = ({ nfts }) => {
+const MyNFTContainer = ({ nfts, collection }) => {
   const router = useRouter();
   const [itemsTabs, setItemsTabs] = useState(1);
 
@@ -65,7 +65,7 @@ const MyNFTContainer = ({ nfts }) => {
 
             <TabPanel>
               <div>
-                <FilterCategoryItem nfts={nfts} />
+                <FilterCategoryItem nfts={nfts} collection={collection} />
               </div>
             </TabPanel>
             <TabPanel>
