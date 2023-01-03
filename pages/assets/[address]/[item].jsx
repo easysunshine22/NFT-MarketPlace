@@ -52,6 +52,7 @@ const Item = () => {
   const [price, setPrice] = useState(0);
   const [symbol, setSymbol] = useState();
   const [listId, setListId] = useState();
+  const [listType, setListType] = useState();
 
   const address = useAddress();
   const tokenId = router.query.item;
@@ -144,6 +145,7 @@ const Item = () => {
         setPrice(listing.buyoutCurrencyValuePerToken.displayValue);
         setSymbol(listing.buyoutCurrencyValuePerToken.symbol);
         setListId(listing.id);
+        setListType(listing.type);
       }
     })();
   }, [listings, nfts]);
@@ -209,6 +211,35 @@ const Item = () => {
     }
   }
 
+  async function handleCancelListing() {
+    try {
+      // Ensure user is on the correct network
+      //  if (networkMismatch) {
+      //    switchNetwork && switchNetwork(ChainId.Goerli);
+      //    return;
+      //  }
+
+      // Depending on the type of listing selected, call the appropriate function
+      // For Direct Listings:
+      if (listType === 0) {
+        transactionResult = await cancelListing(listId);
+      }
+
+      // For Auction Listings:
+      if (listType === 1) {
+        transactionResult = await cancelAuListing(listId);
+      }
+
+      // If the transaction succeeds, take the user back to the homepage to view their listing!
+      if (transactionResult) {
+        window.location.reload();
+        console.log(transactionResult);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async function createAuctionListing(collectionAddress, tokenId, sellPrice) {
     try {
       const transaction = await marketplace?.auction.createListing({
@@ -256,6 +287,28 @@ const Item = () => {
       alert(error);
     }
   }
+
+  async function cancelListing() {
+    try {
+      await marketplace.direct.cancelListing(listId);
+      alert("NFT bought successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  }
+
+  async function cancelAuListing() {
+    try {
+      await contract.auction.closeListing(listId);
+      alert("NFT bought successfully!");
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  }
+
   console.log(isListed + "geti item");
   console.log(nfts);
 
@@ -463,7 +516,9 @@ const Item = () => {
                     {isListed ? (
                       <div>
                         {" "}
-                        <div className="b mx-auto h-16 w-64 flex justify-center items-center">
+                        <div
+                          className="b mx-auto h-16 w-64 flex justify-center items-center"
+                          onClick={() => handleCancelListing()}>
                           <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
                           <a className="text-center text-white font-semibold z-10 pointer-events-none">
                             Cancel

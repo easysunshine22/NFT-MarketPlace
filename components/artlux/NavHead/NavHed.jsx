@@ -222,8 +222,6 @@ const NavHed = () => {
       }`;
 
     const collectionData = await sanityClient.fetch(query);
-
-    // the query returns 1 object inside of an array
     await setCollection(collectionData[0]);
   };
 
