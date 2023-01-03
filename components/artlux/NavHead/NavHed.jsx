@@ -238,7 +238,7 @@ const NavHed = () => {
       <nav className="navbar navbar-expand-xl">
         <div className="container-fluid custom-container">
           <a className="navbar-brand" href="/">
-            <Image src={Logo} alt="" />
+            <img src="/artlux.png" className="w-[80px]" />
           </a>
 
           <ul className="header-meta ms-auto mobile-meta">
@@ -281,65 +281,11 @@ const NavHed = () => {
           <div className="collapse navbar-collapse" id="main_nav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item group relative">
-                <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5  lg:px-5 w-full">
-                  <span
-                    className={
-                      isParentPageActive(explore.pages, route.asPath)
-                        ? "text-accent nav-link"
-                        : ""
-                    }>
-                    Explore
-                  </span>
-                  <i className="lg:hidden">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      width={24}
-                      height={24}
-                      className="h-4 w-4 dark:fill-white">
-                      <path fill="none" d="M0 0h24v24H0z" />
-                      <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
-                    </svg>
-                  </i>
-                </button>
-                <ul
-                  className="dropdown-menu dark:bg-jacarta-800 -left-6 top-[85%] z-10 hidden grid-flow-col grid-rows-5 gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:!grid lg:translate-y-4 lg:py-8 lg:px-5 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
-                  aria-labelledby="navDropdown-1">
-                  <li>
-                    <Link href="/collection/explore_collection">
-                      <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors">
-                        <span className="bg-light-base mr-3 rounded-xl p-[0.375rem]">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            width={24}
-                            height={24}
-                            className="h-4 w-4 fill-jacarta-700">
-                            <path fill="none" d="M0 0h24v24H0z" />
-                            <path d="M22 12.999V20a1 1 0 0 1-1 1h-8v-8.001h9zm-11 0V21H3a1 1 0 0 1-1-1v-7.001h9zM11 3v7.999H2V4a1 1 0 0 1 1-1h8zm10 0a1 1 0 0 1 1 1v6.999h-9V3h8z" />
-                          </svg>
-                        </span>
-                        <span className="font-display text-jacarta-700 text-sm dark:text-white">
-                          All NFTs
-                        </span>
-                      </a>
-                    </Link>
-                  </li>
-                  {explore?.pages?.map((page) => (
-                    <li key={page.id}>
-                      <Link href={`${page.path}`}>
-                        <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors">
-                          <span className="bg-light-base mr-3 rounded-xl p-[0.375rem]">
-                            {page?.icon}
-                          </span>
-                          <span className="font-display text-jacarta-700 text-sm dark:text-white">
-                            {page?.name}
-                          </span>
-                        </a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <a href="/collection/explore_collection">
+                  <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5  lg:px-5 w-full">
+                    <span className="text-jacarta-700 nav-link">Explore</span>
+                  </button>
+                </a>
               </li>
 
               {/* drops */}
@@ -347,14 +293,7 @@ const NavHed = () => {
                 <Link href="/create">
                   <a>
                     <button className="text-jacarta-700  font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5  dark:text-white lg:px-5">
-                      <span
-                        className={
-                          isChildrenPageActive(route.asPath, "/drops")
-                            ? "text-accent dark:text-accent nav-item "
-                            : ""
-                        }>
-                        Drops
-                      </span>
+                      <span className="text-jacarta-700 nav-link">Drops</span>
                     </button>
                   </a>
                 </Link>

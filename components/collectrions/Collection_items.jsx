@@ -29,12 +29,10 @@ const Collection_items = () => {
     <>
       <section className="relative py-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-          {/* <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" /> */}
-          <Image
-            src="/images/gradient_light.jpg"
+          <img
+            src="images/gradient_light.jpg"
             alt="gradient"
             className="h-full w-full"
-            layout="fill"
           />
         </picture>
         <div className="container">
