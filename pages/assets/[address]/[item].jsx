@@ -43,7 +43,7 @@ const Item = () => {
   const [buyModal, setBuyModal] = useState(false);
 
   const [sellPrice, setSellPrice] = useState();
-  const [listingType, setListingType] = useState([]);
+  const [listingType, setListingType] = useState(0);
 
   const [collection, setCollection] = useState({});
 
@@ -53,6 +53,7 @@ const Item = () => {
   const [symbol, setSymbol] = useState();
   const [listId, setListId] = useState();
   const [listType, setListType] = useState();
+  const [listDate, setListDate] = useState();
 
   const address = useAddress();
   const tokenId = router.query.item;
@@ -146,6 +147,7 @@ const Item = () => {
         setSymbol(listing.buyoutCurrencyValuePerToken.symbol);
         setListId(listing.id);
         setListType(listing.type);
+        setListDate(listing.asset.id);
       }
     })();
   }, [listings, nfts]);
@@ -184,28 +186,16 @@ const Item = () => {
 
       // Depending on the type of listing selected, call the appropriate function
       // For Direct Listings:
-      if (listingType === 1) {
-        transactionResult = await createDirectListing(
-          collectionAddress,
-          tokenId,
-          sellPrice
-        );
+      if (listingType === 0) {
+        await createDirectListing(collectionAddress, tokenId, sellPrice);
       }
 
       // For Auction Listings:
-      if (listingType === 2) {
-        transactionResult = await createAuctionListing(
-          collectionAddress,
-          tokenId,
-          sellPrice
-        );
+      if (listingType === 1) {
+        await createAuctionListing(collectionAddress, tokenId, sellPrice);
       }
 
       // If the transaction succeeds, take the user back to the homepage to view their listing!
-      if (transactionResult) {
-        window.location.reload();
-        console.log(transactionResult);
-      }
     } catch (error) {
       console.error(error);
     }
@@ -252,7 +242,8 @@ const Item = () => {
         startTimestamp: new Date(), // When the listing will start
         tokenId: tokenId, // Token ID of the NFT.
       });
-
+      console.log(transaction);
+      window.location.reload();
       return transaction;
     } catch (error) {
       console.error(error);
@@ -301,7 +292,7 @@ const Item = () => {
 
   async function cancelAuListing() {
     try {
-      await contract.auction.closeListing(listId);
+      await marketplace.auction.closeListing(listId);
       alert("NFT bought successfully!");
     } catch (error) {
       console.error(error);
@@ -310,7 +301,7 @@ const Item = () => {
   }
 
   console.log(isListed + "geti item");
-  console.log(nfts);
+  console.log(listDate);
 
   console.log(
     "tokenId" + tokenId + "" + "collectionAddress" + "" + collectionAddress
@@ -732,7 +723,7 @@ const Item = () => {
                     <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
                       <div
                         className="b mx-auto h-16 w-64 flex justify-center items-center "
-                        onClick={() => setListingType(1)}>
+                        onClick={() => setListingType(0)}>
                         <button className="i h-16 w-64  focus:bg-green-500 bg-gradient-to-br from-red-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></button>
                         <a className="text-center text-white font-semibold z-10 pointer-events-none">
                           Direct Listing
@@ -742,7 +733,7 @@ const Item = () => {
                     <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
                       <div
                         className="b mx-auto h-16 w-64 flex justify-center items-center"
-                        onClick={() => setListingType(2)}>
+                        onClick={() => setListingType(1)}>
                         <div className="i h-16 w-64 bg-gradient-to-br from-yellow-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
                         <a className="text-center text-white font-semibold z-10 pointer-events-none">
                           Auction Listing
