@@ -40,6 +40,7 @@ const Item = () => {
   //Theme
   const [showModal, setShowModal] = useState(false);
   const [sellModal, setSellModal] = useState(false);
+  const [buyModal, setBuyModal] = useState(false);
 
   const [sellPrice, setSellPrice] = useState();
   const [listingType, setListingType] = useState([]);
@@ -245,6 +246,16 @@ const Item = () => {
     }
   }
 
+  async function buyNft() {
+    try {
+      // Simple one-liner for buying the NFT
+      await marketplace?.buyoutListing(listId, 1);
+      alert("NFT bought successfully!");
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
+  }
   console.log(isListed + "geti item");
   console.log(nfts);
 
@@ -452,9 +463,9 @@ const Item = () => {
                     {isListed ? (
                       <div>
                         {" "}
-                        <div class="b mx-auto h-16 w-64 flex justify-center items-center">
-                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
-                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                        <div className="b mx-auto h-16 w-64 flex justify-center items-center">
+                          <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a className="text-center text-white font-semibold z-10 pointer-events-none">
                             Cancel
                           </a>
                         </div>{" "}
@@ -463,10 +474,10 @@ const Item = () => {
                       <div>
                         {" "}
                         <div
-                          class="b mx-auto h-16 w-64 flex justify-center items-center"
+                          className="b mx-auto h-16 w-64 flex justify-center items-center"
                           onClick={() => setSellModal(true)}>
-                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
-                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                          <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a className="text-center text-white font-semibold z-10 pointer-events-none">
                             Sell NFT
                           </a>
                         </div>{" "}
@@ -479,9 +490,12 @@ const Item = () => {
                     {isListed ? (
                       <div>
                         {" "}
-                        <div class="b mx-auto h-16 w-64 flex justify-center items-center">
-                          <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
-                          <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                        <div
+                          className="b mx-auto h-16 w-64 flex justify-center items-center"
+                          onClick={() => setBuyModal(true)}>
+                          >
+                          <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                          <a className="text-center text-white font-semibold z-10 pointer-events-none">
                             Buy NFT
                           </a>
                         </div>{" "}
@@ -662,20 +676,20 @@ const Item = () => {
                   <div className="mb-2 flex items-center justify-center ">
                     <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
                       <div
-                        class="b mx-auto h-16 w-64 flex justify-center items-center "
+                        className="b mx-auto h-16 w-64 flex justify-center items-center "
                         onClick={() => setListingType(1)}>
-                        <button class="i h-16 w-64  focus:bg-green-500 bg-gradient-to-br from-red-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></button>
-                        <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                        <button className="i h-16 w-64  focus:bg-green-500 bg-gradient-to-br from-red-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></button>
+                        <a className="text-center text-white font-semibold z-10 pointer-events-none">
                           Direct Listing
                         </a>
                       </div>
                     </span>
                     <span className="font-display mx-4 text-jacarta-700 text-sm font-semibold dark:text-white">
                       <div
-                        class="b mx-auto h-16 w-64 flex justify-center items-center"
+                        className="b mx-auto h-16 w-64 flex justify-center items-center"
                         onClick={() => setListingType(2)}>
-                        <div class="i h-16 w-64 bg-gradient-to-br from-yellow-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
-                        <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                        <div className="i h-16 w-64 bg-gradient-to-br from-yellow-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                        <a className="text-center text-white font-semibold z-10 pointer-events-none">
                           Auction Listing
                         </a>
                       </div>
@@ -784,10 +798,158 @@ const Item = () => {
                   <button
                     className="flex items-center justify-center space-x-4"
                     onClick={() => handleCreateListing()}>
-                    <div class="b mx-auto h-16 w-64 flex justify-center items-center">
-                      <div class="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
-                      <a class="text-center text-white font-semibold z-10 pointer-events-none">
+                    <div className="b mx-auto h-16 w-64 flex justify-center items-center">
+                      <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                      <a className="text-center text-white font-semibold z-10 pointer-events-none">
                         Sell NFT
+                      </a>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+
+      {buyModal ? (
+        <>
+          <div className="modal fade show block">
+            <div className="modal-dialog max-w-2xl">
+              {/*content*/}
+              <div className="modal-content">
+                {/*header*/}
+                <div className="modal-header">
+                  <h5 className="modal-title" id="placeBidLabel">
+                    Complete Checkout
+                  </h5>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setBuyModal(false)}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      width="24"
+                      height="24"
+                      className="fill-jacarta-700 h-6 w-6 dark:fill-white">
+                      <path fill="none" d="M0 0h24v24H0z"></path>
+                      <path d="M12 10.586l4.95-4.95 1.414 1.414-4.95 4.95 4.95 4.95-1.414 1.414-4.95-4.95-4.95 4.95-1.414-1.414 4.95-4.95-4.95-4.95L7.05 5.636z"></path>
+                    </svg>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="modal-body p-6">
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Item
+                    </span>
+                    <span className="font-display text-jacarta-700 text-sm font-semibold dark:text-white">
+                      Subtotal
+                    </span>
+                  </div>
+
+                  <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
+                    <figure className="mr-5 self-start">
+                      <img
+                        src={nfts.metadata.metadata.image}
+                        alt="avatar 2"
+                        className="rounded-2lg w-[150px] h-[150px] object-fill"
+                        loading="lazy"
+                      />
+                    </figure>
+
+                    <div>
+                      <a
+                        href="collection.html"
+                        className="text-accent text-sm"></a>
+                      <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
+                        {nfts.metadata.metadata.name}
+                      </h3>
+                      <div className="flex flex-wrap items-center">
+                        <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
+                          Creator Earnings: 5%
+                        </span>
+                        <span data-tippy-content="The creator of this collection will receive 5% of the sale total from future sales of this item.">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            className="dark:fill-jacarta-300 fill-jacarta-700 h-4 w-4">
+                            <path fill="none" d="M0 0h24v24H0z" />
+                            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM11 7h2v2h-2V7zm0 4h2v6h-2v-6z" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="ml-auto">
+                      <span className="mb-1 flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="dark:text-jacarta-100 text-sm font-medium tracking-tight">
+                          {price}
+                        </span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right text-sm">
+                        {" "}
+                        {price * tokenPrice} $
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Total --> */}
+                  <div className="dark:border-jacarta-600 border-jacarta-100 mb-2 flex items-center justify-between border-b py-2.5">
+                    <span className="font-display text-jacarta-700 hover:text-accent font-semibold dark:text-white">
+                      Total
+                    </span>
+                    <div className="ml-auto">
+                      <span className="flex items-center whitespace-nowrap">
+                        <span data-tippy-content="ETH">
+                          <svg className="h-4 w-4">
+                            <use xlinkHref="/icons.svg#icon-ETH"></use>
+                          </svg>
+                        </span>
+                        <span className="text-green font-medium tracking-tight">
+                          {price}
+                        </span>
+                      </span>
+                      <div className="dark:text-jacarta-300 text-right">
+                        {price * tokenPrice} $
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* <!-- Terms --> */}
+                  <div className="mt-4 flex items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      id="buyNowTerms"
+                      className="checked:bg-accent dark:bg-jacarta-600 text-accent border-jacarta-200 focus:ring-accent/20 dark:border-jacarta-500 h-5 w-5 self-start rounded focus:ring-offset-0"
+                    />
+                    <label
+                      htmlFor="buyNowTerms"
+                      className="dark:text-jacarta-200 text-sm">
+                      By checking this box, I agree to {"Ayris.Dev's"}{" "}
+                      <Link href="/tarms">
+                        <a className="text-accent">Terms of Service</a>
+                      </Link>
+                    </label>
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="modal-footer">
+                  <button
+                    className="flex items-center justify-center space-x-4"
+                    onClick={() => buyNft()}>
+                    <div className="b mx-auto h-16 w-64 flex justify-center items-center">
+                      <div className="i h-16 w-64 bg-gradient-to-br from-blue-400 to-blue-600 items-center rounded-full shadow-2xl cursor-pointer absolute overflow-hidden transform hover:scale-x-110 hover:scale-y-105 transition duration-300 ease-out"></div>
+                      <a className="text-center text-white font-semibold z-10 pointer-events-none">
+                        Buy NFT
                       </a>
                     </div>
                   </button>
