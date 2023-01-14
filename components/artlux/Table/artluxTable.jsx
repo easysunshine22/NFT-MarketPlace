@@ -53,7 +53,7 @@ const ArtluxTable = ({ collectionList }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {collectionList?.map((collectionList) => (
+                  {collectionList?.slice(0, 10).map((collectionList) => (
                     <Link href={`/collection/${collectionList.title}`}>
                       <tr>
                         <td className="min-table-width">

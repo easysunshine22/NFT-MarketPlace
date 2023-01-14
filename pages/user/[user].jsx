@@ -18,9 +18,9 @@ import { useAddress } from "@thirdweb-dev/react";
 
 const User = () => {
   const router = useRouter();
-  const pid = router.query.id;
+  const pid = router.query.user;
 
-  // console.log(pid);
+  console.log(pid + "pid");
 
   const [likesImage, setLikesImage] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -45,7 +45,7 @@ const User = () => {
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
-    const query = `*[_type == "users" && walletAddress == "${address}" ] {
+    const query = `*[_type == "users" && userName == "${pid}" ] {
 		walletAddress,
 	  userName,
 	  twitterHandle,
