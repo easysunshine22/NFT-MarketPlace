@@ -30,7 +30,7 @@ const plans = [
     name: "Artlux Collection",
     selCollAddress: "artluxCollectionAddress",
     activeCat: "Artlux Collection",
-    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+    selCat: "d15aed69-103f-4de6-98dc-f664f1ae493f",
   },
   {
     name: "Create Collection",
@@ -48,7 +48,7 @@ const ERC721 = ({ collectionListe }) => {
   const sdk = useSDK();
   const address = useAddress();
   const { mutateAsync: upload } = useStorageUpload();
-  const artluxCollectionAddress = "0xA71a329a6F84c4191abE80DC8497D604023bc23B";
+  const artluxCollectionAddress = process.env.NEXT_PUBLIC_COLLECTION_ADDRESS;
   //States
   const [dropdown, setDropdown] = useState(false);
   const [activeItem, setActiveItem] = useState();
@@ -449,7 +449,7 @@ const ERC721 = ({ collectionListe }) => {
                             setActiveItem("/images/artlux.png");
                             setActiveCategory("Artlux Collection");
                             setSelectedCat(
-                              "d35fff87-116e-4c53-a478-21b588b295a4"
+                              "d15aed69-103f-4de6-98dc-f664f1ae493f"
                             );
                             console.log(artluxCollectionAddress);
                           }}

@@ -1,11 +1,11 @@
 {
   "root": true,
+  "api": {
+    "projectId": "la9zs95a",
+    "dataset": "production"
+  },
   "project": {
     "name": "Ayris.Dev"
-  },
-  "api": {
-    "projectId": "0m772u15",
-    "dataset": "production"
   },
   "plugins": [
     "@sanity/base",

@@ -23,15 +23,13 @@ import sanityClient from "@sanity/client";
 import { client } from "../../lib/sanityClient";
 // Components
 import ImageUploader from "../../components/ayrisdev/imageUploader";
-// Icons
-import { IoCreateOutline } from "react-icons/io5";
 
 const plans = [
   {
     name: "Artlux Collection",
     selCollAddress: "artluxCollectionAddress",
     activeCat: "Artlux Collection",
-    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+    selCat: "d15aed69-103f-4de6-98dc-f664f1ae493f",
   },
   {
     name: "Create Collection",
@@ -49,7 +47,8 @@ const ERC1155 = ({ collectionListe }) => {
   const sdk = useSDK();
   const address = useAddress();
   const { mutateAsync: upload } = useStorageUpload();
-  const artluxCollectionAddress = "0x86215C27fe82B493f9778363A54631218Cafe70E";
+  const artluxCollectionAddress =
+    process.env.NEXT_PUBLIC_BATCH_COLLECTION_ADDRESS;
 
   //States
   const [dropdown, setDropdown] = useState(false);
@@ -224,7 +223,7 @@ const ERC1155 = ({ collectionListe }) => {
   if (selectedCollectionAddress === artluxCollectionAddress) {
     button = (
       <Web3Button
-        contractAddress="0x86215C27fe82B493f9778363A54631218Cafe70E"
+        contractAddress={process.env.NEXT_PUBLIC_BATCH_COLLECTION_ADDRESS}
         action={() => mintWithSignature()}>
         Mint NFT With Artlux Collection
       </Web3Button>
@@ -371,7 +370,7 @@ const ERC1155 = ({ collectionListe }) => {
                 <label
                   htmlFor="item-name"
                   className="font-display text-jacarta-700 mb-2 block dark:text-white">
-                  Name<span className="text-red">*</span>
+                  Supply<span className="text-red">*</span>
                 </label>
                 <input
                   type="number"
@@ -470,7 +469,7 @@ const ERC1155 = ({ collectionListe }) => {
                             );
 
                             setSelectedCat(
-                              "d35fff87-116e-4c53-a478-21b588b295a4"
+                              "d15aed69-103f-4de6-98dc-f664f1ae493f"
                             );
                             console.log(artluxCollectionAddress);
                           }}

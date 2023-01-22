@@ -39,7 +39,7 @@ export default function Layout({ children }) {
       const userDoc = {
         _type: "users",
         _id: address,
-        userName: "Unnamed",
+        userName: address,
         walletAddress: address,
         twitterHandle: "Twitter Address",
         bio: "Bio",

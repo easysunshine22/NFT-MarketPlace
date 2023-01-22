@@ -280,12 +280,51 @@ const NavHed = () => {
 
           <div className="collapse navbar-collapse" id="main_nav">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item group relative">
-                <a href="/collection/explore_collection">
-                  <button className="nav-link text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3] flex items-center justify-between py-3.5  lg:px-5 w-full">
-                    <span className="text-jacarta-700 nav-link">Explore</span>
+              {/* Explore */}
+              <li className=" nav-item  group relative">
+                <Link href="/collection/explore_collection">
+                  <button className=" text-jacarta-700 font-size=[18px] hover:text-[#d831b3] focus:text-[#d831b3]   flex items-center justify-between py-3.5  dark:text-white lg:px-5 w-full">
+                    <span
+                      className={
+                        isParentPageActive(explore.pages, route.asPath)
+                          ? "text-accent dark:text-accent nav-item"
+                          : ""
+                      }>
+                      Explore
+                    </span>
+                    <i className="lg:hidden">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width={24}
+                        height={24}
+                        className="h-4 w-4 dark:fill-white">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M12 13.172l4.95-4.95 1.414 1.414L12 16 5.636 9.636 7.05 8.222z" />
+                      </svg>
+                    </i>
                   </button>
-                </a>
+                </Link>
+                <ul
+                  className="dropdown-menu dark:bg-jacarta-800 left-0 top-[85%] z-10 hidden min-w-[200px] gap-x-4 whitespace-nowrap rounded-xl bg-white transition-all will-change-transform group-hover:visible group-hover:opacity-100 lg:invisible lg:absolute lg:grid lg:translate-y-4 lg:py-4 lg:px-2 lg:opacity-0 lg:shadow-2xl lg:group-hover:translate-y-2 relative"
+                  aria-labelledby="navDropdown-4">
+                  {explore?.pages?.map?.((page) => (
+                    <li key={page.id}>
+                      <Link href={page?.path}>
+                        <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors">
+                          <span
+                            className={`font-display ${
+                              isChildrenPageActive(page.path, route.asPath)
+                                ? "text-accent dark:text-accent"
+                                : "text-jacarta-700"
+                            } text-sm dark:text-white`}>
+                            {page?.name}
+                          </span>
+                        </a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </li>
 
               {/* drops */}
@@ -412,49 +451,62 @@ const NavHed = () => {
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/user.png" alt="" />
                 </button>
-                <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
-                  <Link href={`/user/${collection.userName}`}>
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <VscAccount />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Profile
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/collection">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <AiOutlineTable />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        My Collections
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/create">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <IoCreateOutline />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Create
-                      </span>
-                    </a>
-                  </Link>
+                {address ? (
+                  <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
+                    <Link href={`/user/${collection.userName}`}>
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <VscAccount />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          Profile
+                        </span>
+                      </a>
+                    </Link>
+                    <Link href="/collection">
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <AiOutlineTable />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          My Collections
+                        </span>
+                      </a>
+                    </Link>
+                    <Link href="/create">
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <IoCreateOutline />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          Create
+                        </span>
+                      </a>
+                    </Link>
 
-                  <Link href={`/profile/${collection.userName}`}>
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <AiOutlineSetting />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Settings
-                      </span>
-                    </a>
-                  </Link>
-                  <Link href="/login">
-                    <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                      <CiLogout />
-                      <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
-                        Log out
-                      </span>
-                    </a>
-                  </Link>
-                </div>
+                    <Link href={`/profile/${collection.userName}`}>
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <AiOutlineSetting />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          Settings
+                        </span>
+                      </a>
+                    </Link>
+                    <Link href="/login">
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <CiLogout />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          Log out
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
+                    <Link href="/login">
+                      <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
+                        <CiLogout />
+                        <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
+                          Login
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
+                )}
               </div>
 
               <div className="mr-[15px] js-nav-dropdown group-dropdown relative">

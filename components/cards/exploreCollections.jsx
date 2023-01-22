@@ -51,7 +51,6 @@ const ExploreCollections = ({ collectionItem }) => {
           </div>
         </article>
       ))}
-      ;
     </>
   );
 };

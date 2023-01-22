@@ -22,13 +22,13 @@ const plans = [
     name: "Artlux Collection",
     selCollAddress: "artluxCollectionAddress",
     activeCat: "Artlux Collection",
-    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+    selCat: "4d4967bb-fa29-45bb-b119-22293b61d115",
   },
   {
     name: "Artlux Collection",
     selCollAddress: "artluxCollectionAddress",
     activeCat: "Artlux Collection",
-    selCat: "d35fff87-116e-4c53-a478-21b588b295a4",
+    selCat: "4d4967bb-fa29-45bb-b119-22293b61d115",
   },
 ];
 

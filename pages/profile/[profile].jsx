@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Tippy from "@tippyjs/react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import Image from "next/image";
@@ -11,13 +12,17 @@ import { basename } from "path";
 
 // ThirdWeb
 import { useAddress } from "@thirdweb-dev/react";
-import toast, { Toaster } from "react-hot-toast";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Edit_user = () => {
   const [preview, setPreview] = useState();
   const [coverPreview, setCoverPreview] = useState();
   const address = useAddress();
-
+  const router = useRouter();
+  const pid = router.query.profile;
+  console.log(pid);
   //sanity
   const [collection, setCollection] = useState({});
   const [userName, setUserName] = useState();
@@ -28,7 +33,7 @@ const Edit_user = () => {
   const [web, setWeb] = useState();
   const [profilePhoto, setProfilePhoto] = useState();
   const [coverePhoto, setCoverePhoto] = useState();
-
+  const [loadingData, setLoadingData] = useState(true);
   const handleProfilePhoto = (e) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
@@ -40,6 +45,7 @@ const Edit_user = () => {
 
   const handleCoverPhoto = (e) => {
     const file = e.target.files[0];
+    setCoverPreview(URL.createObjectURL(e.target.files[0]));
     if (file && file.type.substr(0, 5) === "image") {
       setCoverePhoto(file);
     } else {
@@ -76,20 +82,11 @@ const Edit_user = () => {
     }
   }, [coverePhoto]);
 
-  const welcomeUser = (id, toastHandler = toast) => {
-    toastHandler.success(`Welcome back ${id}!`, {
-      icon: "👏",
-      style: {
-        borderRadius: "10px",
-        background: "#333",
-        color: "#fff",
-      },
-    });
-  };
+  const notify = () => toast("Wow so easy !");
 
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
-    const query = `*[_type == "users" && walletAddress == "${address}" ] {
+    const query = `*[_type == "users" && userName == "${pid}" ] {
 		walletAddress,
 	  userName,
 	  twitterHandle,
@@ -161,7 +158,16 @@ const Edit_user = () => {
           .commit();
       })
       .then(() => {
-        console.log("Banner Image Done!");
+        toast("🦄 Wow so easy!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       });
   };
 
@@ -191,18 +197,19 @@ const Edit_user = () => {
       });
   };
 
+  if (loadingData) {
+    setLoadingData(false);
+    return <div>test</div>;
+  }
   return (
     <div>
       <Meta title="Profile || Artlux  NFT Marketplace " />
+
       <div className="pt-[5.5rem] lg:pt-24">
         {/* <!-- Banner --> */}
         <div className="relative">
           <img
-            src={
-              coverPreview
-                ? "/images/gradient_light.jpg"
-                : collection.bannerImageUrl
-            }
+            src={coverPreview ? coverPreview : collection.bannerImageUrl}
             alt="banner"
             className="h-[18.75rem] w-full object-cover"
           />
@@ -379,15 +386,9 @@ const Edit_user = () => {
                 <form className="shrink-0">
                   <figure className="relative inline-block">
                     <img
-                      src={
-                        preview
-                          ? "/images/user/user_avatar.gif"
-                          : collection.profileImageUrl
-                      }
+                      src={preview ? preview : collection.profileImageUrl}
                       alt="collection avatar"
-                      className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
-                      height={140}
-                      width={140}
+                      className="dark:border-jacarta-600 rounded-xl border-[5px] border-white w-20 h-full"
                     />
                     <div className="group hover:bg-accent border-jacarta-100 absolute -right-3 -bottom-2 h-8 w-8 overflow-hidden rounded-full border bg-white text-center hover:border-transparent">
                       <input
