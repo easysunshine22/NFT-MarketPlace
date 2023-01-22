@@ -222,7 +222,7 @@ const Item = () => {
 
       // If the transaction succeeds, take the user back to the homepage to view their listing!
       if (transactionResult) {
-        window.location.reload();
+        Router.reload(window.location.pathname);
         console.log(transactionResult);
       }
     } catch (error) {
@@ -299,13 +299,6 @@ const Item = () => {
       alert(error);
     }
   }
-
-  console.log(isListed + "geti item");
-  console.log(listDate);
-
-  console.log(
-    "tokenId" + tokenId + "" + "collectionAddress" + "" + collectionAddress
-  );
 
   return (
     <>
@@ -601,7 +594,7 @@ const Item = () => {
                   <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                     <figure className="mr-5 self-start">
                       <img
-                        src={nfts.metadata.metadata.image}
+                        src={nfts.metadata.image}
                         alt="avatar 2"
                         className="rounded-2lg w-[150px] h-[150px] object-fill"
                         loading="lazy"
@@ -613,7 +606,7 @@ const Item = () => {
                         href="collection.html"
                         className="text-accent text-sm"></a>
                       <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
-                        {nfts.metadata.metadata.name}
+                        {nfts.metadata.name}
                       </h3>
                       <div className="flex flex-wrap items-center">
                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
@@ -745,7 +738,7 @@ const Item = () => {
                   <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                     <figure className="mr-5 self-start">
                       <img
-                        src={nfts.metadata.metadata.image}
+                        src={nfts.metadata.image}
                         alt="avatar 2"
                         className="rounded-2lg w-[150px] h-[150px] object-fill"
                         loading="lazy"
@@ -757,7 +750,7 @@ const Item = () => {
                         href="collection.html"
                         className="text-accent text-sm"></a>
                       <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
-                        {nfts.metadata.metadata.name}
+                        {nfts.metadata.name}
                       </h3>
                       <div className="flex flex-wrap items-center">
                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
@@ -898,7 +891,7 @@ const Item = () => {
                   <div className="dark:border-jacarta-600 border-jacarta-100 relative flex items-center border-t border-b py-4">
                     <figure className="mr-5 self-start">
                       <img
-                        src={nfts.metadata.metadata.image}
+                        src={nfts.metadata.image}
                         alt="avatar 2"
                         className="rounded-2lg w-[150px] h-[150px] object-fill"
                         loading="lazy"
@@ -910,7 +903,7 @@ const Item = () => {
                         href="collection.html"
                         className="text-accent text-sm"></a>
                       <h3 className="font-display text-jacarta-700 mb-1 text-base font-semibold dark:text-white">
-                        {nfts.metadata.metadata.name}
+                        {nfts.metadata.name}
                       </h3>
                       <div className="flex flex-wrap items-center">
                         <span className="dark:text-jacarta-300 text-jacarta-500 mr-1 block text-sm">
