@@ -32,6 +32,8 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
 
+  console.log(listings + " listing");
+
   const { scrollRef } = useContext(UserContext);
 
   useEffect(() => {

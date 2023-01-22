@@ -332,8 +332,8 @@ const Item = () => {
               <figure className="mb-8 md:w-2/5 md:flex-shrink-0 md:flex-grow-0 md:basis-auto lg:w-1/2 w-full">
                 <button className=" w-full" onClick={() => setImageModal(true)}>
                   <img
-                    src={nfts.metadata.metadata.image}
-                    alt={nfts.metadata.metadata.name}
+                    src={nfts.metadata.image}
+                    alt={nfts.metadata.name}
                     className="rounded-2xl cursor-pointer  w-full"
                   />
                 </button>
@@ -345,8 +345,8 @@ const Item = () => {
                   }>
                   <div className="modal-dialog !my-0 flex h-full max-w-4xl items-center justify-center">
                     <img
-                      src={nfts.metadata.metadata.image}
-                      alt={nfts.metadata.metadata.name}
+                      src={nfts.metadata.image}
+                      alt={nfts.metadata.name}
                       className="h-full rounded-2xl"
                     />
                   </div>
@@ -399,7 +399,7 @@ const Item = () => {
                 </div>
 
                 <h1 className="font-display text-jacarta-700 mb-4 text-4xl font-semibold ">
-                  {nfts.metadata.metadata.name}
+                  {nfts.metadata.name}
                 </h1>
                 {/* <!-- Collection / Likes / Actions --> 
                 <div className="mb-8 flex items-center space-x-4 whitespace-nowrap">
@@ -435,7 +435,7 @@ const Item = () => {
                         <a className="relative block">
                           <img
                             src={collection?.allOwners}
-                            alt={nfts.metadata.metadata.ownerName}
+                            alt={nfts.metadata.ownerName}
                             className="rounded-2lg h-12 w-12"
                             loading="lazy"
                           />
@@ -471,8 +471,8 @@ const Item = () => {
                       <Link href="/user/123">
                         <a className="relative block">
                           <img
-                            src={nfts.metadata.metadata.ownerImage}
-                            alt={nfts.metadata.metadata.ownerName}
+                            src={nfts.metadata.ownerImage}
+                            alt={nfts.metadata.ownerName}
                             className="rounded-2lg h-12 w-12"
                             loading="lazy"
                           />

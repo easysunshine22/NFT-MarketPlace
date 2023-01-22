@@ -67,7 +67,7 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             }}>
             <a>
               <img
-                src={nft.metadata.metadata.image}
+                src={nft.metadata.image}
                 alt="item 5"
                 className="w-full h-[230px] rounded-[0.625rem] object-cover"
               />
@@ -105,7 +105,7 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             }}>
             <a>
               <span className="font-display text-jacarta-700 hover:text-accent text-base dark:text-white">
-                {nft.metadata.metadata.name}
+                {nft.metadata.name}
               </span>
             </a>
           </button>
