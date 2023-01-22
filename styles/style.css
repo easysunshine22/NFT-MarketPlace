@@ -718,7 +718,9 @@ th {
 .spotlight-meta img {
   height: 83px;
   width: 83px;
-  border-radius: 50%;
+  border-radius: 100%;
+  border: 3px solid #ffffff;
+
   min-width: 83px;
   margin-right: 20px;
   margin-left: -25px;
