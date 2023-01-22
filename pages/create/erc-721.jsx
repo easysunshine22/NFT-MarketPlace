@@ -17,35 +17,27 @@ import {
   ConnectWallet,
 } from "@thirdweb-dev/react";
 //Sanity - Database
-import sanityClient from "@sanity/client";
 
+import { mintNFTPlans } from "../../artluxLib/sanityUtils";
+import {
+  animalsQuery,
+  categoryListQuery,
+  blockchainListQuery,
+} from "../artluxLib/sanityUtils";
 import { client } from "../../lib/sanityClient";
 // Components
 import ImageUploader from "../../components/ayrisdev/imageUploader";
 // Icons
 import { IoCreateOutline } from "react-icons/io5";
 
-const plans = [
-  {
-    name: "Artlux Collection",
-    selCollAddress: "artluxCollectionAddress",
-    activeCat: "Artlux Collection",
-    selCat: "d15aed69-103f-4de6-98dc-f664f1ae493f",
-  },
-  {
-    name: "Create Collection",
-    href: "/collection/create",
-  },
-];
-
 const ERC721 = ({ collectionListe }) => {
-  const [selected, setSelected] = useState(plans[1]);
+  const [selected, setSelected] = useState(mintNFTPlans[1]);
   const router = useRouter();
   const createPage = () => {
     router.push(`/collection/create`);
   };
   //Thirdweb
-  const sdk = useSDK();
+
   const address = useAddress();
   const { mutateAsync: upload } = useStorageUpload();
   const artluxCollectionAddress = process.env.NEXT_PUBLIC_COLLECTION_ADDRESS;
@@ -83,19 +75,6 @@ const ERC721 = ({ collectionListe }) => {
       .catch((error) => {
         console.log("Upload failed:", error.message);
       });
-  };
-  const handleDropdown = () => {
-    window.addEventListener("click", (w) => {
-      if (w.target.closest(".dropdown-toggle")) {
-        if (dropdown) {
-          setDropdown(false);
-        } else {
-          setDropdown(true);
-        }
-      } else {
-        setDropdown(false);
-      }
-    });
   };
 
   // Upload NFT Details To Sanity
@@ -569,29 +548,9 @@ const ERC721 = ({ collectionListe }) => {
 export default ERC721;
 
 export async function getServerSideProps() {
-  const categoryListQuery = `*[_type == "category"] {
-  category,
-  icon,
-  url,
-}`;
-
-  const blockchainListQuery = `*[_type == "blockchain"] {
-  chainName, 
-  "icon": icon.asset->url,
-  
-}`;
-
-  const collectionListQuery = `*[_type == "collections" ] {
-  "logoImageUrl": logoImage.asset->url,
- title,
- _id,
-contractAddress,
-
-}`;
-
   const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);
-  const collectionListe = await client.fetch(collectionListQuery);
+  const collectionListe = await client.fetch(animalsQuery);
 
   if (
     !categoryList.length &&

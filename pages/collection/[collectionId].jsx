@@ -12,13 +12,12 @@ import MyNFTContainer from "../../components/ayrisdev/myNFTContainer";
 
 //sanity
 import { client } from "../../lib/sanityClient";
+
 // thirdweb
 
 const Collection = () => {
-  //Sanity
   const router = useRouter();
   const { collectionId } = router.query;
-  console.log(router.query + "query router");
   const [collection, setCollection] = useState({});
 
   // Theme Component
@@ -59,7 +58,7 @@ const Collection = () => {
   };
 
   if (collection === undefined) {
-    return <div> test</div>;
+    return <div> There is No Collection</div>;
   }
 
   return (

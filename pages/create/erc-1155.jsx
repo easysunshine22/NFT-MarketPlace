@@ -18,27 +18,20 @@ import {
   ChainId,
 } from "@thirdweb-dev/react";
 //Sanity - Database
-import sanityClient from "@sanity/client";
+
+import { mintNFTPlans } from "../../artluxData/artluxCollection";
+import {
+  animalsQuery,
+  categoryListQuery,
+  blockchainListQuery,
+} from "../../artluxLib/sanityUtils";
 
 import { client } from "../../lib/sanityClient";
 // Components
 import ImageUploader from "../../components/ayrisdev/imageUploader";
 
-const plans = [
-  {
-    name: "Artlux Collection",
-    selCollAddress: "artluxCollectionAddress",
-    activeCat: "Artlux Collection",
-    selCat: "d15aed69-103f-4de6-98dc-f664f1ae493f",
-  },
-  {
-    name: "Create Collection",
-    href: "/collection/create",
-  },
-];
-
 const ERC1155 = ({ collectionListe }) => {
-  const [selected, setSelected] = useState(plans[1]);
+  const [selected, setSelected] = useState(mintNFTPlans[1]);
   const router = useRouter();
   const createPage = () => {
     router.push(`/collection/create`);
@@ -148,7 +141,6 @@ const ERC1155 = ({ collectionListe }) => {
     fetchCollectionData();
   }, [address]);
 
-  // Mint NFT
   // Mint NFT
   const mintWithSignature = async () => {
     try {
@@ -589,29 +581,9 @@ const ERC1155 = ({ collectionListe }) => {
 export default ERC1155;
 
 export async function getServerSideProps() {
-  const categoryListQuery = `*[_type == "category"] {
-  category,
-  icon,
-  url,
-}`;
-
-  const blockchainListQuery = `*[_type == "blockchain"] {
-  chainName, 
-  "icon": icon.asset->url,
-  
-}`;
-
-  const collectionListQuery = `*[_type == "collections" ] {
-  "logoImageUrl": logoImage.asset->url,
- title,
- _id,
-contractAddress,
-
-}`;
-
   const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);
-  const collectionListe = await client.fetch(collectionListQuery);
+  const collectionListe = await client.fetch(animalsQuery);
 
   if (
     !categoryList.length &&

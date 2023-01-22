@@ -11,6 +11,11 @@ import {
 } from "@thirdweb-dev/react";
 // sanity
 import { client } from "../lib/sanityClient";
+import {
+  animalsQuery,
+  categoryListQuery,
+  blockchainListQuery,
+} from "../artluxLib/sanityUtils";
 
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
@@ -23,8 +28,6 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
     process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS, // Your marketplace contract address here
     "marketplace"
   );
-
-  console.log(categoryList + "category");
 
   const { data: listings, isLoading: loadingListings } =
     useActiveListings(marketplace);
@@ -88,32 +91,6 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
 export default Home;
 
 export async function getServerSideProps() {
-  const animalsQuery = `*[_type == "collections"] {
-    "logoImageUrl": logoImage.asset->url,
-     "bannerImageUrl": bannerImage.asset->url,
-    "featuredImageUrl": featuredImage.asset->url,
-     volumeTraded,
-     createdBy,
-     contractAddress,
-     creator,
-     "createdBy": createdBy->userName,
-     title, 
-     floorPrice,    
-     description
-}`;
-  const categoryListQuery = `*[_type == "category"] {
-  category,
-  icon,
-  url,
-  "featuredImageUrl": featuredImage.asset->url,
-}`;
-
-  const blockchainListQuery = `*[_type == "blockchain"] {
-  chainName, 
-  "icon": icon.asset->url,
-  "id": _id,
-}`;
-
   const collectionList = await client.fetch(animalsQuery);
   const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);

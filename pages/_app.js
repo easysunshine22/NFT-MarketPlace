@@ -19,6 +19,7 @@ import {
   useNetwork,
   useNetworkMismatch,
 } from "@thirdweb-dev/react";
+import * as dotenv from "dotenv";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();

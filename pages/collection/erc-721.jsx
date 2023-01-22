@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useAddress, useSDK, Web3Button } from "@thirdweb-dev/react";
 // sanity
 import { client } from "../../lib/sanityClient";
+import { sanityUtils } from "../../artluxLib/sanityUtils";
 
 //Components
 import BannerUploader from "../../components/ayrisdev/bannerUploader";
@@ -17,20 +18,7 @@ import FeaturedUploader from "../../components/ayrisdev/featuredUploader";
 // Toaster
 import toast, { Toaster } from "react-hot-toast";
 
-const plans = [
-  {
-    name: "Artlux Collection",
-    selCollAddress: "artluxCollectionAddress",
-    activeCat: "Artlux Collection",
-    selCat: "4d4967bb-fa29-45bb-b119-22293b61d115",
-  },
-  {
-    name: "Artlux Collection",
-    selCollAddress: "artluxCollectionAddress",
-    activeCat: "Artlux Collection",
-    selCat: "4d4967bb-fa29-45bb-b119-22293b61d115",
-  },
-];
+import { plans } from "../../artluxData/artluxCollection";
 
 const ERC721Coll = ({ blockchainList, categoryList }) => {
   const [selected, setSelected] = useState(plans[1]);
@@ -112,8 +100,6 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
         console.log("Upload failed:", error.message);
       });
   };
-
-  async function createCollection() {}
 
   const updateLogoImage = async (sanityClient = client) => {
     client
@@ -603,20 +589,8 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
 export default ERC721Coll;
 
 export async function getStaticProps() {
-  const blockchainList = await client.fetch(`*[_type == "blockchain"] {
-      chainName,
-      
-        
-          "icon": icon.asset->url,
-    "id": _id,
-    }`);
-  const categoryList = await client.fetch(`*[_type == "category"] {
-        category,
-        
-          
-            "icon": icon.asset->url,
-      "id": _id,
-      }`);
+  const categoryList = await client.fetch(categoryListQuery);
+  const blockchainList = await client.fetch(blockchainListQuery);
 
   return {
     props: {

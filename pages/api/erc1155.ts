@@ -22,7 +22,7 @@ export default async function erc1555(
     // Load the NFT Collection via it's contract address using the SDK
     const nftCollection = await sdk.getContract(
       // Replace this with your NFT Collection contract address
-      "0x86215C27fe82B493f9778363A54631218Cafe70E",
+      process.env.NEXT_PUBLIC_BATCH_COLLECTION_ADDRESS,
       "edition"
     );
 
