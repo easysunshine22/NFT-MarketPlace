@@ -18,12 +18,12 @@ import {
 } from "@thirdweb-dev/react";
 //Sanity - Database
 
-import { mintNFTPlans } from "../../artluxLib/sanityUtils";
+import { mintNFTPlans } from "../../artluxData/artluxCollection";
 import {
   animalsQuery,
   categoryListQuery,
   blockchainListQuery,
-} from "../artluxLib/sanityUtils";
+} from "../../artluxLib/sanityUtils";
 import { client } from "../../lib/sanityClient";
 // Components
 import ImageUploader from "../../components/ayrisdev/imageUploader";

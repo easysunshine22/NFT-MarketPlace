@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-
 // Main Page
 
 // Collections Fetch
@@ -21,6 +19,7 @@ export const categoryListQuery = `*[_type == "category"] {
     category,
     icon,
     url,
+    "id": _id,
     "featuredImageUrl": featuredImage.asset->url,
   }`;
 // Blockchain Fetch

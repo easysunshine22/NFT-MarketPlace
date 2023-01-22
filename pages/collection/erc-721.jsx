@@ -9,7 +9,10 @@ import { useRouter } from "next/router";
 import { useAddress, useSDK, Web3Button } from "@thirdweb-dev/react";
 // sanity
 import { client } from "../../lib/sanityClient";
-import { sanityUtils } from "../../artluxLib/sanityUtils";
+import {
+  blockchainListQuery,
+  categoryListQuery,
+} from "../../artluxLib/sanityUtils";
 
 //Components
 import BannerUploader from "../../components/ayrisdev/bannerUploader";
@@ -26,7 +29,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
   const router = useRouter();
 
   const [selectedChain, setSelectedChain] = useState(null);
-  const [selectedCat, setSelectedCat] = useState();
+  const [selectedCat, setSelectedCat] = useState(null);
   const [selectedd, setSelectedd] = useState(plans[1]);
 
   //sanity
@@ -172,7 +175,7 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
       collectionType: "erc721",
       twitterAddress: twitter,
       telegramAddress: telegram,
-      contractAddress: contractAddresss,
+      contractAddress: data,
       createdBy: {
         _type: "reference",
         _ref: address,
@@ -589,8 +592,8 @@ const ERC721Coll = ({ blockchainList, categoryList }) => {
 export default ERC721Coll;
 
 export async function getStaticProps() {
-  const categoryList = await client.fetch(categoryListQuery);
   const blockchainList = await client.fetch(blockchainListQuery);
+  const categoryList = await client.fetch(categoryListQuery);
 
   return {
     props: {

@@ -5,7 +5,7 @@
     "dataset": "production"
   },
   "project": {
-    "name": "Ayris.Dev"
+    "name": "Sanity Project"
   },
   "plugins": [
     "@sanity/base",
