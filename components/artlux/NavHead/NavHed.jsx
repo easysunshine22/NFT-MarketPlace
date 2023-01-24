@@ -30,7 +30,8 @@ const NavHed = () => {
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "users" && walletAddress=="${address}"] {
         userName,
-        walletAddress
+        walletAddress,
+        "profileImageUrl" : profileImage.asset->url,
       }`;
 
     const collectionData = await sanityClient.fetch(query);
@@ -264,7 +265,11 @@ const NavHed = () => {
             <ul className="header-meta ">
               <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
-                  <img src="/images/user.png" alt="" />
+                  {address ? (
+                    <img src="/images/14.png" alt="" className="rounded-full" />
+                  ) : (
+                    <img src="/images/user.png" alt="" />
+                  )}
                 </button>
                 {address ? (
                   <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
@@ -314,7 +319,7 @@ const NavHed = () => {
                   <div className="dropdown-menu dark:bg-jacarta-800 group-dropdown-hover:opacity-100 group-dropdown-hover:visible !-right-4 !top-[85%] !left-auto z-10 min-w-[14rem] whitespace-nowrap rounded-xl bg-white transition-all will-change-transform before:absolute before:-top-3 before:h-3 before:w-full lg:absolute lg:grid lg:!translate-y-4 lg:py-4 lg:px-2 lg:shadow-2xl hidden lg:invisible lg:opacity-0">
                     <Link href="/login">
                       <a className="dark:hover:bg-jacarta-600 hover:text-orange focus:text-accent hover:bg-jacarta-50 flex items-center space-x-2 rounded-xl px-5 py-2 transition-colors">
-                        <CiLogout />
+                        <VscAccount />
                         <span className="font-display text-jacarta-700 mt-1 text-sm dark:text-white">
                           Login
                         </span>

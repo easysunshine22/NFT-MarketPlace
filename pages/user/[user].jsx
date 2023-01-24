@@ -80,7 +80,11 @@ const User = () => {
           {/* <!-- Banner --> */}
           <div className="relative h-[18.75rem]">
             <img
-              src={collection.bannerImageUrl}
+              src={
+                collection.bannerImageUrl
+                  ? collection.bannerImageUrl
+                  : "/images/gradient_dark.jpg"
+              }
               alt="banner"
               className="object-cover h-[18.75rem] w-full"
             />
@@ -91,7 +95,11 @@ const User = () => {
             <div className="absolute left-1/2 top-0 z-10 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
               <figure className="relative h-40 w-40 dark:border-jacarta-600 rounded-xl border-[5px] border-white">
                 <img
-                  src={collection.profileImageUrl}
+                  src={
+                    collection.profileImageUrl
+                      ? collection.profileImageUrl
+                      : "/images/gradient_dark.jpg"
+                  }
                   alt={collection.userName}
                   className="dark:border-jacarta-600 rounded-xl  h-40 w-40 border-white"
                 />

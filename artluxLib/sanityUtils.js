@@ -28,20 +28,3 @@ export const blockchainListQuery = `*[_type == "blockchain"] {
     "icon": icon.asset->url,
     "id": _id,
   }`;
-
-// Collections Fetch With ID
-
-const blockchainList = `*[_type == "blockchain"] {
-    chainName,
-    
-      
-        "icon": icon.asset->url,
-  "id": _id,
-  }`;
-const categoryList = `*[_type == "category"] {
-      category,
-      
-        
-          "icon": icon.asset->url,
-    "id": _id,
-    }`;
