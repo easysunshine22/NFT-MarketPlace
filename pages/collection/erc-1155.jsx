@@ -4,7 +4,7 @@ import Meta from "../../components/Meta";
 import { buyModalShow } from "../../redux/counterSlice";
 import { RadioGroup } from "@headlessui/react";
 import NcImage from "../../components/ayrisdev/NcImage/NcImage";
-
+import { useRouter } from "next/router";
 // ThirdWeb
 import { useAddress, useSDK, Web3Button } from "@thirdweb-dev/react";
 // sanity
@@ -46,7 +46,7 @@ const ERC1155Coll = ({ blockchainList, categoryList }) => {
     "GLB",
     "GLTF",
   ];
-
+  const router = useRouter();
   const [selected, setSelected] = useState(plans[1]);
   const dispatch = useDispatch();
 
@@ -158,7 +158,8 @@ const ERC1155Coll = ({ blockchainList, categoryList }) => {
     await updateLogoImage();
     await updateBannerImage();
     await updateFeaturedImage();
-    notify();
+    await notify();
+    router.push(`/collection/${collectionName}`);
   }
 
   const updateLogoImage = async (sanityClient = client) => {

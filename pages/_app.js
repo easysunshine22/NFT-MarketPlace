@@ -38,13 +38,13 @@ function MyApp({ Component, pageProps }) {
             <ThirdwebProvider
               desiredChainId={ChainId.BinanceSmartChainTestnet}
               authConfig={{
-                domain: "example.org",
+                domain: process.env.NEXT_PUBLIC_DOMAIN,
                 authUrl: "/api/auth",
               }}
               autoConnect="true"
               chainRPC={{
                 [ChainId.BinanceSmartChainTestnet]:
-                  "https://data-seed-prebsc-1-s3.binance.org:8545",
+                  process.env.NEXT_PUBLIC_RPC_URL,
               }}>
               <UserContext.Provider value={{ scrollRef: scrollRef }}>
                 {pid === "/login" ? (
