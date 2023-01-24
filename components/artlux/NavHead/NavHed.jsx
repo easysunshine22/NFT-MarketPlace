@@ -22,6 +22,32 @@ import { client } from "../../../lib/sanityClient";
 const NavHed = () => {
   const route = useRouter();
 
+  const [filteredData, setFilteredData] = useState([]);
+  const [filterData, setfilterData] = useState([]);
+  const [wordEntered, setWordEntered] = useState("");
+  const [wordFilter, setWordFilter] = useState("");
+  {
+    /* 
+  const handleFilter = (event) => {
+    const searchWord = event.target.value;
+    setWordEntered(searchWord);
+    const newFilter = data.filter((value) => {
+      return value.title.toLowerCase().includes(searchWord.toLowerCase());
+    });
+
+    if (searchWord === "") {
+      setFilteredData([]);
+    } else {
+      setFilteredData(newFilter);
+    }
+  }; */
+  }
+
+  const clearInput = () => {
+    setFilteredData([]);
+    setWordEntered("");
+  };
+
   //Thirdweb
   const address = useAddress();
 
@@ -37,6 +63,20 @@ const NavHed = () => {
     const collectionData = await sanityClient.fetch(query);
     await setCollection(collectionData[0]);
   };
+
+  const filterNftData = async (sanityClient = client) => {
+    const query = `*[[title, userName] match "${wordFilter}*"] { 
+        _type,
+        title,
+        "logoImageUrl": logoImage.asset->url,
+        userName,
+        "logoImageUrla": profileImage.asset->url,
+      }`;
+
+    const filterNftsData = await client.fetch(query);
+    await setfilterData(filterNftsData);
+  };
+  console.log(filterData);
 
   useEffect(() => {
     if (!address) {
@@ -256,9 +296,66 @@ const NavHed = () => {
                     name="search"
                     id="search"
                     placeholder="Search"
+                    onChange={(e) => {
+                      setWordFilter(e.target.value);
+                      filterNftData();
+                    }}
                   />
                   <i className="fas fa-search"></i>
                 </div>
+                {filterData.length != 0 && (
+                  <div className="dataResult">
+                    {filterData
+                      .filter((value) => value._type === "collections")
+                      .slice(0, 15)
+                      .map((value) => (
+                        <a
+                          className="dataItem justify-between pr-2"
+                          href={value.link}
+                          target="_blank">
+                          <img
+                            src={value.logoImageUrl}
+                            className="w-8 h-8 ml-2 justify-center rounded-full"
+                          />
+                          <p className="align-left">{value.title} </p>
+                          <span className="font-bold">Collections</span>
+                        </a>
+                      ))}
+
+                    {filterData
+                      .filter((nftss) => nftss._type === "nft")
+                      .slice(0, 15)
+                      .map((nftss) => (
+                        <a
+                          className="dataItem justify-between pr-2"
+                          href={nftss.link}
+                          target="_blank">
+                          <img
+                            src={nftss.logoImageUrl}
+                            className="w-8 h-8 ml-2 justify-center rounded-full"
+                          />
+                          <p>{nftss.title} </p>
+                          <span className="font-bold">NFTs</span>
+                        </a>
+                      ))}
+                    {filterData
+                      .filter((userss) => userss._type === "users")
+                      .slice(0, 15)
+                      .map((userss) => (
+                        <a
+                          className="dataItem justify-between pr-2"
+                          href={userss.link}
+                          target="_blank">
+                          <img
+                            src={userss.logoImageUrla}
+                            className="w-8 h-8 ml-2 justify-center rounded-full"
+                          />
+                          <p>{userss.userName} </p>
+                          <span className="font-bold">Users</span>
+                        </a>
+                      ))}
+                  </div>
+                )}
               </li>
             </ul>
 
@@ -343,7 +440,7 @@ const NavHed = () => {
                   </Link>
                 </div>
               </div>
-
+              {/* 
               <div className="mr-[15px] js-nav-dropdown group-dropdown relative">
                 <button className="nav-link  hover:bg-orange focus:bg-accent group dark:hover:bg-accent ml-2 flex h-10 w-10 items-center justify-center rounded-full border bg-white transition-colors hover:border-transparent focus:border-transparent dark:border-transparent dark:bg-white/[.15]">
                   <img src="/images/cart.png" alt="" />
@@ -391,7 +488,7 @@ const NavHed = () => {
                     </a>
                   </Link>
                 </div>
-              </div>
+              </div> */}
             </ul>
           </div>
         </div>
