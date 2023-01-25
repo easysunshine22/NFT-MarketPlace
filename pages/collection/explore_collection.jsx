@@ -133,7 +133,6 @@ const Explore_collection = ({ animals }) => {
               })}
             </ul>
             {/* dropdown */}
-            <Collection_dropdown />
           </div>
 
           {/* <!-- Grid --> 
