@@ -201,11 +201,10 @@ const Collection = () => {
       <section className="relative py-24">
         <picture className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
           {/* <img src="img/gradient_light.jpg" alt="gradient" className="h-full w-full" /> */}
-          <Image
+          <img
             src="/images/gradient_light.jpg"
             alt="gradient"
-            className="h-full w-full"
-            layout="fill"
+            className="h-full w-full object-fill"
           />
         </picture>
 
