@@ -27,4 +27,5 @@ export const blockchainListQuery = `*[_type == "blockchain"] {
     chainName, 
     "icon": icon.asset->url,
     "id": _id,
+    chainID,
   }`;

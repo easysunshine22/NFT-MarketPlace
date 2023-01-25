@@ -330,8 +330,7 @@ const NavHed = () => {
                       .map((nftss) => (
                         <a
                           className="dataItem justify-between pr-2 cursor-pointer"
-                          href={nftss.link}
-                          target="_blank">
+                          href={nftss.link}>
                           <img
                             src={nftss.logoImageUrl}
                             className="w-8 h-8 ml-2 justify-center rounded-full"
@@ -346,8 +345,7 @@ const NavHed = () => {
                       .map((userss) => (
                         <a
                           className="dataItem justify-between pr-2 cursor-pointer"
-                          href={userss.link}
-                          target="_blank">
+                          href={userss.link}>
                           <img
                             src={userss.logoImageUrla}
                             className="w-8 h-8 ml-2 justify-center rounded-full"
