@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { FaSearch } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 import {
   isChildrenPageActive,
   isParentPageActive,
@@ -22,30 +23,13 @@ import { client } from "../../../lib/sanityClient";
 const NavHed = () => {
   const route = useRouter();
 
-  const [filteredData, setFilteredData] = useState([]);
   const [filterData, setfilterData] = useState([]);
-  const [wordEntered, setWordEntered] = useState("");
-  const [wordFilter, setWordFilter] = useState("");
-  {
-    /* 
-  const handleFilter = (event) => {
-    const searchWord = event.target.value;
-    setWordEntered(searchWord);
-    const newFilter = data.filter((value) => {
-      return value.title.toLowerCase().includes(searchWord.toLowerCase());
-    });
 
-    if (searchWord === "") {
-      setFilteredData([]);
-    } else {
-      setFilteredData(newFilter);
-    }
-  }; */
-  }
+  const [wordFilter, setWordFilter] = useState("");
 
   const clearInput = () => {
-    setFilteredData([]);
-    setWordEntered("");
+    setfilterData([]);
+    setWordFilter("");
   };
 
   //Thirdweb
@@ -299,7 +283,16 @@ const NavHed = () => {
                       filterNftData();
                     }}
                   />
-                  <i className="fas fa-search"></i>
+
+                  {filterData.length === 0 ? (
+                    <i>
+                      <FaSearch />
+                    </i>
+                  ) : (
+                    <i>
+                      <AiOutlineClose onClick={clearInput} />
+                    </i>
+                  )}
                 </div>
                 {filterData.length != 0 && (
                   <div className="dataResult">
