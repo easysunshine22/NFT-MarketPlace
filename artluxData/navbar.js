@@ -7,7 +7,7 @@ export const explore = {
     {
       id: 1,
       name: "Photography",
-      path: "category/photography",
+      path: "/category/photography",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export const explore = {
     {
       id: 2,
       name: "Art",
-      path: "category/art",
+      path: "/category/art",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ export const explore = {
     {
       id: 3,
       name: "Sports",
-      path: "category/sports",
+      path: "/category/sports",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export const explore = {
     {
       id: 4,
       name: "Collectibles",
-      path: "category/collectibles",
+      path: "/category/collectibles",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ export const explore = {
     {
       id: 5,
       name: "Trading Cards",
-      path: "category/tranding-cards",
+      path: "/category/tranding-cards",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ export const explore = {
     {
       id: 6,
       name: "Domain Names",
-      path: "category/domain-names",
+      path: "/category/domain-names",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +103,7 @@ export const explore = {
     {
       id: 7,
       name: "Utility",
-      path: "category/utility",
+      path: "/category/utility",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ export const explore = {
     {
       id: 8,
       name: "Virtual Worlds",
-      path: "category/virtual-worlds",
+      path: "/category/virtual-worlds",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

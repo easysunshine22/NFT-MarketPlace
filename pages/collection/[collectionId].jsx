@@ -19,7 +19,7 @@ const Collection = () => {
   const router = useRouter();
   const { collectionId } = router.query;
   const [collection, setCollection] = useState({});
-
+  console.log(collectionId + "collectionId");
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
 
@@ -91,7 +91,7 @@ const Collection = () => {
                     : "https://via.placeholder.com/200"
                 }
                 alt={collection.title}
-                className="dark:border-jacarta-600 rounded-xl border-[5px] border-white"
+                className="dark:border-jacarta-600 rounded-xl h-full border-white"
               />
             </figure>
           </div>

@@ -163,17 +163,15 @@ const NavHed = () => {
                   aria-labelledby="navDropdown-4">
                   {explore?.pages?.map?.((page) => (
                     <li key={page.id}>
-                      <Link href={page?.path}>
+                      <Link href={page.path}>
                         <a className="dark:hover:bg-jacarta-600 hover:text-accent focus:text-accent hover:bg-jacarta-50 flex items-center rounded-xl px-5 py-2 transition-colors">
                           <span className="bg-light-base mr-3 rounded-xl p-[0.375rem]">
                             {page?.icon}
                           </span>
                           <span
-                            className={`font-display ${
-                              isChildrenPageActive(page.path, route.asPath)
-                                ? "text-accent dark:text-accent"
-                                : "text-jacarta-700"
-                            } text-sm dark:text-white`}>
+                            className="font-display 
+                               text-jacarta-700
+                            text-sm">
                             {page?.name}
                           </span>
                         </a>

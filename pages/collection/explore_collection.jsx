@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
-import { tranding_category_filter } from "../../data/categories_data";
+import { categoryFilter } from "../../artluxData/categoryFilter";
 import Link from "next/link";
 import { HeadLine } from "../../components/component";
 import Feature_collections_data from "../../data/Feature_collections_data";
@@ -8,37 +8,59 @@ import Collection_dropdown from "../../components/dropdown/collection_dropdown";
 import ExploreCollections from "../../components/cards/exploreCollections";
 import Head from "next/head";
 import Meta from "../../components/Meta";
-import { collectCollectionData } from "../../redux/counterSlice";
+
 import { useDispatch } from "react-redux";
 
 import { client } from "../../lib/sanityClient";
 //sanity
 
 const Explore_collection = ({ animals }) => {
-  const dispatch = useDispatch();
-  const { value } = 5;
-  const [collectionFilteredData, setCollectionFilteredData] = useState(
-    Feature_collections_data
-  );
   const [filterVal, setFilterVal] = useState(0);
+  const [catName, setCatName] = useState(null);
+  const [collection, setCollection] = useState();
 
-  const handleItemFilter = (text) => {
-    if (text === "all") {
-      setCollectionFilteredData(Feature_collections_data);
-    } else {
-      setCollectionFilteredData(
-        Feature_collections_data.filter((item) => item.category === text)
-      );
-    }
+  const fetchCollectionData = async (sanityClient = client) => {
+    const query = `*[_type == "collections" &&  categories->url == "${catName}"] {
+   
+      "allOwners": owners[]->,
+      "logoImageUrl": logoImage.asset->url,
+      title, 
+        }`;
+
+    const collectionData = await sanityClient.fetch(query);
+
+    console.log(collectionData, "🔥");
+    await setCollection(collectionData);
+  };
+
+  const noFilterData = async (sanityClient = client) => {
+    const query = `*[_type == "collections" ] {
+   
+      "allOwners": owners[]->,
+      "logoImageUrl": logoImage.asset->url,
+      title, 
+        }`;
+
+    const collectionData = await sanityClient.fetch(query);
+
+    console.log(collectionData, "🔥");
+    await setCollection(collectionData);
   };
 
   useEffect(() => {
-    dispatch(collectCollectionData(collectionFilteredData.slice(0, 8)));
-  }, [dispatch, collectionFilteredData]);
+    noFilterData();
+  }, []);
+
+  useEffect(() => {
+    if (catName != null) {
+      fetchCollectionData();
+    }
+  }, [catName]);
 
   // Sanity
-  const [collection, setCollection] = useState();
-
+  if (collection === undefined) {
+    return <div> There is No Collection</div>;
+  }
   return (
     <>
       <Meta title="Explore Collection || Artlux  NFT Marketplace " />
@@ -60,15 +82,15 @@ const Explore_collection = ({ animals }) => {
           {/* <!-- Filter --> */}
           <div className="mb-8 flex flex-wrap items-start justify-between">
             <ul className="flex flex-wrap items-center">
-              {tranding_category_filter.map(({ id, svg, text }) => {
+              {categoryFilter.map(({ id, svg, text, url }) => {
                 if (text === "all") {
                   return (
                     <li
                       className="my-1 mr-2.5"
                       key={id}
                       onClick={() => {
-                        handleItemFilter(text);
                         setFilterVal(id);
+                        noFilterData();
                       }}>
                       <button
                         className={
@@ -86,8 +108,8 @@ const Explore_collection = ({ animals }) => {
                       className="my-1 mr-2.5"
                       key={id}
                       onClick={() => {
-                        handleItemFilter(text);
                         setFilterVal(id);
+                        setCatName(url);
                       }}>
                       <button
                         className={
@@ -126,12 +148,20 @@ const Explore_collection = ({ animals }) => {
               ))}
             </div>
           )} */}
-          {animals.length > 0 && (
+          {collection.length > 0 && (
             <div className="grid grid-cols-1 gap-[1.875rem] md:grid-cols-3 lg:grid-cols-4">
               <ExploreCollections
                 itemFor="explore-collection"
-                collectionItem={animals}
+                collectionItem={collection}
               />
+            </div>
+          )}
+          {collection.length === 0 && (
+            <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center">
+                {" "}
+                This Categories Has No Collection{" "}
+              </div>
             </div>
           )}
         </div>

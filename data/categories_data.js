@@ -7,6 +7,7 @@ const tranding_category_filter = [
     id: 1,
     svg: "art",
     text: "art",
+    url: "art",
   },
 
   {
@@ -18,6 +19,7 @@ const tranding_category_filter = [
     id: 3,
     svg: "domain",
     text: "domain",
+    url: "domain-names",
   },
   {
     id: 4,
