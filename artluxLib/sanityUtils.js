@@ -17,7 +17,7 @@ export const animalsQuery = `*[_type == "collections"] {
 // Categroy Fetch
 export const categoryListQuery = `*[_type == "category"] {
     category,
-    icon,
+    "icon": icon.asset->url,
     url,
     "id": _id,
     "featuredImageUrl": featuredImage.asset->url,

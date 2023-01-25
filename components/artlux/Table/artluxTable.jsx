@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-const ArtluxTable = ({ collectionList }) => {
+const ArtluxTable = ({ collectionList, categoryList, blockchainList }) => {
   return (
     <section id="nft-table-section">
       <img className="shape1" src="/images/shape-right.png" alt="" />
@@ -22,21 +22,15 @@ const ArtluxTable = ({ collectionList }) => {
                   <div className="all-chains">
                     <div className="all-chain">
                       All chains:{" "}
-                      <span>
-                        <img src="/images/collections/1.png" alt="" />
-                      </span>{" "}
-                      <span>
-                        <img src="/images/collections/2.png" alt="" />
-                      </span>
-                      <span>
-                        <img src="/images/collections/3.png" alt="" />
-                      </span>{" "}
-                      <span>
-                        <img src="/images/collections/4.png" alt="" />{" "}
-                      </span>
-                      <span>
-                        <img src="/images/collections/5.png" alt="" />
-                      </span>
+                      {blockchainList?.map((blockchainList) => (
+                        <span>
+                          <img
+                            src={blockchainList.icon}
+                            alt=""
+                            className="w-[20px] h-[20px] cursor-pointer"
+                          />
+                        </span>
+                      ))}
                     </div>
                   </div>
                   <button className="primary-btn">
@@ -54,23 +48,31 @@ const ArtluxTable = ({ collectionList }) => {
                 </thead>
                 <tbody>
                   {collectionList?.slice(0, 10).map((collectionList) => (
-                    <Link href={`/collection/${collectionList.title}`}>
-                      <tr>
-                        <td className="min-table-width">
-                          <div className="nft-table-item">
-                            <div className="nft-icon">
-                              <span>1</span>
-                              <img src={collectionList.logoImageUrl} alt="" />
-                            </div>
-                            <h4>
-                              <a> {collectionList.title} </a>
-                            </h4>
+                    <tr>
+                      <td className="min-table-width">
+                        <div className="nft-table-item">
+                          <div className="nft-icon">
+                            <Link href={`/collection/${collectionList.title}`}>
+                              <img
+                                className="cursor-pointer"
+                                src={collectionList.logoImageUrl}
+                                alt=""
+                              />
+                            </Link>
                           </div>
-                        </td>
-                        <td>{collectionList.floorPrice} AD</td>
-                        <td>{collectionList.volumeTraded} AD</td>
-                      </tr>
-                    </Link>
+                          <h4>
+                            <Link href={`/collection/${collectionList.title}`}>
+                              <a className="cursor-pointer">
+                                {" "}
+                                {collectionList.title}{" "}
+                              </a>
+                            </Link>
+                          </h4>
+                        </div>
+                      </td>
+                      <td>{collectionList.floorPrice} AD</td>
+                      <td>{collectionList.volumeTraded} AD</td>
+                    </tr>
                   ))}
                 </tbody>
               </table>

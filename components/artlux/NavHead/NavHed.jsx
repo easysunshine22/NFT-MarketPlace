@@ -22,7 +22,11 @@ import { client } from "../../../lib/sanityClient";
 
 const NavHed = () => {
   const route = useRouter();
+  const [_document, set_document] = useState(null);
 
+  useEffect(() => {
+    set_document(document);
+  }, []);
   const [filterData, setfilterData] = useState([]);
 
   const [wordFilter, setWordFilter] = useState("");
@@ -278,6 +282,7 @@ const NavHed = () => {
                     name="search"
                     id="search"
                     placeholder="Search"
+                    value={wordFilter}
                     onChange={(e) => {
                       setWordFilter(e.target.value);
                       filterNftData();
@@ -290,7 +295,10 @@ const NavHed = () => {
                     </i>
                   ) : (
                     <i>
-                      <AiOutlineClose onClick={clearInput} />
+                      <AiOutlineClose
+                        onClick={clearInput}
+                        className="cursor-pointer"
+                      />
                     </i>
                   )}
                 </div>
@@ -300,17 +308,20 @@ const NavHed = () => {
                       .filter((value) => value._type === "collections")
                       .slice(0, 15)
                       .map((value) => (
-                        <a
-                          className="dataItem justify-between pr-2"
-                          href={value.link}
-                          target="_blank">
-                          <img
-                            src={value.logoImageUrl}
-                            className="w-8 h-8 ml-2 justify-center rounded-full"
-                          />
-                          <p className="align-left">{value.title} </p>
-                          <span className="font-bold">Collections</span>
-                        </a>
+                        <Link href={`/collection/${value.title}`}>
+                          <a
+                            className="dataItem justify-between pr-2 cursor-pointer"
+                            onClick={clearInput}>
+                            <img
+                              src={value.logoImageUrl}
+                              className="w-8 h-8 ml-2 justify-center rounded-full"
+                            />
+                            <p className="align-left justify-start flex">
+                              {value.title}{" "}
+                            </p>
+                            <span className="font-bold">Collections</span>
+                          </a>
+                        </Link>
                       ))}
 
                     {filterData
@@ -318,7 +329,7 @@ const NavHed = () => {
                       .slice(0, 15)
                       .map((nftss) => (
                         <a
-                          className="dataItem justify-between pr-2"
+                          className="dataItem justify-between pr-2 cursor-pointer"
                           href={nftss.link}
                           target="_blank">
                           <img
@@ -334,7 +345,7 @@ const NavHed = () => {
                       .slice(0, 15)
                       .map((userss) => (
                         <a
-                          className="dataItem justify-between pr-2"
+                          className="dataItem justify-between pr-2 cursor-pointer"
                           href={userss.link}
                           target="_blank">
                           <img

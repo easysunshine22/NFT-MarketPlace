@@ -86,6 +86,7 @@ const Home = ({ categoryList, blockchainList, collectionList }) => {
         listings={listings}
         collectionList={collectionList}
         categoryList={categoryList}
+        blockchainList={blockchainList}
       />
     </>
   );
