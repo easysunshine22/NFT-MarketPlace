@@ -25,12 +25,6 @@ import {
   useAddress,
   Web3Button,
 } from "@thirdweb-dev/react";
-import {
-  ChainId,
-  ListingType,
-  Marketplace,
-  NATIVE_TOKENS,
-} from "@thirdweb-dev/sdk";
 
 //sanity
 import { client } from "../../../lib/sanityClient";
@@ -368,7 +362,7 @@ const Item = () => {
                 <div className="mb-3 flex">
                   {/* <!-- Collection --> */}
                   <div className="flex items-center">
-                    <Link href="#">
+                    <Link href={`/collection/${collection.title}`}>
                       <a className="text-accent mr-2 text-sm font-bold">
                         {collection?.title}
                       </a>
@@ -386,8 +380,8 @@ const Item = () => {
 
                   {/* <!-- Likes / Actions --> */}
                   <div className="ml-auto flex items-stretch space-x-2 relative">
-                    {/* <!-- Actions --> */}
-                    <Auctions_dropdown classes="border-jacarta-100 dropdown hover:bg-jacarta-100 rounded-xl border bg-white" />
+                    {/* <!-- Actions --> 
+                    <Auctions_dropdown classes="border-jacarta-100 dropdown hover:bg-jacarta-100 rounded-xl border bg-white" /> */}
                   </div>
                 </div>
 
@@ -549,11 +543,13 @@ const Item = () => {
               </div>
               {/* <!-- end details --> */}
             </div>
-            {/*   <!-- Item --> */}
-            <ItemsTabs />
+            {/*   <!-- Item -->
+            <ItemsTabs />  */}
           </div>
         </section>
       )}
+      {/* <!-- end details --> 
+      <More_items />*/}
 
       {showModal ? (
         <>
@@ -999,8 +995,6 @@ const Item = () => {
           <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
         </>
       ) : null}
-
-      <More_items />
     </>
   );
 };

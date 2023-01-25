@@ -22,7 +22,8 @@ const Collection = () => {
   console.log(collectionId + "collectionId");
   // Theme Component
   const [likesImage, setLikesImage] = useState(false);
-
+  const { asPath } = useRouter();
+  console.log(asPath);
   // Sanity
   const fetchCollectionData = async (sanityClient = client) => {
     const query = `*[_type == "collections" && title == "${collectionId}" ] {
@@ -186,10 +187,10 @@ const Collection = () => {
                     </button>
                   </div>
                 </div>
-
-                <Social_dropdown />
-
+                <Social_dropdown url={asPath} />
+                {/* <!-- end profile --> 
                 <Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white relative" />
+            */}{" "}
               </div>
             </div>
           </div>

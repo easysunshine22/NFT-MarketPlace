@@ -14,8 +14,8 @@ const FilterCategoryItem = ({ nfts, collection }) => {
 
   return (
     <div>
-      {/* <!-- Filter --> */}
-      <Collection_category_filter />
+      {/* <!-- Filter --> 
+      <Collection_category_filter /> */}
       <CategoryItem nfts={nfts} collection={collection} />
     </div>
   );

@@ -110,8 +110,8 @@ const NftCard = ({ nft, contractAddress, listings, ownerAddress }) => {
             </a>
           </button>
 
-          {/* auction dropdown  */}
-          <Auctions_dropdown classes="dark:hover:bg-jacarta-600 dropup hover:bg-jacarta-100 rounded-full" />
+          {/* auction dropdown  
+          <Auctions_dropdown classes="dark:hover:bg-jacarta-600 dropup hover:bg-jacarta-100 rounded-full" /> */}
         </div>
 
         <div className="mt-2 text-sm">

@@ -1,4 +1,3 @@
-import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar } from "swiper";
 import "swiper/css";
@@ -43,8 +42,7 @@ const BidsCarousel = () => {
           nextEl: ".bids-swiper-button-next",
           prevEl: ".bids-swiper-button-prev",
         }}
-        className=" card-slider-4-columns !py-5"
-      >
+        className=" card-slider-4-columns !py-5">
         {bidsData.map((item) => {
           const { id, image, title, bid_number, eth_number, react_number } =
             item;
@@ -111,8 +109,7 @@ const BidsCarousel = () => {
                     <button
                       type="button"
                       className="text-accent font-display text-sm font-semibold"
-                      onClick={() => dispatch(bidsModalShow())}
-                    >
+                      onClick={() => dispatch(bidsModalShow())}>
                       Place bid
                     </button>
 

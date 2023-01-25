@@ -19,7 +19,7 @@ import { useAddress } from "@thirdweb-dev/react";
 const User = () => {
   const router = useRouter();
   const pid = router.query.user;
-
+  const { asPath } = useRouter();
   console.log(pid + "pid");
 
   const [likesImage, setLikesImage] = useState(false);
@@ -167,7 +167,7 @@ const User = () => {
                     </div>
                   </div>
 
-                  <Social_dropdown />
+                  <Social_dropdown url={asPath} />
 
                   <Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white relative" />
                 </div>
