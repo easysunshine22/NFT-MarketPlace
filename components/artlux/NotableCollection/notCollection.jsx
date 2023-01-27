@@ -51,7 +51,7 @@ const notCollection = () => {
               <div className="section-title">
                 <h2>BNB Chain NFT spotlight</h2>
               </div>
-              <a href="#" className="primary-btn">
+              <a href="/collection/explore_collection" className="primary-btn">
                 View All
               </a>
             </div>

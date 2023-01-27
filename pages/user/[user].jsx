@@ -168,8 +168,6 @@ const User = () => {
                   </div>
 
                   <Social_dropdown url={asPath} />
-
-                  <Auctions_dropdown classes="dark:border-jacarta-600 dark:hover:bg-jacarta-600 border-jacarta-100 dropdown hover:bg-jacarta-100 dark:bg-jacarta-700 rounded-xl border bg-white relative" />
                 </div>
               </div>
             </div>
@@ -178,7 +176,7 @@ const User = () => {
           <User_items />
         </div>
       ) : (
-        <div>test</div>
+        <div>Loading</div>
       )}
     </>
   );

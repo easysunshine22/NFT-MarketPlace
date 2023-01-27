@@ -46,9 +46,9 @@ const foot = () => {
               <div className="footer-about">
                 <img src="/images/footer-logo.png" alt="" />
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus ultricies mauris non interdum fringilla. Morbi et
-                  euismod
+                  Create, sell and collect rare digital arts on Artlux NFT
+                  marketplace. Play and earn with your NFTs on the Artlux NFT
+                  lottery platform.
                 </p>
               </div>
             </div>
@@ -161,7 +161,7 @@ const foot = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="copyright-text">
-                <p>&copy; 2018 - 2022 Name Of Company</p>
+                <p>&copy; 2023 Artlux Inc</p>
               </div>
             </div>
             <div className="col-md-6 text-end">

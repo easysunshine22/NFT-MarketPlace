@@ -13,10 +13,7 @@ const ArtluxBanner = () => {
       <div className="banner-left">
         <div>
           <h1>A NFTs Marketplace</h1>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque in
-            magna
-          </p>
+          <p></p>
           <a href="/collection/explore_collection" className="primary-btn">
             Get Started
           </a>
